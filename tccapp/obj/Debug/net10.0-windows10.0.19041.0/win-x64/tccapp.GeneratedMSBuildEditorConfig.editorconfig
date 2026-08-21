@@ -78,3 +78,13 @@ build_metadata.AdditionalFiles.Inflator = SourceGen
 build_metadata.AdditionalFiles.NoWarn = 
 build_metadata.AdditionalFiles.EnableDiagnostics = 
 build_metadata.AdditionalFiles.LineInfo = 
+
+[D:/tcc/tccapp/tccapp/Telas/Inicio/TelaInicial.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Inicio.TelaInicial.xaml
+build_metadata.AdditionalFiles.TargetPath = Telas\Inicio\TelaInicial.xaml
+build_metadata.AdditionalFiles.RelativePath = Telas\Inicio\TelaInicial.xaml
+build_metadata.AdditionalFiles.Inflator = SourceGen
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 

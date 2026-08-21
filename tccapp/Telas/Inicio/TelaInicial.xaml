@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tccapp.Telas.Inicio.TelaInicial"
+             Title="TelaInicial">
+    <ScrollView>
+        <VerticalStackLayout Spacing="3" Padding="15">
+            <HorizontalStackLayout  Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="login"
+                       FontSize="48"
+                       FontFamily=""
+                       FontAttributes="Bold"
+                       TextColor="#1A1A1A"
+                       HorizontalOptions="Center"
+                       />
+                <Image Source="log_in.png" HeightRequest="56" WidthRequest="57" HorizontalOptions="Center"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
