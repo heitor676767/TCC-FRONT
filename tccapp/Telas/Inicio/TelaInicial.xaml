@@ -3,18 +3,94 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tccapp.Telas.Inicio.TelaInicial"
              Title="TelaInicial">
-    <ScrollView>
-        <VerticalStackLayout Spacing="3" Padding="15">
-            <HorizontalStackLayout  Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                <Label Text="login"
-                       FontSize="48"
-                       FontFamily=""
-                       FontAttributes="Bold"
-                       TextColor="#1A1A1A"
-                       HorizontalOptions="Center"
-                       />
-                <Image Source="log_in.png" HeightRequest="56" WidthRequest="57" HorizontalOptions="Center"/>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-    </ScrollView>
-</ContentPage>
+    <Grid RowDefinitions="Auto,*">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="3" Padding="15">
+                <HorizontalStackLayout  Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="login"
+                           FontSize="48"
+                           FontFamily=""
+                           FontAttributes="Bold"
+                           TextColor="#1A1A1A"
+                           HorizontalOptions="Center"
+                           />
+                    <Image Source="log_in.png" HeightRequest="56" WidthRequest="57" HorizontalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Image Source="logo.png" HeightRequest="167" WidthRequest="187" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border
+            Grid.Row="1"
+            BackgroundColor="#304E61"
+            StrokeShape="RoundRectangle 30,30,0,0"
+            Stroke="Transparent"
+            Padding="25,40">
+            <StackLayout Spacing="30" Padding="15">
+                <Border
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 12"
+                    Stroke="Transparent">
+                    <Entry Placeholder="Telefone ou email"
+                           PlaceholderColor="#999999"
+                           BackgroundColor="Transparent"
+                           TextColor="Black"
+                           VerticalOptions="Center"
+                           Margin="10,0"/>
+                </Border>
+                <Border
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 12"
+                    Stroke="Transparent">
+                    <Entry Placeholder="Senha"
+                           PlaceholderColor="#999999"
+                           BackgroundColor="Transparent"
+                           TextColor="Black"
+                           VerticalOptions="Center"
+                           Margin="10,0"/>
+                </Border>
+                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,0">
+                    <Label Grid.Column="1"
+                       Text="Esqueceu a senha?"
+                       TextDecorations="Underline"
+                       TextColor="White"
+                       FontSize="14"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"/>
+                    <Label Grid.Column="0"
+                       Text="Criar Conta"
+                       TextDecorations="Underline"
+                       TextColor="White"
+                       FontSize="14"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CriarContaCommand}"/>
+                       </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+                <StackLayout
+                    Orientation="Horizontal"
+                    HorizontalOptions="Center"
+                    Spacing="20"/>
+                <Grid RowDefinitions="Auto,Auto" RowSpacing="5  ">
+                    <Button Text="Entrar"
+                                Grid.Row="0"
+                                BackgroundColor="#2B3033"
+                                TextColor="White"
+                                FontSize="16"
+                                CornerRadius="12"
+                                WidthRequest="150"
+                                HeightRequest="50"/>
+                    <HorizontalStackLayout Grid.Row="1" Spacing="2" HorizontalOptions="Center">
+                        <CheckBox IsChecked="True" Color="White"/>
+                        <Label Text="Mantenha conectado"
+                           TextColor="White"
+                           FontSize="14"
+                           VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </StackLayout>
+        </Border>
+    </Grid>
+</ContentPage>  

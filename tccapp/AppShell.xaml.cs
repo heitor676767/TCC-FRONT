@@ -5,6 +5,8 @@
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute("Cadastro", typeof(Telas.Cadastro.UserCadastro));
         }
     }
 }
