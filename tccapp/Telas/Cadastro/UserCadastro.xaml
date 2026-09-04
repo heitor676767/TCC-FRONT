@@ -3,10 +3,98 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tccapp.Telas.Cadastro.UserCadastro"
              Title="UserCadastro">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto,*" RowSpacing="20">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="3" Padding="15">
+                <HorizontalStackLayout  Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Cadastro"
+                       FontSize="48"
+                       FontFamily=""
+                       FontAttributes="Bold"
+                       TextColor="#1A1A1A"
+                       HorizontalOptions="Center"
+                       />
+                </HorizontalStackLayout>
+                <Image Source="generic_avatar.png" HeightRequest="160" WidthRequest="160" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border
+            Grid.Row="1"
+            BackgroundColor="#304E61"
+            StrokeShape="RoundRectangle 30,30,0,0"
+            Stroke="Transparent"
+            Padding="25,40">
+            <Grid RowDefinitions="*,Auto" RowSpacing="20">
+                <ScrollView Grid.Row="0">
+                    <VerticalStackLayout Spacing="15">
+                        <Border
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12"
+                        Stroke="Transparent">
+                            <Entry Placeholder="Nome"
+                               PlaceholderColor="#999999"
+                               BackgroundColor="Transparent"
+                               TextColor="Black"
+                               VerticalOptions="Center"
+                               Margin="10,0"/>
+                        </Border>
+                        <Border
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent">
+                            <Entry Placeholder="Nome"
+                                   PlaceholderColor="#999999"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Border
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent">
+                            <Entry Placeholder="Nome"
+                                   PlaceholderColor="#999999"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Border
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent">
+                            <Entry Placeholder="Nome"
+                                   PlaceholderColor="#999999"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Border
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent">
+                            <Entry Placeholder="Nome"
+                                   PlaceholderColor="#999999"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"
+                                   Margin="10,0"/>
+                        </Border>                        
+                    </VerticalStackLayout>
+                </ScrollView>
+                <StackLayout  Grid.Row="1">
+                    <Button Text="Entrar"
+                            Grid.Row="0"
+                            BackgroundColor="#2B3033"
+                            TextColor="White"
+                            FontSize="16"
+                            CornerRadius="12"
+                            WidthRequest="150"
+                             HeightRequest="50"/>
+                </StackLayout>
+            </Grid>
+        </Border>
+    </Grid>  
 </ContentPage>

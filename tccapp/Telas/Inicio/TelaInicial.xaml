@@ -90,7 +90,7 @@
                            VerticalOptions="Center"/>
                     </HorizontalStackLayout>
                 </Grid>
-            </StackLayout>
+                </StackLayout>
         </Border>
     </Grid>
 </ContentPage>  
