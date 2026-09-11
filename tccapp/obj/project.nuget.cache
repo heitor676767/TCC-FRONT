@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ecDDICWtVdg=",
+  "dgSpecHash": "ADZpvscN8J4=",
   "success": true,
-  "projectFilePath": "C:\\tcc\\TCC-FRONT\\tccapp\\tccapp.csproj",
+  "projectFilePath": "C:\\tc\\TCC-FRONT\\tccapp\\tccapp.csproj",
   "expectedPackageFiles": [
     "D:\\NUGET_PACKAGES\\communitytoolkit.mvvm\\8.4.2\\communitytoolkit.mvvm.8.4.2.nupkg.sha512",
     "D:\\NUGET_PACKAGES\\googlegson\\2.13.1.1\\googlegson.2.13.1.1.nupkg.sha512",

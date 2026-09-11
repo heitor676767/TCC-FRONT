@@ -1,18 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\tcc\\TCC-FRONT\\",
+  "WorkspaceRootPath": "C:\\tc\\TCC-FRONT\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\telas\\cadastro\\usercadastro.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tc\\tcc-front\\tccapp\\viewmodels\\usercadastroviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\viewmodels\\usercadastroviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tc\\tcc-front\\tccapp\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tc\\tcc-front\\tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tc\\tcc-front\\tccapp\\telas\\cadastro\\usercadastro.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\cadastro\\usercadastro.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\telas\\inicio\\telainicial.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\inicio\\telainicial.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tc\\tcc-front\\tccapp\\telas\\cadastro\\telaverificacaoemail.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\cadastro\\telaverificacaoemail.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tc\\tcc-front\\tccapp\\viewmodels\\telainicialviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\viewmodels\\telainicialviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tc\\tcc-front\\tccapp\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,22 +38,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserCadastro.xaml",
-              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
-              "RelativeDocumentMoniker": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
-              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
-              "RelativeToolTip": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABwAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-08-29T21:00:02.299Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -45,27 +47,92 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TelaInicial.xaml.cs",
-              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml.cs",
-              "RelativeDocumentMoniker": "tccapp\\Telas\\Inicio\\TelaInicial.xaml.cs",
-              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml.cs",
-              "RelativeToolTip": "tccapp\\Telas\\Inicio\\TelaInicial.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "AppShell.xaml.cs",
+              "DocumentMoniker": "C:\\tc\\TCC-FRONT\\tccapp\\AppShell.xaml.cs",
+              "RelativeDocumentMoniker": "tccapp\\AppShell.xaml.cs",
+              "ToolTip": "C:\\tc\\TCC-FRONT\\tccapp\\AppShell.xaml.cs",
+              "RelativeToolTip": "tccapp\\AppShell.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-29T21:15:29.956Z",
+              "WhenOpened": "2026-09-11T14:46:00.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserCadastro.xaml",
+              "DocumentMoniker": "C:\\tc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "RelativeDocumentMoniker": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "ToolTip": "C:\\tc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "RelativeToolTip": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAHgAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-09-11T14:41:15.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TelaInicialViewModel.cs",
+              "DocumentMoniker": "C:\\tc\\TCC-FRONT\\tccapp\\ViewModels\\TelaInicialViewModel.cs",
+              "RelativeDocumentMoniker": "tccapp\\ViewModels\\TelaInicialViewModel.cs",
+              "ToolTip": "C:\\tc\\TCC-FRONT\\tccapp\\ViewModels\\TelaInicialViewModel.cs",
+              "RelativeToolTip": "tccapp\\ViewModels\\TelaInicialViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-11T14:41:04.896Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "TelaInicial.xaml",
-              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
+              "DocumentMoniker": "C:\\tc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
               "RelativeDocumentMoniker": "tccapp\\Telas\\Inicio\\TelaInicial.xaml",
-              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
+              "ToolTip": "C:\\tc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
               "RelativeToolTip": "tccapp\\Telas\\Inicio\\TelaInicial.xaml",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEQAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-08-29T20:20:18.389Z",
+              "WhenOpened": "2026-09-11T14:40:26.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TelaVerificacaoEmail.xaml",
+              "DocumentMoniker": "C:\\tc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\TelaVerificacaoEmail.xaml",
+              "RelativeDocumentMoniker": "tccapp\\Telas\\Cadastro\\TelaVerificacaoEmail.xaml",
+              "ToolTip": "C:\\tc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\TelaVerificacaoEmail.xaml",
+              "RelativeToolTip": "tccapp\\Telas\\Cadastro\\TelaVerificacaoEmail.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-09-11T14:39:53.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserCadastroViewModel.cs",
+              "DocumentMoniker": "C:\\tc\\TCC-FRONT\\tccapp\\ViewModels\\UserCadastroViewModel.cs",
+              "RelativeDocumentMoniker": "tccapp\\ViewModels\\UserCadastroViewModel.cs",
+              "ToolTip": "C:\\tc\\TCC-FRONT\\tccapp\\ViewModels\\UserCadastroViewModel.cs*",
+              "RelativeToolTip": "tccapp\\ViewModels\\UserCadastroViewModel.cs*",
+              "ViewState": "AgIAABEAAAAAAAAAAAAuwBcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-11T14:13:48.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\tc\\TCC-FRONT\\tccapp\\App.xaml.cs",
+              "RelativeDocumentMoniker": "tccapp\\App.xaml.cs",
+              "ToolTip": "C:\\tc\\TCC-FRONT\\tccapp\\App.xaml.cs",
+              "RelativeToolTip": "tccapp\\App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-11T14:01:26.566Z",
               "EditorCaption": ""
             }
           ]

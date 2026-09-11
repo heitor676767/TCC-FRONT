@@ -7,6 +7,7 @@
             InitializeComponent();
 
             Routing.RegisterRoute("Cadastro", typeof(Telas.Cadastro.UserCadastro));
+            Routing.RegisterRoute("Verificar", typeof(Telas.Cadastro.TelaVerificacaoEmail));
         }
     }
 }

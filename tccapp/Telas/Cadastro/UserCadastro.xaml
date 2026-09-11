@@ -24,7 +24,7 @@
             StrokeShape="RoundRectangle 30,30,0,0"
             Stroke="Transparent"
             Padding="25,40">
-            <Grid RowDefinitions="*,Auto" RowSpacing="20">
+            <Grid RowDefinitions="*,Auto,Auto" RowSpacing="20">
                 <ScrollView Grid.Row="0">
                     <VerticalStackLayout Spacing="15">
                         <Border
@@ -38,11 +38,30 @@
                                VerticalOptions="Center"
                                Margin="10,0"/>
                         </Border>
+                        <Border BackgroundColor="White" StrokeShape="RoundRectangle 12" Stroke="Transparent">
+                            <Grid Margin="10,0">
+                                <!-- O Label exibe o texto e a cor dinamicamente vindos da ViewModel -->
+                                <Label x:Name="LabelGenero"
+               Text="{Binding GeneroExibido}"
+               TextColor="{Binding GeneroTextColor}"
+               VerticalOptions="Center" 
+               InputTransparent="True"/>
+
+                                <!-- O Picker faz o Data Binding diretamente com as propriedades da ViewModel -->
+                                <!-- O evento SelectedIndexChanged foi removido -->
+                                <Picker x:Name="PickerGenero"
+                ItemsSource="{Binding Generos}"
+                SelectedItem="{Binding GeneroSelecionado}"
+                Opacity="0"
+                VerticalOptions="Center"
+                HorizontalOptions="Fill" />
+                            </Grid>
+                        </Border>
                         <Border
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
-                            <Entry Placeholder="Nome"
+                            <Entry Placeholder="Email"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
                                    TextColor="Black"
@@ -53,7 +72,7 @@
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
-                            <Entry Placeholder="Nome"
+                            <Entry Placeholder="Telefone"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
                                    TextColor="Black"
@@ -64,7 +83,7 @@
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
-                            <Entry Placeholder="Nome"
+                            <Entry Placeholder="Cep"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
                                    TextColor="Black"
@@ -75,17 +94,31 @@
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
-                            <Entry Placeholder="Nome"
+                            <Entry Placeholder="Cpf"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
                                    TextColor="Black"
                                    VerticalOptions="Center"
                                    Margin="10,0"/>
-                        </Border>                        
+                        </Border>
+                        <Border
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent">
+                            <Entry Placeholder="Senha"
+                                   PlaceholderColor="#999999"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"
+                                   Margin="10,0"/>
+                        </Border>
                     </VerticalStackLayout>
+                    
                 </ScrollView>
-                <StackLayout  Grid.Row="1">
-                    <Button Text="Entrar"
+                <Image Grid.Row="1" Source="sombra.png" HeightRequest="17" WidthRequest="300" HorizontalOptions="Center"/>
+                <StackLayout  Grid.Row="2">
+                    <Button Text="Continuar"
+                            Command="{Binding VerificarEmailCommand}"
                             Grid.Row="0"
                             BackgroundColor="#2B3033"
                             TextColor="White"

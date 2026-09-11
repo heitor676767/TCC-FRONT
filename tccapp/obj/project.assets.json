@@ -29423,11 +29423,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\tcc\\TCC-FRONT\\tccapp\\tccapp.csproj",
+      "projectUniqueName": "C:\\tc\\TCC-FRONT\\tccapp\\tccapp.csproj",
       "projectName": "tccapp",
-      "projectPath": "C:\\tcc\\TCC-FRONT\\tccapp\\tccapp.csproj",
+      "projectPath": "C:\\tc\\TCC-FRONT\\tccapp\\tccapp.csproj",
       "packagesPath": "D:\\NUGET_PACKAGES",
-      "outputPath": "C:\\tcc\\TCC-FRONT\\tccapp\\obj\\",
+      "outputPath": "C:\\tc\\TCC-FRONT\\tccapp\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
