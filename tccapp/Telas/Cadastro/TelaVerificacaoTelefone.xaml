@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="tccapp.Telas.Cadastro.TelaVerificacaoEmail"
-             Title="TelaVerificacaoEmail">
+             x:Class="tccapp.Telas.Cadastro.TelaVerificacaoTelefone"
+             Title="TelaVerificacaoTelefone">
     <Grid RowDefinitions="*,auto"  BackgroundColor="#304E61">
         <ScrollView Grid.Row="0" VerticalOptions="Fill">
             <Grid VerticalOptions="Fill">
                 <VerticalStackLayout VerticalOptions="Center" Spacing="20">
-                    <Label Text="Insira o código enviado para o email"
+                    <Label Text="Insira o código enviado para o telefone"
                        FontSize="20"
                        TextColor="#FFFFFF"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center" />
-                    <Label Text="fazeraprogramacaoaqui@gmail.com"
+                    <Label Text="+551167676-6767"
                        FontSize="40"
                        FontFamily=""
                        FontAttributes="Bold"
@@ -41,7 +41,7 @@
                            MaxLength="6"
                            Opacity="0.02"
                            HorizontalOptions="Fill"
-                           HeightRequest="60">  
+                           HeightRequest="60">
                         </Entry>
                     </Grid>
                     <Label Text="{Binding ErrorMessage}"
@@ -66,9 +66,9 @@
                        HorizontalOptions="Center"
                        FontAttributes="Bold"
                        VerticalOptions="Center">
-                       <Label.GestureRecognizers>
-                           <TapGestureRecognizer Command="{Binding OutroMetodoCommand}"/>
-                       </Label.GestureRecognizers>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OutroMetodo2Command}"/>
+                        </Label.GestureRecognizers>
                     </Label>
                     <Button 
                          Text="Verificar" 

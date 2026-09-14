@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("tccapp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+ed287ed2c4deaac1d1411b296b31c8a7ef8c823c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+e34dd1441f0a5140890020d3d2b8ee0b2f7cad1e")]
 [assembly: System.Reflection.AssemblyProductAttribute("tccapp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("tccapp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

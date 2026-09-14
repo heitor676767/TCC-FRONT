@@ -75,6 +75,9 @@
 	  <MauiXaml Update="Telas\Cadastro\TelaVerificacaoEmail.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Telas\Cadastro\TelaVerificacaoTelefone.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Telas\Cadastro\UserCadastro.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
