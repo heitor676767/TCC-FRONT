@@ -82,7 +82,10 @@
                          VerticalOptions="Center"/>
 
                 </VerticalStackLayout>
-                <Label 
+
+            </Grid>
+        </ScrollView>
+        <Label 
                        Grid.Row="1"
                        Text="Precisa de ajuda?"
                        TextDecorations="Underline"
@@ -91,9 +94,6 @@
                        HorizontalOptions="Center"
                        FontAttributes="Bold"
                        VerticalOptions="Center">
-                </Label>
-            </Grid>
-        </ScrollView>
-
+        </Label>
     </Grid>
 </ContentPage>

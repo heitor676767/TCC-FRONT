@@ -1,18 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\p\\TCC-FRONT\\",
+  "WorkspaceRootPath": "C:\\tcc\\TCC-FRONT\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\p\\tcc-front\\tccapp\\telas\\cadastro\\telaverificacaotelefone.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\cadastro\\telaverificacaotelefone.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\services\\usuarios\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\services\\usuarios\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\p\\tcc-front\\tccapp\\viewmodels\\telaverificacaoemailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\services\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\services\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\telas\\cadastro\\usercadastro.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\cadastro\\usercadastro.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\viewmodels\\telaverificacaoemailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\viewmodels\\telaverificacaoemailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\p\\tcc-front\\tccapp\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\telas\\cadastro\\usercadastro.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\cadastro\\usercadastro.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\tcc\\tcc-front\\tccapp\\telas\\cadastro\\telaverificacaotelefone.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\cadastro\\telaverificacaotelefone.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +38,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Request.cs",
+              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Services\\Request.cs",
+              "RelativeDocumentMoniker": "tccapp\\Services\\Request.cs",
+              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Services\\Request.cs",
+              "RelativeToolTip": "tccapp\\Services\\Request.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-18T14:45:18.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "UsuarioService.cs",
+              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Services\\Usuarios\\UsuarioService.cs",
+              "RelativeDocumentMoniker": "tccapp\\Services\\Usuarios\\UsuarioService.cs",
+              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Services\\Usuarios\\UsuarioService.cs",
+              "RelativeToolTip": "tccapp\\Services\\Usuarios\\UsuarioService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-18T14:18:03.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TelaInicial.xaml",
+              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
+              "RelativeDocumentMoniker": "tccapp\\Telas\\Inicio\\TelaInicial.xaml",
+              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
+              "RelativeToolTip": "tccapp\\Telas\\Inicio\\TelaInicial.xaml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAADAAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-09-18T14:08:35.655Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserCadastro.xaml.cs",
+              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml.cs",
+              "RelativeDocumentMoniker": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml.cs",
+              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml.cs",
+              "RelativeToolTip": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-18T14:08:27.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserCadastro.xaml",
+              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "RelativeDocumentMoniker": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "RelativeToolTip": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-09-18T14:05:57.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "TelaVerificacaoTelefone.xaml",
-              "DocumentMoniker": "C:\\p\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\TelaVerificacaoTelefone.xaml",
+              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\TelaVerificacaoTelefone.xaml",
               "RelativeDocumentMoniker": "tccapp\\Telas\\Cadastro\\TelaVerificacaoTelefone.xaml",
-              "ToolTip": "C:\\p\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\TelaVerificacaoTelefone.xaml*",
-              "RelativeToolTip": "tccapp\\Telas\\Cadastro\\TelaVerificacaoTelefone.xaml*",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAAEUAAABQAAAAAAAAAA==",
+              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\TelaVerificacaoTelefone.xaml",
+              "RelativeToolTip": "tccapp\\Telas\\Cadastro\\TelaVerificacaoTelefone.xaml",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAGAAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-09-14T14:43:35.22Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "TelaVerificacaoEmailViewModel.cs",
-              "DocumentMoniker": "C:\\p\\TCC-FRONT\\tccapp\\ViewModels\\TelaVerificacaoEmailViewModel.cs",
+              "DocumentMoniker": "C:\\tcc\\TCC-FRONT\\tccapp\\ViewModels\\TelaVerificacaoEmailViewModel.cs",
               "RelativeDocumentMoniker": "tccapp\\ViewModels\\TelaVerificacaoEmailViewModel.cs",
-              "ToolTip": "C:\\p\\TCC-FRONT\\tccapp\\ViewModels\\TelaVerificacaoEmailViewModel.cs*",
-              "RelativeToolTip": "tccapp\\ViewModels\\TelaVerificacaoEmailViewModel.cs*",
-              "ViewState": "AgIAABAAAAAAAAAAAAAgwCUAAAA0AAAAAAAAAA==",
+              "ToolTip": "C:\\tcc\\TCC-FRONT\\tccapp\\ViewModels\\TelaVerificacaoEmailViewModel.cs",
+              "RelativeToolTip": "tccapp\\ViewModels\\TelaVerificacaoEmailViewModel.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowCUAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-14T13:27:22.61Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppShell.xaml.cs",
-              "DocumentMoniker": "C:\\p\\TCC-FRONT\\tccapp\\AppShell.xaml.cs",
-              "RelativeDocumentMoniker": "tccapp\\AppShell.xaml.cs",
-              "ToolTip": "C:\\p\\TCC-FRONT\\tccapp\\AppShell.xaml.cs",
-              "RelativeToolTip": "tccapp\\AppShell.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-14T14:30:36.1Z",
               "EditorCaption": ""
             }
           ]

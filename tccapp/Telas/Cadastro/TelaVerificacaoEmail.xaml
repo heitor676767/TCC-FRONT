@@ -41,7 +41,7 @@
                            MaxLength="6"
                            Opacity="0.02"
                            HorizontalOptions="Fill"
-                           HeightRequest="60">  
+                           HeightRequest="60">
                         </Entry>
                     </Grid>
                     <Label Text="{Binding ErrorMessage}"
@@ -66,9 +66,9 @@
                        HorizontalOptions="Center"
                        FontAttributes="Bold"
                        VerticalOptions="Center">
-                       <Label.GestureRecognizers>
-                           <TapGestureRecognizer Command="{Binding OutroMetodoCommand}"/>
-                       </Label.GestureRecognizers>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OutroMetodoCommand}"/>
+                        </Label.GestureRecognizers>
                     </Label>
                     <Button 
                          Text="Verificar" 
@@ -82,7 +82,9 @@
                          VerticalOptions="Center"/>
 
                 </VerticalStackLayout>
-                <Label 
+            </Grid>
+        </ScrollView>
+        <Label 
                        Grid.Row="1"
                        Text="Precisa de ajuda?"
                        TextDecorations="Underline"
@@ -91,9 +93,6 @@
                        HorizontalOptions="Center"
                        FontAttributes="Bold"
                        VerticalOptions="Center">
-                </Label>
-            </Grid>
-        </ScrollView>
-
+        </Label>
     </Grid>
 </ContentPage>
