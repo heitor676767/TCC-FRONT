@@ -76,6 +76,7 @@
                 <Grid RowDefinitions="Auto,Auto" RowSpacing="5  ">
                     <Button Text="Entrar"
                                 Grid.Row="0"
+                                Command="{Binding HomeCommand}"
                                 BackgroundColor="#2B3033"
                                 TextColor="White"
                                 FontSize="16"

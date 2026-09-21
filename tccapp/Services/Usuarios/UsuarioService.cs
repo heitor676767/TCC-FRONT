@@ -4,6 +4,7 @@ using System.Text;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using tccapp.Models;
 
 
 namespace tccapp.Services.Usuarios
@@ -16,7 +17,11 @@ namespace tccapp.Services.Usuarios
         {
             _request = new Request();
         }
-
+        public async Task<Usuario> PostRegistrarUsuarioAsync(Usuario u) 
+        {
+            return null;
+        }
+        
 
     }
 }
