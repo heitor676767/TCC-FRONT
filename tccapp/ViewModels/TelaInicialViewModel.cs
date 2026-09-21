@@ -19,5 +19,11 @@ namespace tccapp.ViewModels
         {
             await Shell.Current.GoToAsync("Cadastro");
         }
+
+        [RelayCommand]
+        private async Task Home()
+        {
+            await Shell.Current.GoToAsync("Home");
+        }
     }
 }

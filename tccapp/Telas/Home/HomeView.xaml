@@ -1,12 +1,128 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"    
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              x:Class="tccapp.Telas.Home.HomeView"
+             Shell.NavBarIsVisible="False"
              Title="HomeView">
 
-    
-    <VerticalStackLayout>
-        <mapsui:MapControl x:Name="mapControl" />
-    </VerticalStackLayout>
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="#304E61" Padding="20,40,20,0">
+
+        <!-- Mapa -->
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Border Stroke="Transparent" StrokeShape="RoundRectangle 12">
+                    <mapsui:MapControl Map="{Binding Map}" WidthRequest="367" HeightRequest="211" />
+                </Border>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- Busca + lista (ocupa o espaço que sobrar) -->
+        <Grid Grid.Row="1"
+              RowDefinitions="Auto,*"
+              RowSpacing="12"
+              Margin="0,20,0,0"
+              WidthRequest="340"
+              HorizontalOptions="Center">
+
+            <Border BackgroundColor="#0DFFFFFF"
+                    StrokeShape="RoundRectangle 12"
+                    HeightRequest="31"
+                    Stroke="Transparent">
+                <Entry Placeholder="Procurar rotas"
+                       PlaceholderColor="White"
+                       BackgroundColor="Transparent"
+                       TextColor="Black"
+                       VerticalOptions="Center"
+                       Margin="10,-7,30,0" />
+            </Border>
+
+            <Border Grid.Row="1"
+                    Stroke="Transparent"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="12">
+
+                <Grid RowDefinitions="Auto,*" RowSpacing="8">
+
+                    <Label Grid.Row="0"
+                           Text="Disponível"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout Spacing="16">
+
+                            <!-- Card 1 -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8">
+                                <Image Grid.Column="0" Source="generic_avatar.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="Passeador1" TextDecorations="Underline" FontSize="14" />
+                                    <Label Text="Descricao do caba" FontSize="13" />
+                                </VerticalStackLayout>
+                                <HorizontalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="R$" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" />
+                                    <Label Text="67" FontSize="36" FontAttributes="Bold" />
+                                    <Label Text="/ min" FontSize="10" VerticalOptions="End" />
+                                </HorizontalStackLayout>
+                                <Button Grid.Row="1" Grid.ColumnSpan="3" Text="contratar" FontSize="11" FontAttributes="Bold"
+                                        TextColor="White" BackgroundColor="#2F6B8E" CornerRadius="6"
+                                        HeightRequest="26" WidthRequest="150" Padding="0" HorizontalOptions="Center" />
+                            </Grid>
+
+                            <!-- Card 2 -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8">
+                                <Image Grid.Column="0" Source="generic_avatar.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="Passeador2" TextDecorations="Underline" FontSize="14" />
+                                    <Label Text="Descricao do caba" FontSize="13" />
+                                </VerticalStackLayout>
+                                <HorizontalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="R$" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" />
+                                    <Label Text="67" FontSize="36" FontAttributes="Bold" />
+                                    <Label Text="/ min" FontSize="10" VerticalOptions="End" />
+                                </HorizontalStackLayout>
+                                <Button Grid.Row="1" Grid.ColumnSpan="3" Text="contratar" FontSize="11" FontAttributes="Bold"
+                                        TextColor="White" BackgroundColor="#2F6B8E" CornerRadius="6"
+                                        HeightRequest="26" WidthRequest="150" Padding="0" HorizontalOptions="Center" />
+                            </Grid>
+
+                            <!-- Card 3 -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8">
+                                <Image Grid.Column="0" Source="generic_avatar.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="Passeador3" TextDecorations="Underline" FontSize="14" />
+                                    <Label Text="Descricao do caba" FontSize="13" />
+                                </VerticalStackLayout>
+                                <HorizontalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="R$" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" />
+                                    <Label Text="67" FontSize="36" FontAttributes="Bold" />
+                                    <Label Text="/ min" FontSize="10" VerticalOptions="End" />
+                                </HorizontalStackLayout>
+                                <Button Grid.Row="1" Grid.ColumnSpan="3" Text="contratar" FontSize="11" FontAttributes="Bold"
+                                        TextColor="White" BackgroundColor="#2F6B8E" CornerRadius="6"
+                                        HeightRequest="26" WidthRequest="150" Padding="0" HorizontalOptions="Center" />
+                            </Grid>
+
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Barra de baixo -->
+        <Border Grid.Row="2"
+                Margin="0,20,0,5"
+                WidthRequest="362"
+                HeightRequest="50"
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 12" />
+    </Grid>
 </ContentPage>
