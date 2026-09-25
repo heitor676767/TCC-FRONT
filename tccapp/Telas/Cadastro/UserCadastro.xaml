@@ -48,6 +48,7 @@
                         Stroke="Transparent">
                             <Entry Placeholder="Nome"
                                Text="{Binding Nome}"
+                               MaxLength="150"
                                PlaceholderColor="#999999"
                                BackgroundColor="Transparent"
                                TextColor="Black"
@@ -87,9 +88,10 @@
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
-                            <Entry Placeholder="Telefone"
+                            <Entry Placeholder="Telefone com DDD "
                                    Text="{Binding Telefone}"
                                    Keyboard="Telephone"
+                                   MaxLength="11"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
                                    TextColor="Black"
@@ -102,6 +104,7 @@
                             Stroke="Transparent">
                             <Entry Placeholder="Cep"
                                    Text="{Binding Cep}"
+                                   MaxLength="8"
                                    Keyboard="Numeric"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
@@ -116,6 +119,7 @@
                             <Entry Placeholder="Cpf"
                                    Text="{Binding Cpf}"
                                    Keyboard="Numeric"
+                                   MaxLength="11"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
                                    TextColor="Black"
@@ -126,6 +130,7 @@
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
+                            
                             <Entry Placeholder="Senha"
                                    Text="{Binding Senha}"
                                    IsPassword="True"
@@ -149,6 +154,11 @@
                             CornerRadius="12"
                             WidthRequest="150"
                              HeightRequest="50"/>
+                    <Label Text="{Binding ErrorMessage}"
+                       TextColor="#FF6B6B"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding HasError}" />
                 </StackLayout>
             </Grid>
         </Border>

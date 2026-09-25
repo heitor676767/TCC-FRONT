@@ -1,12 +1,27 @@
+
 using tccapp.ViewModels;
 
 namespace tccapp.Telas.Home;
 
 public partial class HomeView : ContentPage
 {
-	public HomeView()
+    HomeViewModel viewModel;
+    public HomeView()
 	{
+
 		InitializeComponent();
-		BindingContext = new HomeViewModel();
+        viewModel = new HomeViewModel();
+        BindingContext = viewModel;
 	}
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await viewModel.IniciarRastreamentoAsync();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        viewModel.PararRastreamento();
+    }
 }

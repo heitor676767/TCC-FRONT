@@ -73,7 +73,9 @@ namespace tccapp.ViewModels
 
         private async Task MostrarErro(string mensagem)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", mensagem, "Ok");
+            ErrorMessage = mensagem;
+            await Task.Delay(3000);
+            ErrorMessage = string.Empty;
         }
 
         [RelayCommand]
@@ -139,6 +141,7 @@ namespace tccapp.ViewModels
             }
             catch (Exception ex)
             {
+
                 await MostrarErro(ex.Message);
             }
         }
