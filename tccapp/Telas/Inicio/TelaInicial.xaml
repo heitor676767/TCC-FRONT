@@ -31,7 +31,9 @@
                     BackgroundColor="White"
                     StrokeShape="RoundRectangle 12"
                     Stroke="Transparent">
-                    <Entry Placeholder="Telefone ou email"
+                    <Entry Placeholder="Cpf"
+                           Text="{Binding Cpf}"
+                           Keyboard="Numeric"
                            PlaceholderColor="#999999"
                            BackgroundColor="Transparent"
                            TextColor="Black"
@@ -43,12 +45,19 @@
                     StrokeShape="RoundRectangle 12"
                     Stroke="Transparent">
                     <Entry Placeholder="Senha"
+                           Text="{Binding Senha}"
+                           IsPassword="True"
                            PlaceholderColor="#999999"
                            BackgroundColor="Transparent"
                            TextColor="Black"
                            VerticalOptions="Center"
                            Margin="10,0"/>
                 </Border>
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="#FF6B6B"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding HasError}" />
                 <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,0">
                     <Label Grid.Column="1"
                        Text="Esqueceu a senha?"
@@ -76,12 +85,13 @@
                 <Grid RowDefinitions="Auto,Auto" RowSpacing="5  ">
                     <Button Text="Entrar"
                                 Grid.Row="0"
-                                Command="{Binding HomeCommand}"
+                                Command="{Binding AutenticarCommand}"
                                 BackgroundColor="#2B3033"
                                 TextColor="White"
                                 FontSize="16"
                                 CornerRadius="12"
                                 WidthRequest="150"
+
                                 HeightRequest="50"/>
                     <HorizontalStackLayout Grid.Row="1" Spacing="2" HorizontalOptions="Center">
                         <CheckBox IsChecked="True" Color="White"/>

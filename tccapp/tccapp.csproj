@@ -74,6 +74,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Telas\Cadastro\CastroPet.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Telas\Cadastro\TelaVerificacaoEmail.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

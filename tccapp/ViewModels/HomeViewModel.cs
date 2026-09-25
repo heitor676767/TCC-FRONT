@@ -17,15 +17,19 @@ namespace tccapp.ViewModels
         
         public HomeViewModel()
         {
-            
             Map = new Mapsui.Map();
             Map.Layers.Add(OpenStreetMap.CreateTileLayer("TCCApp"));
 
             var (x, y) = SphericalMercator.FromLonLat(-46.5961203, -23.5189015);
             var centro = new MPoint(x, y);
 
-            Map.Navigator.CenterOnAndZoomTo(centro, 10);
-        }
+            Map.Navigator.CenterOnAndZoomTo(centro, 15);
 
+        }
+        [RelayCommand]
+        private async Task CadastroPet()
+        {
+            await Shell.Current.GoToAsync("CadastroPet");
+        }
     }
 }

@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              x:Class="tccapp.Telas.Home.HomeView"
-             Shell.NavBarIsVisible="False"
+         
+             Shell.NavBarIsVisible="False" 
              Title="HomeView">
-
+    <!-- Esconde a barra de navegação do Shell -->
     <ContentPage.Resources>
         <Style TargetType="Label">
             <Setter Property="TextColor" Value="Black" />
@@ -123,6 +124,22 @@
                 HeightRequest="50"
                 BackgroundColor="White"
                 Stroke="Transparent"
-                StrokeShape="RoundRectangle 12" />
+                StrokeShape="RoundRectangle 12">
+            <HorizontalStackLayout>
+                <Grid ColumnDefinitions="auto,auto,auto,auto,auto" ColumnSpacing="27" Margin="30,10,0,10">
+                    <Image Grid.Column="0" Source="generic_avatar1.png" WidthRequest="36.2" HeightRequest="35" ></Image>
+                    <Image Grid.Column="1" Source="pet.png" WidthRequest="36.2" HeightRequest="35">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CadastroPetCommand}" />
+                        </Image.GestureRecognizers>
+                        
+                    </Image>
+                    <Image Grid.Column="2" Source="logo.png" WidthRequest="50" HeightRequest="60" ></Image>
+                    <Image Grid.Column="3" Source="relogio.png" WidthRequest="36.2" HeightRequest="35" ></Image>
+                    <Image Grid.Column="4" Source="menu_hamburguer.png" WidthRequest="36.2" HeightRequest="35" ></Image>
+                    
+                </Grid>
+            </HorizontalStackLayout>
+        </Border>
     </Grid>
 </ContentPage>

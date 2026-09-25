@@ -1,10 +1,16 @@
 GoogleGson.dll
+HarfBuzzSharp.dll
 Jsr305Binding.dll
+Mapsui.UI.Maui.dll
 Microsoft.Maui.Controls.dll
 Microsoft.Maui.Controls.Xaml.dll
 Microsoft.Maui.dll
 Microsoft.Maui.Essentials.dll
 Microsoft.Maui.Graphics.dll
+SkiaSharp.dll
+SkiaSharp.Views.Android.dll
+SkiaSharp.Views.Maui.Controls.dll
+SkiaSharp.Views.Maui.Core.dll
 Xamarin.Android.Glide.Annotations.dll
 Xamarin.Android.Glide.DiskLruCache.dll
 Xamarin.Android.Glide.dll
@@ -165,6 +171,7 @@ Microsoft.Maui.Controls.aar
 maui.aar
 Microsoft.Maui.aar
 Microsoft.Maui.Essentials.aar
+SkiaSharp.Views.Android.aar
 Xamarin.Android.Glide.Annotations.aar
 Xamarin.Android.Glide.DiskLruCache.aar
 glide.aar
@@ -180,10 +187,3 @@ Xamarin.KotlinX.Coroutines.Core.aar
 Xamarin.KotlinX.Coroutines.Core.Jvm.aar
 Xamarin.KotlinX.Serialization.Core.aar
 Xamarin.KotlinX.Serialization.Core.Jvm.aar
-HarfBuzzSharp.dll
-Mapsui.UI.Maui.dll
-SkiaSharp.dll
-SkiaSharp.Views.Android.dll
-SkiaSharp.Views.Maui.Controls.dll
-SkiaSharp.Views.Maui.Core.dll
-SkiaSharp.Views.Android.aar

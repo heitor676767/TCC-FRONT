@@ -10,6 +10,7 @@
             Routing.RegisterRoute("Verificar", typeof(Telas.Cadastro.TelaVerificacaoEmail));
             Routing.RegisterRoute("Telefone", typeof(Telas.Cadastro.TelaVerificacaoTelefone));
             Routing.RegisterRoute("Home", typeof(Telas.Home.HomeView));
+            Routing.RegisterRoute("CadastroPet", typeof(Telas.Cadastro.CastroPet));
         }
     }
 }

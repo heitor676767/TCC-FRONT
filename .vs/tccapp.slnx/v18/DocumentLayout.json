@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "C:\\joao\\tcc\\TCC-FRONT\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\joao\\tcc\\tcc-front\\tccapp\\telas\\home\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\home\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\joao\\tcc\\tcc-front\\tccapp\\viewmodels\\usercadastroviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\viewmodels\\usercadastroviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\joao\\tcc\\tcc-front\\tccapp\\telas\\cadastro\\usercadastro.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\cadastro\\usercadastro.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\joao\\tcc\\tcc-front\\tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\telas\\inicio\\telainicial.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|c:\\joao\\tcc\\tcc-front\\tccapp\\viewmodels\\homeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EF43A3CF-FF73-D80F-7F46-35DFAED62C64}|tccapp\\tccapp.csproj|solutionrelative:tccapp\\viewmodels\\homeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -36,48 +28,24 @@
               "RelativeDocumentMoniker": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
               "ToolTip": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
               "RelativeToolTip": "tccapp\\Telas\\Cadastro\\UserCadastro.xaml",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAACIAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAJQAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-09-21T18:50:01Z",
+              "WhenOpened": "2026-09-25T00:08:05.369Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "HomeView.xaml",
-              "DocumentMoniker": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\Telas\\Home\\HomeView.xaml",
-              "RelativeDocumentMoniker": "tccapp\\Telas\\Home\\HomeView.xaml",
-              "ToolTip": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\Telas\\Home\\HomeView.xaml",
-              "RelativeToolTip": "tccapp\\Telas\\Home\\HomeView.xaml",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAAAH8AAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-09-21T18:07:51.089Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TelaInicial.xaml",
-              "DocumentMoniker": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
-              "RelativeDocumentMoniker": "tccapp\\Telas\\Inicio\\TelaInicial.xaml",
-              "ToolTip": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\Telas\\Inicio\\TelaInicial.xaml",
-              "RelativeToolTip": "tccapp\\Telas\\Inicio\\TelaInicial.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-09-21T14:44:04.633Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "HomeViewModel.cs",
-              "DocumentMoniker": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\ViewModels\\HomeViewModel.cs",
-              "RelativeDocumentMoniker": "tccapp\\ViewModels\\HomeViewModel.cs",
-              "ToolTip": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\ViewModels\\HomeViewModel.cs",
-              "RelativeToolTip": "tccapp\\ViewModels\\HomeViewModel.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAUwBoAAAA4AAAAAAAAAA==",
+              "Title": "UserCadastroViewModel.cs",
+              "DocumentMoniker": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\ViewModels\\UserCadastroViewModel.cs",
+              "RelativeDocumentMoniker": "tccapp\\ViewModels\\UserCadastroViewModel.cs",
+              "ToolTip": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\ViewModels\\UserCadastroViewModel.cs",
+              "RelativeToolTip": "tccapp\\ViewModels\\UserCadastroViewModel.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAgwF4AAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-21T18:05:10.89Z",
+              "WhenOpened": "2026-09-25T00:08:09.448Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]

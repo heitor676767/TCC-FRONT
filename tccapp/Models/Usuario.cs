@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -20,5 +19,10 @@ namespace tccapp.Models
         public string? Foto { get; set; }
         public DateTime UltimoLogin { get; set; }
         public DateTime DataCadastro { get; set; }
+        public string PasswordString { get; set; } = string.Empty;
+        public string? Token { get; set; } = string.Empty;
+
+        // Opcional: útil se você for diferenciar Dono/Petwalker na tela inicial
+        //public PetwalkerPerfil? PetwalkerPerfil { get; set; }
     }
 }
