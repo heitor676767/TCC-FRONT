@@ -35,7 +35,7 @@
                                        InputTransparent="True"/>
 
                                 <Picker x:Name="PickerTipo"
-                                        ItemsSource="{Binding Porte}"
+                                        ItemsSource="{Binding Portes}"
                                         SelectedItem="{Binding PorteSelecionado}"
                                         Opacity="0"
                                         VerticalOptions="Center"
@@ -56,11 +56,24 @@
                                Margin="10,0"/>
                         </Border>
                         <Border
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12"
+                        Stroke="Transparent">
+                            <Entry Placeholder="Descrição(opcional)"
+                               Text="{Binding Descricao}"
+                               MaxLength="150"
+                               PlaceholderColor="#999999"
+                               BackgroundColor="Transparent"
+                               TextColor="Black"
+                               VerticalOptions="Center"
+                               Margin="10,0"/>
+                        </Border>
+                        <Border
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
                             <Entry Placeholder="Rga"
-                                   Text="{Binding Email}"
+                                   Text="{Binding Rga}"
                                    Keyboard="Email"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
@@ -73,9 +86,9 @@
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
                             <Entry Placeholder="Especie"
-                                   Text="{Binding Telefone}"
+                                   Text="{Binding Especie}"
+                                                                  MaxLength="150"
                                    Keyboard="Telephone"
-                                   MaxLength="11"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
                                    TextColor="Black"
@@ -87,8 +100,8 @@
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
                             <Entry Placeholder="Raça"
-                                   Text="{Binding Cep}"
-                                   MaxLength="8"
+                                   Text="{Binding Raca}"
+                                                                  MaxLength="150"
                                    Keyboard="Numeric"
                                    PlaceholderColor="#999999"
                                    BackgroundColor="Transparent"
@@ -101,7 +114,7 @@
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
                             <Entry Placeholder="Peso em kg"
-                                   Text="{Binding Cpf}"
+                                   Text="{Binding Peso}"
                                    Keyboard="Numeric"
                                    MaxLength="11"
                                    PlaceholderColor="#999999"
@@ -145,6 +158,32 @@
                        FontSize="14"
                        HorizontalOptions="Center"
                        IsVisible="{Binding HasError}" />
+                    <Border Grid.Row="2"
+                Margin="0,20,0,-35"
+                WidthRequest="362"
+                HeightRequest="50"
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 12">
+                        <HorizontalStackLayout>
+                            <Grid ColumnDefinitions="auto,auto,auto,auto,auto" ColumnSpacing="27" Margin="30,10,0,10">
+                                <Image Grid.Column="0" Source="generic_avatar1.png" WidthRequest="36.2" HeightRequest="35" ></Image>
+                                <Image Grid.Column="1" Source="pet.png" WidthRequest="36.2" HeightRequest="35">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CadastroPetCommand}" />
+                                    </Image.GestureRecognizers>
+
+                                </Image>
+                                <Image Grid.Column="2" Source="logo.png" WidthRequest="50" HeightRequest="60" >
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding HomeCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Image Grid.Column="3" Source="relogio.png" WidthRequest="36.2" HeightRequest="35" ></Image>
+                                <Image Grid.Column="4" Source="menu_hamburguer.png" WidthRequest="36.2" HeightRequest="35" ></Image>
+                            </Grid>
+                        </HorizontalStackLayout>
+                    </Border>
                 </StackLayout>
             </Grid>
         </Border>

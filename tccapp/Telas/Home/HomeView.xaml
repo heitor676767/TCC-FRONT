@@ -134,7 +134,12 @@
                         </Image.GestureRecognizers>
                         
                     </Image>
-                    <Image Grid.Column="2" Source="logo.png" WidthRequest="50" HeightRequest="60" ></Image>
+                    <Image Grid.Column="2" Source="logo.png" WidthRequest="50" HeightRequest="60" >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HomeCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
                     <Image Grid.Column="3" Source="relogio.png" WidthRequest="36.2" HeightRequest="35" ></Image>
                     <Image Grid.Column="4" Source="menu_hamburguer.png" WidthRequest="36.2" HeightRequest="35" ></Image>
                     

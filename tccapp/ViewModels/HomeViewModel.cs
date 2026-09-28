@@ -46,11 +46,11 @@ namespace tccapp.ViewModels
             try
             {
                 var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                if (status != PermissionStatus.Granted)
-                {
-                    await Shell.Current.DisplayAlertAsync("Localização", $"Permissão: {status}", "Ok");
-                    return;
-                }
+                //if (status != PermissionStatus.Granted)
+                //{
+                //    await Shell.Current.DisplayAlertAsync("Localização", $"Permissão: {status}", "Ok");
+                //    return;
+                //}
 
                 Geolocation.Default.LocationChanged -= OnLocationChanged;
                 Geolocation.Default.LocationChanged += OnLocationChanged;
@@ -108,6 +108,12 @@ namespace tccapp.ViewModels
         private async Task CadastroPet()
         {
             await Shell.Current.GoToAsync("CadastroPet");
+        }
+
+        [RelayCommand]
+        private async Task Home()
+        {
+            await Shell.Current.GoToAsync("Home");
         }
     }
 }
