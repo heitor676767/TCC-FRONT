@@ -36,8 +36,9 @@ namespace tccapp.ViewModels
             };
             Map.Layers.Add(_localizacaoLayer);
 
-
-            Geolocation.Default.LocationChanged += OnLocationChanged;
+            // posição inicial enquanto o GPS não responde
+            var (x, y) = SphericalMercator.FromLonLat(-46.5961203, -23.5189015);
+            Map.Navigator.CenterOnAndZoomTo(new MPoint(x, y), 10);
         }
 
         public async Task IniciarRastreamentoAsync()
@@ -46,7 +47,13 @@ namespace tccapp.ViewModels
             {
                 var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
                 if (status != PermissionStatus.Granted)
+                {
+                    await Shell.Current.DisplayAlertAsync("Localização", $"Permissão: {status}", "Ok");
                     return;
+                }
+
+                Geolocation.Default.LocationChanged -= OnLocationChanged;
+                Geolocation.Default.LocationChanged += OnLocationChanged;
 
                 if (!Geolocation.Default.IsListeningForeground)
                 {
@@ -54,21 +61,27 @@ namespace tccapp.ViewModels
                     await Geolocation.Default.StartListeningForegroundAsync(request);
                 }
 
-                var ultimaLocalizacao = await Geolocation.Default.GetLastKnownLocationAsync()
-                    ?? await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best));
+                var localizacao = await Geolocation.Default.GetLastKnownLocationAsync()
+                    ?? await Geolocation.Default.GetLocationAsync(
+                        new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
 
-                if (ultimaLocalizacao != null)
-                    AtualizarPosicaoNoMapa(ultimaLocalizacao, centralizar: true);
+                if (localizacao == null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Localização", "Não foi possível obter a posição.", "Ok");
+                    return;
+                }
+
+                AtualizarPosicaoNoMapa(localizacao, centralizar: true);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // GPS desligado ou permissão negada
+                await Shell.Current.DisplayAlertAsync("Erro de localização", ex.Message, "Ok");
             }
         }
 
         private void OnLocationChanged(object sender, GeolocationLocationChangedEventArgs e)
         {
-            AtualizarPosicaoNoMapa(e.Location, centralizar: false);
+            MainThread.BeginInvokeOnMainThread(() => AtualizarPosicaoNoMapa(e.Location, centralizar: true));
         }
 
         private void AtualizarPosicaoNoMapa(Location location, bool centralizar)
@@ -80,7 +93,7 @@ namespace tccapp.ViewModels
             _localizacaoLayer.DataHasChanged();
 
             if (centralizar)
-                Map.Navigator.CenterOnAndZoomTo(ponto, 17);
+                Map.Navigator.CenterOnAndZoomTo(ponto, 3);
         }
 
         public void PararRastreamento()
