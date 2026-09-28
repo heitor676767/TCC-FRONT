@@ -40427,24 +40427,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\DELL\\.nuget\\packages\\": {},
+    "D:\\NUGET_PACKAGES": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\tccapp.csproj",
+      "projectUniqueName": "C:\\tcc\\TCC-FRONT\\tccapp\\tccapp.csproj",
       "projectName": "tccapp",
-      "projectPath": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\tccapp.csproj",
-      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "C:\\joao\\tcc\\TCC-FRONT\\tccapp\\obj\\",
+      "projectPath": "C:\\tcc\\TCC-FRONT\\tccapp\\tccapp.csproj",
+      "packagesPath": "D:\\NUGET_PACKAGES",
+      "outputPath": "C:\\tcc\\TCC-FRONT\\tccapp\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\etechas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
