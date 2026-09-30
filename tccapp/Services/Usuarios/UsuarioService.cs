@@ -51,5 +51,19 @@ namespace tccapp.Services.Usuarios
             string urlComplementar = $"/VerificarTelefone?telefone={Uri.EscapeDataString(telefone)}";
             return await _request.GetAsync<bool>(apiUrlBase + urlComplementar, string.Empty);
         }
+
+        public async Task EsqueciSenhaAsync(string email)
+        {
+            string urlComplementar = "/EsqueciSenha";
+            var dto = new { Email = email };
+            await _request.PostAsync(apiUrlBase + urlComplementar, dto, string.Empty);
+        }
+
+        public async Task RedefinirSenhaAsync(string email, string codigo, string novaSenha)
+        {
+            string urlComplementar = "/RedefinirSenha";
+            var dto = new { Email = email, Codigo = codigo, NovaSenha = novaSenha };
+            await _request.PostAsync(apiUrlBase + urlComplementar, dto, string.Empty);
+        }
     }
 }

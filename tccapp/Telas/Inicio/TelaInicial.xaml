@@ -65,7 +65,11 @@
                        TextColor="White"
                        FontSize="14"
                        HorizontalOptions="End"
-                       VerticalOptions="Center"/>
+                       VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VerificalEmailCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
                     <Label Grid.Column="0"
                        Text="Criar Conta"
                        TextDecorations="Underline"

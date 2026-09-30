@@ -155,5 +155,11 @@ namespace tccapp.ViewModels
         {
             await Shell.Current.GoToAsync("Home");
         }
+
+        [RelayCommand]
+        private async Task InfoConta()
+        {
+            await Shell.Current.GoToAsync("InfoConta");
+        }
     }
 }

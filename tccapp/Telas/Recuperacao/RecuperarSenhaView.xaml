@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tccapp.Telas.Recuperacao.RecuperarSenhaView"
+             Title="RecuperarSenhaView">
+    <Grid RowDefinitions="*,Auto" BackgroundColor="#304E61" Padding="20,40,20,0">
+        <ScrollView Grid.Row="0" VerticalOptions="Fill">
+            <Grid VerticalOptions="Fill">
+                <VerticalStackLayout VerticalOptions="Center" Spacing="20">
+                    <Label Text="Insira o código enviado para o email"
+                           FontSize="20"
+                           TextColor="#FFFFFF"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="fazeraprogramacaoaqui@gmail.com"
+                           FontSize="40"
+                           FontAttributes="Bold"
+                           TextColor="#FFFFFF"
+                           HorizontalOptions="Center" />
+                    <Grid HorizontalOptions="Center">
+                        <HorizontalStackLayout Spacing="8"
+                            BindableLayout.ItemsSource="{Binding Digits}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <VerticalStackLayout WidthRequest="40">
+                                        <Label Text="{Binding .}"
+                                               FontSize="40" FontAttributes="Bold"
+                                               TextColor="#FFFFFF"
+                                               HorizontalOptions="Center" />
+                                        <BoxView HeightRequest="3" BackgroundColor="#FFFFFF"/>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+
+                        <Entry Text="{Binding Code}"
+                               Keyboard="Numeric"
+                               MaxLength="6"
+                               Opacity="0.02"
+                               HorizontalOptions="Fill"
+                               HeightRequest="60">
+                        </Entry>
+                    </Grid>
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="#FF6B6B"
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding HasError}" />
+                    <Label Text="Reenviar código"
+                           TextDecorations="Underline"
+                           TextColor="White"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ReenviarCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Button Text="Verificar" 
+                            Command="{Binding VerifyCommand}"
+                            BackgroundColor="#2B3033"
+                            TextColor="White"
+                            FontSize="16"
+                            CornerRadius="12"
+                            WidthRequest="111"
+                            HeightRequest="50"
+                            VerticalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+        <Label Grid.Row="1"
+               Text="Precisa de ajuda?"
+               TextDecorations="Underline"
+               TextColor="White"
+               FontSize="20"
+               HorizontalOptions="Center"
+               FontAttributes="Bold"
+               VerticalOptions="Center">
+        </Label>
+    </Grid>
+</ContentPage>

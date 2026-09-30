@@ -167,7 +167,11 @@
                 StrokeShape="RoundRectangle 12">
                         <HorizontalStackLayout>
                             <Grid ColumnDefinitions="auto,auto,auto,auto,auto" ColumnSpacing="27" Margin="30,10,0,10">
-                                <Image Grid.Column="0" Source="generic_avatar1.png" WidthRequest="36.2" HeightRequest="35" ></Image>
+                                <Image Grid.Column="0" Source="generic_avatar1.png" WidthRequest="36.2" HeightRequest="35" >
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding InfoContaCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                                 <Image Grid.Column="1" Source="pet.png" WidthRequest="36.2" HeightRequest="35">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding CadastroPetCommand}" />

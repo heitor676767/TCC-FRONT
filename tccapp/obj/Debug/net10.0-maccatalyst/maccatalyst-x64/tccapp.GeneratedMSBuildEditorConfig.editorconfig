@@ -82,26 +82,6 @@ build_metadata.AdditionalFiles.NoWarn =
 build_metadata.AdditionalFiles.EnableDiagnostics = 
 build_metadata.AdditionalFiles.LineInfo = 
 
-[C:/joao/tcc/TCC-FRONT/tccapp/Telas/Cadastro/TelaVerificacaoEmail.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Cadastro.TelaVerificacaoEmail.xaml
-build_metadata.AdditionalFiles.TargetPath = Telas\Cadastro\TelaVerificacaoEmail.xaml
-build_metadata.AdditionalFiles.RelativePath = Telas\Cadastro\TelaVerificacaoEmail.xaml
-build_metadata.AdditionalFiles.Inflator = SourceGen
-build_metadata.AdditionalFiles.NoWarn = 
-build_metadata.AdditionalFiles.EnableDiagnostics = 
-build_metadata.AdditionalFiles.LineInfo = 
-
-[C:/joao/tcc/TCC-FRONT/tccapp/Telas/Cadastro/TelaVerificacaoTelefone.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Cadastro.TelaVerificacaoTelefone.xaml
-build_metadata.AdditionalFiles.TargetPath = Telas\Cadastro\TelaVerificacaoTelefone.xaml
-build_metadata.AdditionalFiles.RelativePath = Telas\Cadastro\TelaVerificacaoTelefone.xaml
-build_metadata.AdditionalFiles.Inflator = SourceGen
-build_metadata.AdditionalFiles.NoWarn = 
-build_metadata.AdditionalFiles.EnableDiagnostics = 
-build_metadata.AdditionalFiles.LineInfo = 
-
 [C:/joao/tcc/TCC-FRONT/tccapp/Telas/Cadastro/UserCadastro.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Cadastro.UserCadastro.xaml
@@ -122,11 +102,41 @@ build_metadata.AdditionalFiles.NoWarn =
 build_metadata.AdditionalFiles.EnableDiagnostics = 
 build_metadata.AdditionalFiles.LineInfo = 
 
+[C:/joao/tcc/TCC-FRONT/tccapp/Telas/Informacoes/InfoContaView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Informacoes.InfoContaView.xaml
+build_metadata.AdditionalFiles.TargetPath = Telas\Informacoes\InfoContaView.xaml
+build_metadata.AdditionalFiles.RelativePath = Telas\Informacoes\InfoContaView.xaml
+build_metadata.AdditionalFiles.Inflator = SourceGen
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
 [C:/joao/tcc/TCC-FRONT/tccapp/Telas/Inicio/TelaInicial.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Inicio.TelaInicial.xaml
 build_metadata.AdditionalFiles.TargetPath = Telas\Inicio\TelaInicial.xaml
 build_metadata.AdditionalFiles.RelativePath = Telas\Inicio\TelaInicial.xaml
+build_metadata.AdditionalFiles.Inflator = SourceGen
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
+[C:/joao/tcc/TCC-FRONT/tccapp/Telas/Recuperacao/RecuperarSenhaView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Recuperacao.RecuperarSenhaView.xaml
+build_metadata.AdditionalFiles.TargetPath = Telas\Recuperacao\RecuperarSenhaView.xaml
+build_metadata.AdditionalFiles.RelativePath = Telas\Recuperacao\RecuperarSenhaView.xaml
+build_metadata.AdditionalFiles.Inflator = SourceGen
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
+[C:/joao/tcc/TCC-FRONT/tccapp/Telas/Recuperacao/VerificarEmailView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = tccapp.Telas.Recuperacao.VerificarEmailView.xaml
+build_metadata.AdditionalFiles.TargetPath = Telas\Recuperacao\VerificarEmailView.xaml
+build_metadata.AdditionalFiles.RelativePath = Telas\Recuperacao\VerificarEmailView.xaml
 build_metadata.AdditionalFiles.Inflator = SourceGen
 build_metadata.AdditionalFiles.NoWarn = 
 build_metadata.AdditionalFiles.EnableDiagnostics = 

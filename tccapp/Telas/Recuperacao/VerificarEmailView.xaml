@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
+             x:Class="tccapp.Telas.Recuperacao.VerificarEmailView"
+             Title="VerificarEmailView">
+
+    <Grid RowDefinitions="auto,*,*" BackgroundColor="#304E61" Padding="20,40,20,0">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="3" Padding="15">
+                <HorizontalStackLayout  Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Por favor, verifique seu email"
+                       FontSize="48"
+                       FontAttributes="Bold"
+                       TextColor="#FFFFFF"
+                       HorizontalOptions="Center"
+                       />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center">
+            <Border
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 12"
+            WidthRequest="500"
+            Stroke="Transparent">
+                <Entry Placeholder="Email"
+                   Text="{Binding Email}"
+                   MaxLength="150"
+                   PlaceholderColor="#999999"
+                   BackgroundColor="Transparent"
+                   TextColor="Black"
+                   VerticalOptions="Center"
+                   Margin="10,0"/>
+            </Border>
+        </VerticalStackLayout>
+        <StackLayout  Grid.Row="2">
+            <Button Text="Continuar"
+                            Command="{Binding VerificarCommand}"
+                            Grid.Row="0"
+                            BackgroundColor="#2B3033"
+                            TextColor="White"
+                            FontSize="16"
+                            CornerRadius="12"
+                            WidthRequest="150"
+                             HeightRequest="50"/>
+            <Label Text="{Binding ErrorMessage}"
+                       TextColor="#FF6B6B"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding HasError}" />
+        </StackLayout>
+
+    </Grid>
+</ContentPage>

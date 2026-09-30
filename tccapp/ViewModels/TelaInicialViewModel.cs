@@ -29,6 +29,12 @@ namespace tccapp.ViewModels
         }
 
         [RelayCommand]
+        private async Task VerificalEmail()
+        {
+            await Shell.Current.GoToAsync("VerificarEmail");
+        }
+
+        [RelayCommand]
         private async Task CriarConta()
         {
             await Shell.Current.GoToAsync("Cadastro");
