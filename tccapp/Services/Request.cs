@@ -81,6 +81,32 @@ namespace tccapp.Services
                 throw new Exception(serialized);
         }
 
+        public async Task PostWithoutResponseAsync<TResult>(
+    string uri,
+    TResult data,
+    string token)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var content = new StringContent(
+                JsonConvert.SerializeObject(data),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string serialized = await response.Content.ReadAsStringAsync();
+                throw new Exception(serialized);
+            }
+        }
+
+
         public async Task<int> DeleteAsync(string uri, string token)
         {
             HttpClient httpClient = new HttpClient();

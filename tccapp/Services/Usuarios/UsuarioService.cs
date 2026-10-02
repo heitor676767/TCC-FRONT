@@ -63,7 +63,7 @@ namespace tccapp.Services.Usuarios
         {
             string urlComplementar = "/RedefinirSenha";
             var dto = new { Email = email, Codigo = codigo, NovaSenha = novaSenha };
-            await _request.PostAsync(apiUrlBase + urlComplementar, dto, string.Empty);
+            await _request.PostWithoutResponseAsync(apiUrlBase + urlComplementar, dto, string.Empty);
         }
     }
 }

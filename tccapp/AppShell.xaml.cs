@@ -6,6 +6,7 @@
         {
             InitializeComponent();
 
+            Routing.RegisterRoute("Login", typeof(Telas.Inicio.TelaInicial));
             Routing.RegisterRoute("Cadastro", typeof(Telas.Cadastro.UserCadastro));
             Routing.RegisterRoute("Home", typeof(Telas.Home.HomeView));
             Routing.RegisterRoute("CadastroPet", typeof(Telas.Cadastro.CastroPet));
