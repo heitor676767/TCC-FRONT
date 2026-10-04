@@ -75,6 +75,10 @@ namespace tccapp.ViewModels
                 Preferences.Set("UsuarioTipo", autenticado.TipoUsuario);
                 Preferences.Set("UsuarioToken", autenticado.Token);
                 Preferences.Set("UsuarioCpf", autenticado.Cpf);
+                Preferences.Set("UsuarioEmail", autenticado.Email ?? string.Empty);
+                Preferences.Set("UsuarioTelefone", autenticado.Telefone ?? string.Empty);
+                Preferences.Set("UsuarioCep", autenticado.Cep ?? string.Empty);
+                Preferences.Set("UsuarioGenero", autenticado.Genero ?? string.Empty);
 
                 await Shell.Current.GoToAsync("Home");
             }

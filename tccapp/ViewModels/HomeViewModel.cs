@@ -8,7 +8,13 @@ using Mapsui.Tiling;
 using Microsoft.Maui.Devices.Sensors;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using tccapp.Models;
+using tccapp.Services.Passeios;
+using tccapp.Services.Pets;
+using tccapp.Services.Petwalkers;
 
 namespace tccapp.ViewModels
 {
@@ -17,6 +23,17 @@ namespace tccapp.ViewModels
         public Mapsui.Map Map { get; }
 
         private readonly MemoryLayer _localizacaoLayer;
+
+        // Localização mais recente conhecida do usuário — usada tanto pra buscar
+        // petwalkers por perto quanto pra enviar junto da solicitação de passeio.
+        private double? _minhaLatitude;
+        private double? _minhaLongitude;
+
+        [ObservableProperty]
+        private ObservableCollection<PetwalkerPerfil> petwalkers = new();
+
+        [ObservableProperty]
+        private bool carregandoPetwalkers;
 
         public HomeViewModel()
         {
@@ -72,6 +89,10 @@ namespace tccapp.ViewModels
                 }
 
                 AtualizarPosicaoNoMapa(localizacao, centralizar: true);
+
+                // Só busca a lista de petwalkers na primeira vez que a posição é obtida,
+                // pra não ficar chamando a API a cada atualização de GPS.
+                await CarregarPetwalkersAsync(localizacao.Latitude, localizacao.Longitude);
             }
             catch (Exception ex)
             {
@@ -86,6 +107,9 @@ namespace tccapp.ViewModels
 
         private void AtualizarPosicaoNoMapa(Location location, bool centralizar)
         {
+            _minhaLatitude = location.Latitude;
+            _minhaLongitude = location.Longitude;
+
             var (x, y) = SphericalMercator.FromLonLat(location.Longitude, location.Latitude);
             var ponto = new MPoint(x, y);
 
@@ -102,6 +126,83 @@ namespace tccapp.ViewModels
                 Geolocation.Default.StopListeningForeground();
 
             Geolocation.Default.LocationChanged -= OnLocationChanged;
+        }
+
+        private async Task CarregarPetwalkersAsync(double lat, double lng)
+        {
+            try
+            {
+                CarregandoPetwalkers = true;
+
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                var petwalkerService = new PetwalkerService(token);
+
+                var resultado = await petwalkerService.GetDisponiveisAsync(lat, lng, raioKm: 10);
+                Petwalkers = resultado ?? new ObservableCollection<PetwalkerPerfil>();
+            }
+            catch (Exception ex)
+            {
+                // Não interrompe o uso do mapa por causa disso, só avisa.
+                await Shell.Current.DisplayAlertAsync("Petwalkers", $"Não foi possível carregar a lista: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                CarregandoPetwalkers = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task Contratar(PetwalkerPerfil petwalker)
+        {
+            if (petwalker == null)
+                return;
+
+            try
+            {
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                string cpfDono = Preferences.Get("UsuarioCpf", string.Empty);
+
+                var petService = new PetService(token);
+                var meusPets = await petService.GetMeusPetsAsync(cpfDono);
+
+                if (meusPets == null || !meusPets.Any())
+                {
+                    await Shell.Current.DisplayAlertAsync(
+                        "Cadastre um pet",
+                        "Você precisa cadastrar pelo menos um pet antes de contratar um passeio.",
+                        "Ok");
+                    return;
+                }
+
+                // MVP: usa o primeiro pet cadastrado. Quando tiver tempo, trocar por
+                // uma tela/seletor pra escolher qual pet vai passear.
+                var pet = meusPets.First();
+
+                if (_minhaLatitude == null || _minhaLongitude == null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Localização", "Aguarde a localização carregar e tente de novo.", "Ok");
+                    return;
+                }
+
+                var passeioService = new PasseioService(token);
+                await passeioService.SolicitarAsync(
+                    rga: pet.Rga,
+                    cpfPetwalker: petwalker.Cpf,
+                    duracao: 30,
+                    latitude: (decimal)_minhaLatitude.Value,
+                    longitude: (decimal)_minhaLongitude.Value,
+                    cep: string.Empty,
+                    numero: string.Empty);
+
+                await Shell.Current.DisplayAlertAsync(
+                    "Solicitado!",
+                    $"Passeio com {petwalker.Nome} solicitado para {pet.Nome}. Aguardando o petwalker aceitar.",
+                    "Ok");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Erro ao contratar", ex.Message, "Ok");
+            }
         }
 
         [RelayCommand]

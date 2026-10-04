@@ -12,6 +12,15 @@ namespace tccapp.Models
 
         public string AreaAtendimento { get; set; }
 
+        // Campos que vêm prontos do GET /Petwalker/Disponiveis (API já manda calculado)
+        public string? Nome { get; set; }
+        public string? Foto { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
+        public double? DistanciaKm { get; set; }
+        public double NotaMedia { get; set; }
+        public int QuantidadeAvaliacoes { get; set; }
+
         // Navegação 1:1 com Usuario
         public Usuario Usuario { get; set; }
 

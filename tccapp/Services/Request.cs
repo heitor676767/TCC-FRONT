@@ -47,6 +47,26 @@ namespace tccapp.Services
             return result;
         }
 
+        // Variante pra quando o corpo enviado (TData, ex: um objeto anônimo com só os campos
+        // que a API pede) é diferente do tipo que volta na resposta (TResult).
+        public async Task<TResult> PostAsync<TData, TResult>(string uri, TData data, string token)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            httpClient.DefaultRequestHeaders.Authorization
+            = new AuthenticationHeaderValue("Bearer", token);
+
+            var content = new StringContent(JsonConvert.SerializeObject(data));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception(serialized);
+
+            return await Task.Run(() => JsonConvert.DeserializeObject<TResult>(serialized));
+        }
+
         public async Task<TResult> GetAsync<TResult>(string uri, string token)
         {
             HttpClient httpClient = new HttpClient();
@@ -79,6 +99,25 @@ namespace tccapp.Services
                 return int.Parse(serialized);
             else
                 throw new Exception(serialized);
+        }
+
+        // Variante pra endpoints PUT que devolvem um objeto no corpo (ex: o usuário
+        // atualizado), em vez de só um número como o PutAsync<TResult> original espera.
+        public async Task<TResult> PutAsync<TData, TResult>(string uri, TData data, string token)
+        {
+            HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", token);
+
+            var content = new StringContent(JsonConvert.SerializeObject(data));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = await httpClient.PutAsync(uri, content);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception(serialized);
+
+            return await Task.Run(() => JsonConvert.DeserializeObject<TResult>(serialized));
         }
 
         public async Task<int> DeleteAsync(string uri, string token)

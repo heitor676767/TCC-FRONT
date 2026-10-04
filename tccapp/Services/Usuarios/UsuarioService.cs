@@ -52,6 +52,15 @@ namespace tccapp.Services.Usuarios
             return await _request.GetAsync<bool>(apiUrlBase + urlComplementar, string.Empty);
         }
 
+        // Edita o perfil do usuário logado. CPF e Email não entram aqui de propósito
+        // (a API não deixa mudar esses dois por esse endpoint).
+        public async Task<Usuario> AtualizarUsuarioAsync(
+            string nome, string telefone, string cep, string genero, string token)
+        {
+            var dto = new { Nome = nome, Telefone = telefone, Cep = cep, Genero = genero };
+            return await _request.PutAsync<object, Usuario>(apiUrlBase, dto, token);
+        }
+
         public async Task EsqueciSenhaAsync(string email)
         {
             string urlComplementar = "/EsqueciSenha";

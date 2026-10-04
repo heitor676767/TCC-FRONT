@@ -13,6 +13,66 @@
             StrokeShape="RoundRectangle 30,30,0,0"
             Stroke="Transparent"
             Padding="25,40">
+
+            <ScrollView>
+                <VerticalStackLayout Spacing="14">
+
+                    <Label Text="Meus Dados" FontSize="22" FontAttributes="Bold" TextColor="White" />
+
+                    <!-- Campos não editáveis -->
+                    <Label Text="CPF" TextColor="#B9C4CC" FontSize="12" />
+                    <Label Text="{Binding Cpf}" TextColor="White" FontSize="16" />
+
+                    <Label Text="Email" TextColor="#B9C4CC" FontSize="12" />
+                    <Label Text="{Binding Email}" TextColor="White" FontSize="16" />
+
+                    <!-- Campos editáveis -->
+                    <Label Text="Nome" TextColor="#B9C4CC" FontSize="12" Margin="0,10,0,0" />
+                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                        <Entry Text="{Binding Nome}" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                    </Border>
+
+                    <Label Text="Celular" TextColor="#B9C4CC" FontSize="12" />
+                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                        <Entry Text="{Binding Telefone}" Keyboard="Telephone" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                    </Border>
+
+                    <Label Text="CEP" TextColor="#B9C4CC" FontSize="12" />
+                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                        <Entry Text="{Binding Cep}" Keyboard="Numeric" MaxLength="8" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                    </Border>
+
+                    <Label Text="Gênero" TextColor="#B9C4CC" FontSize="12" />
+                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                        <Entry Text="{Binding Genero}" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                    </Border>
+
+                    <Label Text="{Binding Mensagem}"
+                           TextColor="#FFD166"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           Margin="0,6,0,0" />
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="White" />
+
+                    <Button Text="Atualizar"
+                            Command="{Binding AtualizarCommand}"
+                            BackgroundColor="White"
+                            TextColor="#304E61"
+                            FontAttributes="Bold"
+                            CornerRadius="8"
+                            Margin="0,10,0,0" />
+
+                    <Button Text="Voltar"
+                            Command="{Binding VoltarCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            BorderColor="White"
+                            BorderWidth="1"
+                            CornerRadius="8" />
+
+                </VerticalStackLayout>
+            </ScrollView>
         </Border>
     </Grid>
 </ContentPage>
