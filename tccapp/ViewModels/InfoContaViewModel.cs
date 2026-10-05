@@ -89,9 +89,28 @@ namespace tccapp.ViewModels
         }
 
         [RelayCommand]
-        private async Task Voltar()
+        private async Task CadastroPet()
         {
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync("CadastroPet");
+        }
+
+        [RelayCommand]
+        private async Task Home()
+        {
+            await Shell.Current.GoToAsync("Home");
+        }
+
+        [RelayCommand]
+        private async Task InfoConta()
+        {
+            await Shell.Current.GoToAsync("InfoConta");
+        }
+
+
+        [RelayCommand]
+        private async Task Dados()
+        {
+            await Shell.Current.GoToAsync("Dados");
         }
     }
 }

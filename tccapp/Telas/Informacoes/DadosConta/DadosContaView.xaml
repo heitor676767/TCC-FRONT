@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tccapp.Telas.Informacoes.DadosConta.DadosContaView"
+             Shell.NavBarIsVisible="False"
+             Title="DadosContaView">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- ================= CABEÇALHO ================= -->
+        <Border Grid.Row="0"
+                HeightRequest="160"
+                BackgroundColor="#304E61"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 0,0,28,28">
+
+            <Grid RowDefinitions="*" Padding="20,20,20,0">
+                <Label Grid.Row="1"
+                       Text="Meus Dados"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!-- ================= CONTEÚDO (rola) ================= -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="14" Padding="25,20,25,20">
+
+                <Border BackgroundColor="#2B3033"
+                        HorizontalOptions="Fill"
+                        Stroke="Transparent"
+                        Padding="10,15"
+                        
+                        StrokeShape="10">
+
+                    <VerticalStackLayout Spacing="6">
+
+                        <!-- NOME (editável) -->
+                        <Border MinimumHeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <VerticalStackLayout>
+                                <Label Text="Nome" FontAttributes="Bold" HeightRequest="50"
+                                       VerticalTextAlignment="Center" Padding="10,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleNomeCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Entry Text="{Binding Nome}"
+                                       Placeholder="{Binding NomeAntigo}"
+                                       TextColor="Black"
+                                       IsVisible="{Binding NomeExpandido}"
+                                       Margin="10,0,10,10" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- EMAIL (só exibição) -->
+                        <Border MinimumHeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <VerticalStackLayout>
+                                <Label Text="Email" FontAttributes="Bold" HeightRequest="50"
+                                       VerticalTextAlignment="Center" Padding="10,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleEmailCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Entry Text="{Binding Email}"
+                                       IsReadOnly="True"
+                                       TextColor="Gray"
+                                       IsVisible="{Binding EmailExpandido}"
+                                       Margin="10,0,10,10" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- GÊNERO (Picker) -->
+                        <Border MinimumHeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <VerticalStackLayout>
+                                <Label Text="Gênero" FontAttributes="Bold" HeightRequest="50"
+                                       VerticalTextAlignment="Center" Padding="10,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleGeneroCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Picker ItemsSource="{Binding Generos}"
+                                        SelectedItem="{Binding GeneroSelecionado}"
+                                        Title="{Binding GeneroAntigo}"
+                                        TextColor="Black"
+                                        IsVisible="{Binding GeneroExpandido}"
+                                        Margin="10,0,10,10" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- CPF (só exibição) -->
+                        <Border MinimumHeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <VerticalStackLayout>
+                                <Label Text="CPF" FontAttributes="Bold" HeightRequest="50"
+                                       VerticalTextAlignment="Center" Padding="10,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleCpfCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Entry Text="{Binding Cpf}"
+                                       IsReadOnly="True"
+                                       TextColor="Gray"
+                                       IsVisible="{Binding CpfExpandido}"
+                                       Margin="10,0,10,10" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- TELEFONE (editável) -->
+                        <Border MinimumHeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <VerticalStackLayout>
+                                <Label Text="Telefone" FontAttributes="Bold" HeightRequest="50"
+                                       VerticalTextAlignment="Center" Padding="10,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleTelefoneCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Entry Text="{Binding Telefone}"
+                                       Placeholder="{Binding TelefoneAntigo}"
+                                       Keyboard="Telephone"
+                                       TextColor="Black"
+                                       IsVisible="{Binding TelefoneExpandido}"
+                                       Margin="10,0,10,10" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- CEP (editável) -->
+                        <Border MinimumHeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <VerticalStackLayout>
+                                <Label Text="CEP" FontAttributes="Bold" HeightRequest="50"
+                                       VerticalTextAlignment="Center" Padding="10,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleCepCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Entry Text="{Binding Cep}"
+                                       Placeholder="{Binding CepAntigo}"
+                                       Keyboard="Numeric"
+                                       MaxLength="8"
+                                       TextColor="Black"
+                                       IsVisible="{Binding CepExpandido}"
+                                       Margin="10,0,10,10" />
+                            </VerticalStackLayout>
+                        
+                        </Border>
+                        <Button 
+              Text="Atualizar"
+              Command="{Binding AtualizarCommand}"
+              BackgroundColor="#304E61"
+              TextColor="White"
+              FontAttributes="Bold"
+              CornerRadius="10"
+              WidthRequest="140"
+              HeightRequest="50"
+              Margin="0,10,0,15" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Mensagem + loading -->
+                <Label Text="{Binding Mensagem}"
+                       TextColor="#FFD166"
+                       FontSize="13"
+                       HorizontalOptions="Center" />
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- ================= BOTÃO (fixo embaixo) ================= -->
+   
+
+    </Grid>
+</ContentPage>

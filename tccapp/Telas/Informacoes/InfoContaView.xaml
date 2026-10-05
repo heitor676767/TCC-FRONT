@@ -2,77 +2,202 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tccapp.Telas.Informacoes.InfoContaView"
+             Shell.NavBarIsVisible="False"
              Title="InfoContaView">
-    <Grid RowDefinitions="auto,*,auto" RowSpacing="20">
-        <VerticalStackLayout>
-            <Image Source="generic_avatar.png" WidthRequest="119" HeightRequest="119"></Image>
-        </VerticalStackLayout>
-        <Border
-            Grid.Row="1"
-            BackgroundColor="#304E61"
-            StrokeShape="RoundRectangle 30,30,0,0"
-            Stroke="Transparent"
-            Padding="25,40">
 
-            <ScrollView>
-                <VerticalStackLayout Spacing="14">
+    <Grid RowDefinitions="*, Auto" Margin="0,130,0,0">
 
-                    <Label Text="Meus Dados" FontSize="22" FontAttributes="Bold" TextColor="White" />
+        <!-- Fundo arredondado (apenas visual) -->
+        <Border Grid.Row="0" Grid.RowSpan="2"
+                BackgroundColor="#304E61"
+                StrokeShape="RoundRectangle 30,30,0,0"
+                Stroke="Transparent" />
 
-                    <!-- Campos não editáveis -->
-                    <Label Text="CPF" TextColor="#B9C4CC" FontSize="12" />
-                    <Label Text="{Binding Cpf}" TextColor="White" FontSize="16" />
+        <!-- ScrollView direto na Row 0 -->
+        <ScrollView Grid.Row="0" VerticalOptions="Fill">
+            <VerticalStackLayout Spacing="14" Padding="25,70,25,20">
 
-                    <Label Text="Email" TextColor="#B9C4CC" FontSize="12" />
-                    <Label Text="{Binding Email}" TextColor="White" FontSize="16" />
+                <!-- Card: Detalhes da conta -->
+                <Border BackgroundColor="#2B3033"
+                        HorizontalOptions="Fill"
+                        Stroke="Transparent"
+                        Padding="10,15"
+                        StrokeShape="10">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Detalhes da conta"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Padding="10,6,0,0" />
 
-                    <!-- Campos editáveis -->
-                    <Label Text="Nome" TextColor="#B9C4CC" FontSize="12" Margin="0,10,0,0" />
-                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
-                        <Entry Text="{Binding Nome}" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
-                    </Border>
+                        <Border HeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <Label Text="Meus dados" FontAttributes="Bold"
+                                   VerticalOptions="Center" Padding="10,0,0,0" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding DadosCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Border>
 
-                    <Label Text="Celular" TextColor="#B9C4CC" FontSize="12" />
-                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
-                        <Entry Text="{Binding Telefone}" Keyboard="Telephone" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
-                    </Border>
+                        <Border HeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <Label Text="Gerenciar Assinaturas" FontAttributes="Bold"
+                                   VerticalOptions="Center" Padding="10,0,0,0" />
+                        </Border>
 
-                    <Label Text="CEP" TextColor="#B9C4CC" FontSize="12" />
-                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
-                        <Entry Text="{Binding Cep}" Keyboard="Numeric" MaxLength="8" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
-                    </Border>
+                        <Border HeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <Label Text="Editar Configurações" FontAttributes="Bold"
+                                   VerticalOptions="Center" Padding="10,0,0,0" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+                <Border BackgroundColor="#2B3033"
+                        HorizontalOptions="Fill"
+                        Stroke="Transparent"
+                        Padding="10,15"
+                        StrokeShape="10">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Atalhos"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Padding="10,6,0,0" />
 
-                    <Label Text="Gênero" TextColor="#B9C4CC" FontSize="12" />
-                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
-                        <Entry Text="{Binding Genero}" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
-                    </Border>
+                        <Border HeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <Label Text="Gerenciar Aparelhos" FontAttributes="Bold"
+                                   VerticalOptions="Center" Padding="10,0,0,0" />
+                        </Border>
 
-                    <Label Text="{Binding Mensagem}"
-                           TextColor="#FFD166"
-                           FontSize="13"
-                           HorizontalOptions="Center"
-                           Margin="0,6,0,0" />
+                        <Border HeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <Label Text="Carteira" FontAttributes="Bold"
+                                   VerticalOptions="Center" Padding="10,0,0,0" />
+                        </Border>
 
-                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="White" />
+                        <Border HeightRequest="50" HorizontalOptions="Fill"
+                                Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
+                            <Label Text="Excluir Conta" FontAttributes="Bold"
+                                   VerticalOptions="Center" Padding="10,0,0,0"
+                                   TextColor="Red"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
 
-                    <Button Text="Atualizar"
-                            Command="{Binding AtualizarCommand}"
-                            BackgroundColor="White"
-                            TextColor="#304E61"
-                            FontAttributes="Bold"
-                            CornerRadius="8"
-                            Margin="0,10,0,0" />
+                <!-- Dados somente leitura -->
+                <Label Text="CPF" TextColor="#B9C4CC" FontSize="12" />
+                <Label Text="{Binding Cpf}" TextColor="White" FontSize="16" />
 
-                    <Button Text="Voltar"
-                            Command="{Binding VoltarCommand}"
-                            BackgroundColor="Transparent"
-                            TextColor="White"
-                            BorderColor="White"
-                            BorderWidth="1"
-                            CornerRadius="8" />
+                <Label Text="Email" TextColor="#B9C4CC" FontSize="12" />
+                <Label Text="{Binding Email}" TextColor="White" FontSize="16" />
 
-                </VerticalStackLayout>
-            </ScrollView>
+                <!-- Campos editáveis -->
+                <Label Text="Nome" TextColor="#B9C4CC" FontSize="12" Margin="0,10,0,0" />
+                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                    <Entry Text="{Binding Nome}" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                </Border>
+
+                <Label Text="Celular" TextColor="#B9C4CC" FontSize="12" />
+                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                    <Entry Text="{Binding Telefone}" Keyboard="Telephone" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                </Border>
+
+                <Label Text="CEP" TextColor="#B9C4CC" FontSize="12" />
+                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                    <Entry Text="{Binding Cep}" Keyboard="Numeric" MaxLength="8" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                </Border>
+
+                <Label Text="Gênero" TextColor="#B9C4CC" FontSize="12" />
+                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Stroke="Transparent" HeightRequest="42">
+                    <Entry Text="{Binding Genero}" TextColor="Black" VerticalOptions="Center" Margin="10,0" />
+                </Border>
+
+                <Label Text="{Binding Mensagem}"
+                       TextColor="#FFD166"
+                       FontSize="13"
+                       HorizontalOptions="Center"
+                       Margin="0,6,0,0" />
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="White" />
+
+                <Button Text="Atualizar"
+                        Command="{Binding AtualizarCommand}"
+                        BackgroundColor="White"
+                        TextColor="#304E61"
+                        FontAttributes="Bold"
+                        CornerRadius="8"
+                        Margin="0,10,0,0" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Barra inferior (Row 1, fora do scroll) -->
+        <Border Grid.Row="1"
+                Margin="0,0,0,7"
+                WidthRequest="362"
+                HeightRequest="50"
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 12"
+                HorizontalOptions="Center"
+                VerticalOptions="End">
+
+            <Grid ColumnDefinitions="*, *, *, *, *" Padding="15,0">
+                <Image Grid.Column="0" Source="generic_avatar1.png" WidthRequest="32" HeightRequest="32"
+                       HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding InfoContaCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Grid.Column="1" Source="pet.png" WidthRequest="32" HeightRequest="32"
+                       HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CadastroPetCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Grid.Column="2" Source="logo.png" WidthRequest="45" HeightRequest="45"
+                       HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding HomeCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Grid.Column="3" Source="relogio.png" WidthRequest="32" HeightRequest="32"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+                <Image Grid.Column="4" Source="menu_hamburguer.png" WidthRequest="32" HeightRequest="32"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+            </Grid>
         </Border>
+
+        <!-- Avatar (não rouba toques do scroll) -->
+        <Image Grid.Row="0"
+               Source="generic_avatar.png"
+               WidthRequest="119"
+               HeightRequest="119"
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               Margin="0,-60,0,0"
+               InputTransparent="True" />
+
+        <!-- Estrela + CUZAO -->
+        <HorizontalStackLayout Grid.Row="0"
+                               HorizontalOptions="End"
+                               VerticalOptions="Start"
+                               Margin="0,-40,25,0"
+                               Spacing="6"
+                               InputTransparent="True"
+                               CascadeInputTransparent="True">
+            <Image Source="star.png" WidthRequest="33" HeightRequest="33" />
+            <Label Text="6.7"
+                   FontAttributes="Bold"
+                   FontSize="20"
+                   VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
     </Grid>
 </ContentPage>
