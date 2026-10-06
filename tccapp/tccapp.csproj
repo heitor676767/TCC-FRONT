@@ -92,6 +92,9 @@
 	  <MauiXaml Update="Telas\Inicio\TelaInicial.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Telas\Passeio\PasseioAndamentoView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Telas\Recuperacao\RecuperarSenhaView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

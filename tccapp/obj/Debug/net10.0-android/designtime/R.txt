@@ -3184,11 +3184,10 @@ int drawable notify_panel_notification_icon_bg 0x7f0700c0
 int drawable pet 0x7f0700c1
 int drawable relogio 0x7f0700c2
 int drawable sombra 0x7f0700c3
-int drawable splash 0x7f0700c4
-int drawable star 0x7f0700c5
-int drawable test_level_drawable 0x7f0700c6
-int drawable tooltip_frame_dark 0x7f0700c7
-int drawable tooltip_frame_light 0x7f0700c8
+int drawable star 0x7f0700c4
+int drawable test_level_drawable 0x7f0700c5
+int drawable tooltip_frame_dark 0x7f0700c6
+int drawable tooltip_frame_light 0x7f0700c7
 int id above 0x7f080000
 int id accelerate 0x7f080001
 int id accessibility_action_clickable_span 0x7f080002

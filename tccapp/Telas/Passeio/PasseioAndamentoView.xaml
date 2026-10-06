@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
+             x:Class="tccapp.Telas.Passeios.PasseioAndamentoView"
+             Shell.NavBarIsVisible="False"
+             Title="PasseioAndamentoView">
+
+    <Grid>
+
+        <!-- Mapa ocupando a tela inteira, igual no mockup -->
+        <mapsui:MapControl Map="{Binding Map}" />
+
+        <!-- Indicador de carregamento por cima do mapa -->
+        <ActivityIndicator IsRunning="{Binding Carregando}"
+                            IsVisible="{Binding Carregando}"
+                            Color="#2F6B8E"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center" />
+
+        <!-- Painel inferior sobreposto ao mapa -->
+        <VerticalStackLayout VerticalOptions="End" Spacing="0">
+
+            <!-- Barra escura: tempo restante -->
+            <Grid BackgroundColor="#304E61" Padding="20,16" ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                        <Label Text="{Binding TempoRestanteTexto}" FontSize="32" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="min" FontSize="18" TextColor="White" VerticalOptions="End" Margin="0,0,0,4" />
+                    </HorizontalStackLayout>
+                    <Label Text="Restantes" FontSize="13" TextColor="#B9C4CC" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- Menu/voltar; chat e ligação ficam pra depois -->
+                <Label Grid.Column="1" Text="☰" FontSize="22" TextColor="White" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding VoltarCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <!-- Card branco: distância + petwalker -->
+            <Border BackgroundColor="White" Padding="20,16" Stroke="Transparent">
+                <VerticalStackLayout Spacing="10">
+
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="Distância percorrida:" FontAttributes="Bold" FontSize="15" TextColor="#304E61" HorizontalOptions="Center" />
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label Text="{Binding DistanciaPercorridaTexto}" FontSize="18" FontAttributes="Bold" TextColor="#304E61" />
+                            <Label Text="Km" FontSize="18" TextColor="#304E61" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <Border Grid.Column="0" WidthRequest="36" HeightRequest="36" StrokeShape="RoundRectangle 18"
+                                Stroke="#304E61" BackgroundColor="Transparent">
+                            <Label Text="👤" HorizontalOptions="Center" VerticalOptions="Center" FontSize="16" />
+                        </Border>
+
+                        <Label Grid.Column="1" Text="{Binding NomePetwalker}" FontAttributes="Bold" FontSize="15" VerticalOptions="Center" TextColor="Black" />
+
+                        <!-- Ligação: desabilitado por enquanto -->
+                        <Border Grid.Column="2" WidthRequest="36" HeightRequest="36" StrokeShape="RoundRectangle 18"
+                                Stroke="#304E61" BackgroundColor="Transparent" Opacity="0.4">
+                            <Label Text="📞" HorizontalOptions="Center" VerticalOptions="Center" FontSize="16" />
+                        </Border>
+                    </Grid>
+
+                    <!-- Mensagem: desabilitado por enquanto -->
+                    <Button Text="Mensagem" BackgroundColor="#304E61" TextColor="White" CornerRadius="8" IsEnabled="False" Opacity="0.5" />
+
+                    <Label Text="{Binding Mensagem}" TextColor="#B00020" FontSize="12" HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

@@ -17,7 +17,7 @@ namespace tccapp.ViewModels
         private List<string> generos = new() { "Masculino", "Feminino", "Prefiro não responder" };
 
         [ObservableProperty]
-        private List<string> tipoUsuario = new() { "Dono", "Petwalker", "Ambos" };
+        private List<string> tipoUsuario = new() { "Dono", "Petwalker" };
 
         [ObservableProperty]
         private string generoSelecionado;

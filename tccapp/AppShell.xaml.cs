@@ -13,6 +13,7 @@
             Routing.RegisterRoute("RecuperarSenha", typeof(Telas.Recuperacao.RecuperarSenhaView));
             Routing.RegisterRoute("VerificarEmail", typeof(Telas.Recuperacao.VerificarEmailView));
             Routing.RegisterRoute("Dados", typeof(Telas.Informacoes.DadosConta.DadosContaView));
+            Routing.RegisterRoute("PasseioAndamento", typeof(Telas.Passeios.PasseioAndamentoView));
         }
     }
 }

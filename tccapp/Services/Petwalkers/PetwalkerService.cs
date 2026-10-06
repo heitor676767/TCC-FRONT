@@ -24,5 +24,16 @@ namespace tccapp.Services.Petwalkers
 
             return await _request.GetAsync<ObservableCollection<PetwalkerPerfil>>(url, _token);
         }
+        // Usado pra "seguir" a posição do petwalker durante um passeio em andamento.
+        public async Task<PetwalkerPerfil> GetPorCpfAsync(string cpf)
+        {
+            return await _request.GetAsync<PetwalkerPerfil>($"{apiUrlBase}/{cpf}", _token);
+        }
+
+        public async Task AtualizarLocalizacaoAsync(decimal lat, decimal lng)
+        {
+            var dto = new { Latitude = lat, Longitude = lng };
+            await _request.PutAsync<object, object>(apiUrlBase + "/Localizacao", dto, _token);
+        }
     }
 }

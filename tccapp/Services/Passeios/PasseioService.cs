@@ -15,7 +15,9 @@ namespace tccapp.Services.Passeios
         }
 
         // Pede um passeio pra um petwalker específico. Duracao em minutos.
-        public async Task<Passeio> SolicitarAsync(
+        // Corrigido: a API responde com PasseioDto (igual GetMeusAsync), não a entidade
+        // Passeio completa — o tipo antigo deixava tudo vindo vazio silenciosamente.
+        public async Task<PasseioDto> SolicitarAsync(
             string rga, string cpfPetwalker, int duracao,
             decimal latitude, decimal longitude, string cep, string numero)
         {
@@ -31,12 +33,19 @@ namespace tccapp.Services.Passeios
                 Numero = numero
             };
 
-            return await _request.PostAsync<object, Passeio>(apiUrlBase + "/Solicitar", dto, _token);
+            return await _request.PostAsync<object, PasseioDto>(apiUrlBase + "/Solicitar", dto, _token);
         }
 
-        public async Task<List<Passeio>> GetMeusAsync()
+        // Corrigido: a API devolve PasseioDto (campos achatados), não a entidade Passeio
+        // inteira — usar o tipo errado aqui fazia PetNome/PetwalkerNome virem sempre vazios.
+        public async Task<List<PasseioDto>> GetMeusAsync()
         {
-            return await _request.GetAsync<List<Passeio>>(apiUrlBase + "/Meus", _token);
+            return await _request.GetAsync<List<PasseioDto>>(apiUrlBase + "/Meus", _token);
+        }
+
+        public async Task<PasseioDto> GetPorIdAsync(int idPasseio)
+        {
+            return await _request.GetAsync<PasseioDto>($"{apiUrlBase}/{idPasseio}", _token);
         }
     }
 }

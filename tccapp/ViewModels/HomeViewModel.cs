@@ -93,6 +93,10 @@ namespace tccapp.ViewModels
                 // Só busca a lista de petwalkers na primeira vez que a posição é obtida,
                 // pra não ficar chamando a API a cada atualização de GPS.
                 await CarregarPetwalkersAsync(localizacao.Latitude, localizacao.Longitude);
+
+                // Se quem logou é (ou também é) petwalker, já manda a posição atual pra API,
+                // igual ao usuário comum — sem precisar de nenhuma tela/botão separado.
+                await AtualizarMinhaLocalizacaoDePetwalkerAsync(localizacao.Latitude, localizacao.Longitude);
             }
             catch (Exception ex)
             {
@@ -126,6 +130,27 @@ namespace tccapp.ViewModels
                 Geolocation.Default.StopListeningForeground();
 
             Geolocation.Default.LocationChanged -= OnLocationChanged;
+        }
+
+        private async Task AtualizarMinhaLocalizacaoDePetwalkerAsync(double lat, double lng)
+        {
+            string tipoUsuario = Preferences.Get("UsuarioTipo", string.Empty);
+            bool ehPetwalker = tipoUsuario == "Petwalker";
+
+            if (!ehPetwalker)
+                return;
+
+            try
+            {
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                var petwalkerService = new PetwalkerService(token);
+                await petwalkerService.AtualizarLocalizacaoAsync((decimal)lat, (decimal)lng);
+            }
+            catch
+            {
+                // Silencioso de propósito: isso não pode travar a tela de quem é só Dono,
+                // nem incomodar o petwalker toda vez que abre o app por causa de rede instável.
+            }
         }
 
         private async Task CarregarPetwalkersAsync(double lat, double lng)
