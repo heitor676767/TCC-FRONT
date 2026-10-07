@@ -150,6 +150,7 @@ namespace tccapp.ViewModels
                     var (x, y) = SphericalMercator.FromLonLat(p.Longitude, p.Latitude);
                     var feature = new PointFeature(new MPoint(x, y));
                     feature["Nome"] = p.Nome;
+                    feature["Endereco"] = p.Endereco;
                     feature["DistanciaKm"] = p.DistanciaKm;
                     feature["Latitude"] = p.Latitude;
                     feature["Longitude"] = p.Longitude;
