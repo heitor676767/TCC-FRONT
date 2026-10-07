@@ -20,18 +20,18 @@ namespace tccapp.Services.Petshops
 
         private static HttpClient CriarClient()
         {
-            var client = new HttpClient { Timeout = TimeSpan.FromSeconds(20) };
+            var client = new HttpClient { Timeout = TimeSpan.FromSeconds(35) };
             // A Overpass pede um User-Agent identificável
             client.DefaultRequestHeaders.UserAgent.ParseAdd("TCCApp/1.0");
             return client;
         }
 
-        public async Task<List<Petshop>> BuscarProximosAsync(double lat, double lng, int raioMetros = 30000, int maximo = 20)
+        public async Task<List<Petshop>> BuscarProximosAsync(double lat, double lng, int raioMetros = 10000, int maximo = 20)
         {
             string la = lat.ToString(CultureInfo.InvariantCulture);
             string lo = lng.ToString(CultureInfo.InvariantCulture);
 
-            string query = $@"[out:json][timeout:15];
+            string query = $@"[out:json][timeout:35];
 (
   node[""shop""=""pet""](around:{raioMetros},{la},{lo});
   way[""shop""=""pet""](around:{raioMetros},{la},{lo});

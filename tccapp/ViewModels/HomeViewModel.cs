@@ -142,7 +142,7 @@ namespace tccapp.ViewModels
             try
             {
                 var service = new PetShopService();
-                var petshops = await service.BuscarProximosAsync(lat, lng, raioMetros: 5000);
+                var petshops = await service.BuscarProximosAsync(lat, lng, raioMetros: 10000);
 
                 var features = new List<IFeature>();
                 foreach (var p in petshops)
@@ -153,6 +153,8 @@ namespace tccapp.ViewModels
                     feature["DistanciaKm"] = p.DistanciaKm;
                     feature["Latitude"] = p.Latitude;
                     feature["Longitude"] = p.Longitude;
+                    feature["Endereco"] = p.Endereco;
+
                     features.Add(feature);
                 }
 
