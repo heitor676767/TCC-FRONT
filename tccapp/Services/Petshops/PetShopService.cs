@@ -26,7 +26,7 @@ namespace tccapp.Services.Petshops
             return client;
         }
 
-        public async Task<List<Petshop>> BuscarProximosAsync(double lat, double lng, int raioMetros = 10000, int maximo = 20)
+        public async Task<List<Petshop>> BuscarProximosAsync(double lat, double lng, int raioMetros = 5000, int maximo = 20)
         {
             string la = lat.ToString(CultureInfo.InvariantCulture);
             string lo = lng.ToString(CultureInfo.InvariantCulture);
