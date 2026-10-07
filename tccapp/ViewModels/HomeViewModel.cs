@@ -153,16 +153,18 @@ namespace tccapp.ViewModels
                     feature["DistanciaKm"] = p.DistanciaKm;
                     feature["Latitude"] = p.Latitude;
                     feature["Longitude"] = p.Longitude;
-                    feature["DistanciaKm"] = p.DistanciaKm;
                     features.Add(feature);
                 }
 
                 _petshopsLayer.Features = features;
                 _petshopsLayer.DataHasChanged();
             }
-            catch
+            catch (Exception ex)
             {
-                // Silencioso: os pins são um extra, não devem atrapalhar a tela
+                await Shell.Current.DisplayAlertAsync(
+                    "Erro nos Petshops",
+                    ex.Message,
+                    "OK");
             }
         }
 
