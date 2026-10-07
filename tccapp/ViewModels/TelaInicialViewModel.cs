@@ -80,7 +80,14 @@ namespace tccapp.ViewModels
                 Preferences.Set("UsuarioCep", autenticado.Cep ?? string.Empty);
                 Preferences.Set("UsuarioGenero", autenticado.Genero ?? string.Empty);
 
-                await Shell.Current.GoToAsync("Home");
+                if(autenticado.TipoUsuario == "Petwalker")
+                {
+                    await Shell.Current.GoToAsync("HomePetwalker");
+                }
+                else {
+                    await Shell.Current.GoToAsync("Home");
+                }
+                
             }
             catch (Exception ex)
             {

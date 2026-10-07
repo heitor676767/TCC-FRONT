@@ -35,5 +35,16 @@ namespace tccapp.Services.Petwalkers
             var dto = new { Latitude = lat, Longitude = lng };
             await _request.PutAsync<object, object>(apiUrlBase + "/Localizacao", dto, _token);
         }
+
+        public async Task<bool> AtualizarDisponibilidadeAsync(bool disponibilidade)
+        {
+            var dto = new
+            {
+                Disponibilidade = disponibilidade
+            };
+
+            bool resultado = await _request.PutAsync<object, bool>(apiUrlBase + "/Disponibilidade", dto, _token);
+            return resultado;
+        }
     }
 }

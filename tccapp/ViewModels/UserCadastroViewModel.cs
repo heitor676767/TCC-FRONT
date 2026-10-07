@@ -26,6 +26,9 @@ namespace tccapp.ViewModels
         private string tipoSelecionado;
 
         [ObservableProperty]
+        private string enderecoo = string.Empty;
+
+        [ObservableProperty]
         private string cpf = string.Empty;
 
         [ObservableProperty]
@@ -84,7 +87,7 @@ namespace tccapp.ViewModels
             if (string.IsNullOrWhiteSpace(Nome) || string.IsNullOrWhiteSpace(Email) ||
                 string.IsNullOrWhiteSpace(Telefone) || string.IsNullOrWhiteSpace(Cep) ||
                 string.IsNullOrWhiteSpace(Cpf) || string.IsNullOrWhiteSpace(Senha) ||
-                string.IsNullOrWhiteSpace(GeneroSelecionado) || string.IsNullOrWhiteSpace(TipoSelecionado))
+                string.IsNullOrWhiteSpace(GeneroSelecionado) || string.IsNullOrWhiteSpace(TipoSelecionado) || string.IsNullOrWhiteSpace(Enderecoo))
             {
                 await MostrarErro("Preencha todos os campos");
                 return;
@@ -124,7 +127,8 @@ namespace tccapp.ViewModels
                     Cpf = cpfLimpo,
                     PasswordString = Senha,
                     Genero = GeneroSelecionado,
-                    TipoUsuario = TipoSelecionado
+                    TipoUsuario = TipoSelecionado,
+                    Endereco = Enderecoo
                 };
 
                 Usuario registrado = await _usuarioService.PostRegistrarUsuarioAsync(u);

@@ -14,6 +14,7 @@
             Routing.RegisterRoute("VerificarEmail", typeof(Telas.Recuperacao.VerificarEmailView));
             Routing.RegisterRoute("Dados", typeof(Telas.Informacoes.DadosConta.DadosContaView));
             Routing.RegisterRoute("PasseioAndamento", typeof(Telas.Passeios.PasseioAndamentoView));
+            Routing.RegisterRoute("HomePetwalker", typeof(Telas.Home.HomeViewPetWalker));
         }
     }
 }

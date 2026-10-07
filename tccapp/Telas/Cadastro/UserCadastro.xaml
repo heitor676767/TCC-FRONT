@@ -116,6 +116,20 @@
                             BackgroundColor="White"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent">
+                            <Entry Placeholder="Endereço com numero"
+                                   Text="{Binding Enderecoo}"
+                                   MaxLength="150"
+                                  
+                                   PlaceholderColor="#999999"
+                                   BackgroundColor="Transparent"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Border
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent">
                             <Entry Placeholder="Cpf"
                                    Text="{Binding Cpf}"
                                    Keyboard="Numeric"

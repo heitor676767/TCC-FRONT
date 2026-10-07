@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tccapp.Telas.Home.HomeViewPetWalker"
+             Title="HomeViewPetWalker">
+    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+        <Label Text="Área do Petwalker" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
+        <Label Text="Disponibilidade para passeios" FontSize="18" HorizontalOptions="Center" />
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+            <Label Text="Indisponível" FontSize="16" VerticalOptions="Center" />
+            <Switch x:Name="SwitchDisponibilidade" Toggled="SwitchDisponibilidade_Toggled" OnColor="#2F6B8E" ThumbColor="White" />
+            <Label Text="Disponível" FontSize="16" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+        <ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" Color="#2F6B8E" />
+        <Label Text="{Binding Disponivel, StringFormat='Disponível: {0}'}" FontSize="16" HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>

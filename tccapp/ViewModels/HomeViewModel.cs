@@ -23,6 +23,7 @@ namespace tccapp.ViewModels
         public Mapsui.Map Map { get; }
 
         private readonly MemoryLayer _localizacaoLayer;
+        private readonly MemoryLayer _petwalkersLayer;
 
         // Localização mais recente conhecida do usuário — usada tanto pra buscar
         // petwalkers por perto quanto pra enviar junto da solicitação de passeio.
@@ -37,9 +38,12 @@ namespace tccapp.ViewModels
 
         public HomeViewModel()
         {
+            
+
             Map = new Mapsui.Map();
             Map.Layers.Add(OpenStreetMap.CreateTileLayer("TCCApp"));
 
+            Map.Widgets.Clear();
             _localizacaoLayer = new MemoryLayer
             {
                 Name = "MinhaLocalizacao",
@@ -52,6 +56,22 @@ namespace tccapp.ViewModels
                 }
             };
             Map.Layers.Add(_localizacaoLayer);
+
+            _petwalkersLayer = new MemoryLayer
+            {
+                Name = "Petwalkers",
+                Features = new List<IFeature>(),
+                Style = new SymbolStyle
+                {
+                    SymbolScale = 0.8,
+                    Fill = new Mapsui.Styles.Brush(
+            Mapsui.Styles.Color.FromArgb(255, 220, 38, 127)),
+                    Outline = new Mapsui.Styles.Pen(
+            Mapsui.Styles.Color.White, 2)
+                }
+            };
+
+            Map.Layers.Add(_petwalkersLayer);
 
             // posição inicial enquanto o GPS não responde
             var (x, y) = SphericalMercator.FromLonLat(-46.5961203, -23.5189015);
@@ -106,7 +126,7 @@ namespace tccapp.ViewModels
 
         private void OnLocationChanged(object sender, GeolocationLocationChangedEventArgs e)
         {
-            MainThread.BeginInvokeOnMainThread(() => AtualizarPosicaoNoMapa(e.Location, centralizar: true));
+            MainThread.BeginInvokeOnMainThread(() => AtualizarPosicaoNoMapa(e.Location, centralizar: false));
         }
 
         private void AtualizarPosicaoNoMapa(Location location, bool centralizar)
@@ -163,7 +183,16 @@ namespace tccapp.ViewModels
                 var petwalkerService = new PetwalkerService(token);
 
                 var resultado = await petwalkerService.GetDisponiveisAsync(lat, lng, raioKm: 10);
-                Petwalkers = resultado ?? new ObservableCollection<PetwalkerPerfil>();
+                Petwalkers.Clear();
+                if (resultado != null)
+                {
+                    foreach (var walker in resultado)
+                    {
+                        Petwalkers.Add(walker);
+                    }
+                }
+
+                AtualizarPetwalkersNoMapa(resultado);
             }
             catch (Exception ex)
             {
@@ -228,6 +257,33 @@ namespace tccapp.ViewModels
             {
                 await Shell.Current.DisplayAlertAsync("Erro ao contratar", ex.Message, "Ok");
             }
+        }
+
+        private void AtualizarPetwalkersNoMapa(IEnumerable<PetwalkerPerfil> petwalkers)
+        {
+            var features = new List<IFeature>();
+
+            foreach (var petwalker in petwalkers)
+            {
+                if (!petwalker.Latitude.HasValue || !petwalker.Longitude.HasValue)
+                    continue;
+
+                var (x, y) = SphericalMercator.FromLonLat(
+                    (double)petwalker.Longitude.Value,
+                    (double)petwalker.Latitude.Value);
+
+                var feature = new PointFeature(new MPoint(x, y));
+
+                // Guarda o CPF no Feature para conseguirmos identificar
+                // qual Petwalker foi clicado depois.
+                feature["Cpf"] = petwalker.Cpf;
+                feature["Nome"] = petwalker.Nome;
+
+                features.Add(feature);
+            }
+
+            _petwalkersLayer.Features = features;
+            _petwalkersLayer.DataHasChanged();
         }
 
         [RelayCommand]

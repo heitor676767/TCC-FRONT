@@ -19,7 +19,7 @@
         <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Border Stroke="Transparent" StrokeShape="RoundRectangle 12">
-                    <mapsui:MapControl Map="{Binding Map}" WidthRequest="367" HeightRequest="211" />
+                    <mapsui:MapControl Map="{Binding Map}"  WidthRequest="367" HeightRequest="211" />
                 </Border>
             </HorizontalStackLayout>
         </VerticalStackLayout>
@@ -69,33 +69,29 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8" Margin="0,0,0,16">
+
+                                        <!-- Coluna 0: Imagem do Avatar -->
                                         <Image Grid.Column="0" Source="generic_avatar.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
-                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                                            <Label Text="{Binding Nome}" TextDecorations="Underline" FontSize="14" />
-                                            <Label Text="{Binding AreaAtendimento}" FontSize="13" />
+
+                                        <!-- Coluna 1: O bloco do meio que agora sabemos que funciona se estiver amarrado -->
+                                        <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Fill">
+                                            <!-- TextColor="Black" garante que ele use a mesma cor preta do "TEXTO FIXO OBRIGATORIO" que funcionou -->
+                                            <Label Text="{Binding Nome}" TextDecorations="Underline" FontSize="14" FontAttributes="Bold" TextColor="Black" />
+                                            <Label Text="{Binding AreaAtendimento}" FontSize="13" TextColor="Black" />
+                                        </StackLayout>
+
+                                        <!-- Coluna 2: Dados da direita sem FormattedString (que costuma quebrar e sumir com a coluna) -->
+                                        <VerticalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="70">
+                                            <Label Text="{Binding DistanciaKm, StringFormat='{0:0.0} km'}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
+                                            <Label Text="{Binding NotaMedia, StringFormat='★ {0:0.0}'}" FontSize="12" TextColor="#FFB300" HorizontalOptions="End" />
                                         </VerticalStackLayout>
-                                        <VerticalStackLayout Grid.Column="2" Spacing="0" VerticalOptions="Center" HorizontalOptions="End">
-                                            <Label FontSize="12" HorizontalOptions="End">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{Binding DistanciaKm, StringFormat='{0:0.0} km'}" />
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                            <Label FontSize="12" HorizontalOptions="End">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="★ " />
-                                                        <Span Text="{Binding NotaMedia, StringFormat='{0:0.0}'}" />
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                        </VerticalStackLayout>
+
+                                        <!-- Botão de contratar -->
                                         <Button Grid.Row="1" Grid.ColumnSpan="3" Text="contratar" FontSize="11" FontAttributes="Bold"
-                                                TextColor="White" BackgroundColor="#2F6B8E" CornerRadius="6"
-                                                HeightRequest="26" WidthRequest="150" Padding="0" HorizontalOptions="Center"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ContratarCommand}"
-                                                CommandParameter="{Binding .}" />
+            TextColor="White" BackgroundColor="#2F6B8E" CornerRadius="6"
+            HeightRequest="26" WidthRequest="150" Padding="0" HorizontalOptions="Center"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ContratarCommand}"
+            CommandParameter="{Binding .}" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
