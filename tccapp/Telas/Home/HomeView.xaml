@@ -15,7 +15,7 @@
             <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
                 <HorizontalStackLayout HorizontalOptions="Center">
                     <Border Stroke="Transparent" StrokeShape="RoundRectangle 12">
-                        <mapsui:MapControl Map="{Binding Map}" WidthRequest="367" HeightRequest="211" />
+                        <mapsui:MapControl x:Name ="Mapa" Map="{Binding Map}" MapTapped="Mapa_MapTapped" WidthRequest="367" HeightRequest="211" />
                     </Border>
                 </HorizontalStackLayout>
             </VerticalStackLayout>

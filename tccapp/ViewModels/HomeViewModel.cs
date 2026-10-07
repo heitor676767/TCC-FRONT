@@ -151,6 +151,9 @@ namespace tccapp.ViewModels
                     var feature = new PointFeature(new MPoint(x, y));
                     feature["Nome"] = p.Nome;
                     feature["DistanciaKm"] = p.DistanciaKm;
+                    feature["Latitude"] = p.Latitude;
+                    feature["Longitude"] = p.Longitude;
+                    feature["DistanciaKm"] = p.DistanciaKm;
                     features.Add(feature);
                 }
 

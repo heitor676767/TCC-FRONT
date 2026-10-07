@@ -12,6 +12,7 @@ namespace tccapp.Services.Petshops
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public double DistanciaKm { get; set; }
+        public string Endereco { get; set; }
     }
     public class PetShopService
     {
@@ -65,12 +66,61 @@ out center;";
                 else continue;
 
                 string nome = "Pet shop";
-                if (el.TryGetProperty("tags", out var tags) && tags.TryGetProperty("name", out var n))
-                    nome = n.GetString() ?? nome;
+                string endereco = "Endereço não informado";
+
+                if (el.TryGetProperty("tags", out var tags))
+                {
+                    if (tags.TryGetProperty("name", out var n))
+                        nome = n.GetString() ?? nome;
+
+                    string rua = "";
+                    string numero = "";
+                    string bairro = "";
+                    string cidade = "";
+                    string cep = "";
+
+                    if (tags.TryGetProperty("addr:street", out var street))
+                        rua = street.GetString() ?? "";
+
+                    if (tags.TryGetProperty("addr:housenumber", out var houseNumber))
+                        numero = houseNumber.GetString() ?? "";
+
+                    if (tags.TryGetProperty("addr:suburb", out var suburb))
+                        bairro = suburb.GetString() ?? "";
+
+                    if (tags.TryGetProperty("addr:city", out var city))
+                        cidade = city.GetString() ?? "";
+
+                    if (tags.TryGetProperty("addr:postcode", out var postcode))
+                        cep = postcode.GetString() ?? "";
+
+                    var partes = new List<string>();
+
+                    if (!string.IsNullOrWhiteSpace(rua))
+                    {
+                        if (!string.IsNullOrWhiteSpace(numero))
+                            partes.Add($"{rua}, {numero}");
+                        else
+                            partes.Add(rua);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(bairro))
+                        partes.Add(bairro);
+
+                    if (!string.IsNullOrWhiteSpace(cidade))
+                        partes.Add(cidade);
+
+                    if (!string.IsNullOrWhiteSpace(cep))
+                        partes.Add($"CEP {cep}");
+
+                    if (partes.Count > 0)
+                        endereco = string.Join(" - ", partes);
+                }
 
                 lista.Add(new Petshop
                 {
                     Nome = nome,
+                    Endereco = endereco,
                     Latitude = pLat,
                     Longitude = pLng,
                     DistanciaKm = Haversine(lat, lng, pLat, pLng)
