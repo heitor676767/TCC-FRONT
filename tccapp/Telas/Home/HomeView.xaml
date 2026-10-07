@@ -3,136 +3,212 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              x:Class="tccapp.Telas.Home.HomeView"
-         
-             Shell.NavBarIsVisible="False" 
+             Shell.NavBarIsVisible="False"
              Title="HomeView">
-    <!-- Esconde a barra de navegação do Shell -->
-    <ContentPage.Resources>
-        <Style TargetType="Label">
-            <Setter Property="TextColor" Value="Black" />
-        </Style>
-    </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="#304E61" Padding="20,40,20,0">
+    <Grid>
 
-        <!-- Mapa -->
-        <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Border Stroke="Transparent" StrokeShape="RoundRectangle 12">
-                    <mapsui:MapControl Map="{Binding Map}"  WidthRequest="367" HeightRequest="211" />
+        <!-- ================= TELA PRINCIPAL ================= -->
+        <Grid RowDefinitions="Auto,*,Auto" BackgroundColor="#304E61" Padding="20,40,20,0">
+
+            <!-- Mapa -->
+            <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Border Stroke="Transparent" StrokeShape="RoundRectangle 12">
+                        <mapsui:MapControl Map="{Binding Map}" WidthRequest="367" HeightRequest="211" />
+                    </Border>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Busca + lista -->
+            <Grid Grid.Row="1"
+                  RowDefinitions="Auto,*"
+                  RowSpacing="12"
+                  Margin="0,20,0,0"
+                  WidthRequest="340"
+                  HorizontalOptions="Center">
+
+                <Border BackgroundColor="#0DFFFFFF"
+                        StrokeShape="RoundRectangle 12"
+                        HeightRequest="31"
+                        Stroke="Transparent">
+                    <Entry Placeholder="Procurar rotas"
+                           PlaceholderColor="White"
+                           BackgroundColor="Transparent"
+                           TextColor="Black"
+                           VerticalOptions="Center"
+                           Margin="10,-7,30,0" />
                 </Border>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
 
-        <!-- Busca + lista (ocupa o espaço que sobrar) -->
-        <Grid Grid.Row="1"
-              RowDefinitions="Auto,*"
-              RowSpacing="12"
-              Margin="0,20,0,0"
-              WidthRequest="340"
-              HorizontalOptions="Center">
+                <Border Grid.Row="1"
+                        Stroke="Transparent"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
 
-            <Border BackgroundColor="#0DFFFFFF"
-                    StrokeShape="RoundRectangle 12"
-                    HeightRequest="31"
-                    Stroke="Transparent">
-                <Entry Placeholder="Procurar rotas"
-                       PlaceholderColor="White"
-                       BackgroundColor="Transparent"
-                       TextColor="Black"
-                       VerticalOptions="Center"
-                       Margin="10,-7,30,0" />
-            </Border>
+                    <Grid RowDefinitions="Auto,*" RowSpacing="8">
 
-            <Border Grid.Row="1"
-                    Stroke="Transparent"
-                    BackgroundColor="White"
-                    StrokeShape="RoundRectangle 12"
-                    Padding="12">
+                        <Label Grid.Row="0"
+                               Text="Disponível"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
 
-                <Grid RowDefinitions="Auto,*" RowSpacing="8">
+                        <Grid Grid.Row="1" RowDefinitions="Auto,*">
 
-                    <Label Grid.Row="0"
-                           Text="Disponível"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
+                            <ActivityIndicator Grid.Row="0"
+                                               IsRunning="{Binding CarregandoPetwalkers}"
+                                               IsVisible="{Binding CarregandoPetwalkers}"
+                                               Color="#2F6B8E" />
 
-                    <Grid Grid.Row="1" RowDefinitions="Auto,*">
-                        <ActivityIndicator Grid.Row="0"
-                                            IsRunning="{Binding CarregandoPetwalkers}"
-                                            IsVisible="{Binding CarregandoPetwalkers}"
-                                            Color="#2F6B8E" />
+                            <CollectionView Grid.Row="1"
+                                            ItemsSource="{Binding Petwalkers}"
+                                            EmptyView="Nenhum petwalker disponível perto de você no momento.">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout Padding="0,8" Spacing="4" BackgroundColor="White">
 
-                        <CollectionView Grid.Row="1"
-                                        ItemsSource="{Binding Petwalkers}"
-                                        EmptyView="Nenhum petwalker disponível perto de você no momento.">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8" Margin="0,0,0,16">
+                                            <HorizontalStackLayout Spacing="8">
+                                                <Image Source="generic_avatar.png" WidthRequest="40" HeightRequest="40" />
 
-                                        <!-- Coluna 0: Imagem do Avatar -->
-                                        <Image Grid.Column="0" Source="generic_avatar.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+                                                <VerticalStackLayout VerticalOptions="Center">
+                                                    <Label Text="{Binding Nome}"
+                                                           TextColor="Black" BackgroundColor="White"
+                                                           FontSize="14" FontAttributes="Bold"
+                                                           HeightRequest="22" />
+                                                    <Label Text="{Binding AreaAtendimento}"
+                                                           TextColor="Black" BackgroundColor="White"
+                                                           FontSize="13" HeightRequest="20" />
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
 
-                                        <!-- Coluna 1: O bloco do meio que agora sabemos que funciona se estiver amarrado -->
-                                        <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Fill">
-                                            <!-- TextColor="Black" garante que ele use a mesma cor preta do "TEXTO FIXO OBRIGATORIO" que funcionou -->
-                                            <Label Text="{Binding Nome}" TextDecorations="Underline" FontSize="14" FontAttributes="Bold" TextColor="Black" />
-                                            <Label Text="{Binding AreaAtendimento}" FontSize="13" TextColor="Black" />
-                                        </StackLayout>
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label Text="{Binding DistanciaKm, StringFormat='{0:0.0} km'}"
+                                                       TextColor="Black" BackgroundColor="White"
+                                                       FontSize="12" HeightRequest="20" />
+                                                <Label Text="{Binding NotaMedia, StringFormat='★ {0:0.0}'}"
+                                                       TextColor="#FFB300" BackgroundColor="White"
+                                                       FontSize="12" HeightRequest="20" />
+                                            </HorizontalStackLayout>
 
-                                        <!-- Coluna 2: Dados da direita sem FormattedString (que costuma quebrar e sumir com a coluna) -->
-                                        <VerticalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="70">
-                                            <Label Text="{Binding DistanciaKm, StringFormat='{0:0.0} km'}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
-                                            <Label Text="{Binding NotaMedia, StringFormat='★ {0:0.0}'}" FontSize="12" TextColor="#FFB300" HorizontalOptions="End" />
+                                            <Button Text="contratar"
+                                                    FontSize="11" FontAttributes="Bold"
+                                                    TextColor="White" BackgroundColor="#2F6B8E"
+                                                    CornerRadius="6" Padding="0"
+                                                    HeightRequest="30" WidthRequest="150"
+                                                    HorizontalOptions="Center"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ContratarCommand}"
+                                                    CommandParameter="{Binding .}" />
                                         </VerticalStackLayout>
-
-                                        <!-- Botão de contratar -->
-                                        <Button Grid.Row="1" Grid.ColumnSpan="3" Text="contratar" FontSize="11" FontAttributes="Bold"
-            TextColor="White" BackgroundColor="#2F6B8E" CornerRadius="6"
-            HeightRequest="26" WidthRequest="150" Padding="0" HorizontalOptions="Center"
-            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ContratarCommand}"
-            CommandParameter="{Binding .}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </Grid>
                     </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Barra de baixo -->
+            <Border Grid.Row="2"
+                    Margin="0,20,0,5"
+                    WidthRequest="362"
+                    HeightRequest="50"
+                    BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout>
+                    <Grid ColumnDefinitions="auto,auto,auto,auto,auto" ColumnSpacing="27" Margin="30,10,0,10">
+                        <Image Grid.Column="4" Source="generic_avatar1.png" WidthRequest="36.2" HeightRequest="35">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding InfoContaCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image Grid.Column="1" Source="pet.png" WidthRequest="36.2" HeightRequest="35">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CadastroPetCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image Grid.Column="2" Source="logo.png" WidthRequest="50" HeightRequest="60">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding HomeCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image Grid.Column="3" Source="relogio.png" WidthRequest="36.2" HeightRequest="35" />
+
+                        <!-- Menu hambúrguer: abre o painel de pets -->
+                        <Image Grid.Column="0" Source="menu_hamburguer.png" WidthRequest="36.2" HeightRequest="35">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AbrirMenuPetsCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- ================= MENU LATERAL (PETS) ================= -->
+        <Grid IsVisible="{Binding MenuPetsAberto}">
+
+            <!-- Fundo escurecido: tocar fecha o menu -->
+            <BoxView Color="#99000000">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding FecharMenuPetsCommand}" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+            <!-- Painel -->
+            <Border HorizontalOptions="Start"
+                    WidthRequest="260"
+                    Margin="0,40,0,5"
+                    BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 0,12,12,0"
+                    Padding="16">
+
+                <Grid RowDefinitions="Auto,*" RowSpacing="12">
+
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0"
+                               Text="Meus pets"
+                               TextColor="Black" BackgroundColor="White"
+                               FontSize="18" FontAttributes="Bold"
+                               HeightRequest="28"
+                               VerticalOptions="Center" />
+                        <Button Grid.Column="1"
+                                Text="✕"
+                                TextColor="Black"
+                                BackgroundColor="Transparent"
+                                WidthRequest="40" HeightRequest="40"
+                                Padding="0"
+                                Command="{Binding FecharMenuPetsCommand}" />
+                    </Grid>
+
+                    <CollectionView Grid.Row="1"
+                                    ItemsSource="{Binding MeusPets}"
+                                    EmptyView="Você ainda não cadastrou nenhum pet.">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout Spacing="10" Padding="0,6" BackgroundColor="White">
+                                    <Image Source="pet.png" WidthRequest="36" HeightRequest="36" />
+                                    <VerticalStackLayout VerticalOptions="Center">
+                                        <Label Text="{Binding Nome}"
+                                               TextColor="Black" BackgroundColor="White"
+                                               FontSize="15" FontAttributes="Bold"
+                                               HeightRequest="22" />
+                                        <Label Text="{Binding Rga}"
+                                               TextColor="Gray" BackgroundColor="White"
+                                               FontSize="12" HeightRequest="18" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </Border>
         </Grid>
 
-        <!-- Barra de baixo -->
-        <Border Grid.Row="2"
-                Margin="0,20,0,5"
-                WidthRequest="362"
-                HeightRequest="50"
-                BackgroundColor="White"
-                Stroke="Transparent"
-                StrokeShape="RoundRectangle 12">
-            <HorizontalStackLayout>
-                <Grid ColumnDefinitions="auto,auto,auto,auto,auto" ColumnSpacing="27" Margin="30,10,0,10">
-                    <Image Grid.Column="0" Source="generic_avatar1.png" WidthRequest="36.2" HeightRequest="35" >
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding InfoContaCommand}" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                    <Image Grid.Column="1" Source="pet.png" WidthRequest="36.2" HeightRequest="35">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CadastroPetCommand}" />
-                        </Image.GestureRecognizers>
-                        
-                    </Image>
-                    <Image Grid.Column="2" Source="logo.png" WidthRequest="50" HeightRequest="60" >
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HomeCommand}" />
-                        </Image.GestureRecognizers>
-                    </Image>
-
-                    <Image Grid.Column="3" Source="relogio.png" WidthRequest="36.2" HeightRequest="35" ></Image>
-                    <Image Grid.Column="4" Source="menu_hamburguer.png" WidthRequest="36.2" HeightRequest="35" ></Image>
-                    
-                </Grid>
-            </HorizontalStackLayout>
-        </Border>
     </Grid>
 </ContentPage>

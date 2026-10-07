@@ -112,5 +112,11 @@ namespace tccapp.ViewModels
         {
             await Shell.Current.GoToAsync("Dados");
         }
+
+        [RelayCommand]
+        private async Task Sair()
+        {
+            await Shell.Current.GoToAsync("Inicio");
+        }
     }
 }

@@ -14,16 +14,20 @@ using System.Threading.Tasks;
 using tccapp.Models;
 using tccapp.Services.Passeios;
 using tccapp.Services.Pets;
+using tccapp.Services.Petshops;
 using tccapp.Services.Petwalkers;
+using tccapp.Services.Usuarios;
 
 namespace tccapp.ViewModels
 {
     public partial class HomeViewModel : ObservableObject
     {
+        private readonly PetShopService _petShopService = new();
         public Mapsui.Map Map { get; }
 
         private readonly MemoryLayer _localizacaoLayer;
         private readonly MemoryLayer _petwalkersLayer;
+        private readonly MemoryLayer _petshopsLayer;
 
         // Localização mais recente conhecida do usuário — usada tanto pra buscar
         // petwalkers por perto quanto pra enviar junto da solicitação de passeio.
@@ -35,6 +39,12 @@ namespace tccapp.ViewModels
 
         [ObservableProperty]
         private bool carregandoPetwalkers;
+
+        [ObservableProperty]
+        private bool menuPetsAberto;
+
+        [ObservableProperty]
+        private ObservableCollection<Pet> meusPets = new();
 
         public HomeViewModel()
         {
@@ -73,9 +83,84 @@ namespace tccapp.ViewModels
 
             Map.Layers.Add(_petwalkersLayer);
 
+            _petshopsLayer = new MemoryLayer
+            {
+                Name = "Petshops",
+                Features = new List<IFeature>(),
+                Style = new SymbolStyle
+                {
+                    SymbolScale = 0.8,
+                    Fill = new Mapsui.Styles.Brush(Mapsui.Styles.Color.FromArgb(255, 255, 140, 0)), // laranja
+                    Outline = new Mapsui.Styles.Pen(Mapsui.Styles.Color.White, 2)
+                }
+            };
+            Map.Layers.Add(_petshopsLayer);
+
             // posição inicial enquanto o GPS não responde
             var (x, y) = SphericalMercator.FromLonLat(-46.5961203, -23.5189015);
             Map.Navigator.CenterOnAndZoomTo(new MPoint(x, y), 10);
+        }
+
+        [RelayCommand]
+        private async Task AbrirMenuPets()
+        {
+            MenuPetsAberto = true;
+            await CarregarMeusPetsAsync();
+        }
+
+        [RelayCommand]
+        private void FecharMenuPets()
+        {
+            MenuPetsAberto = false;
+        }
+
+        private async Task CarregarMeusPetsAsync()
+        {
+            try
+            {
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                string cpfDono = Preferences.Get("UsuarioCpf", string.Empty);
+
+                var petService = new PetService(token);
+                var pets = await petService.GetMeusPetsAsync(cpfDono);
+
+                MeusPets.Clear();
+                if (pets != null)
+                {
+                    foreach (var pet in pets)
+                        MeusPets.Add(pet);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Pets", $"Não foi possível carregar seus pets: {ex.Message}", "Ok");
+            }
+        }
+
+        private async Task CarregarPetshopsAsync(double lat, double lng)
+        {
+            try
+            {
+                var service = new PetShopService();
+                var petshops = await service.BuscarProximosAsync(lat, lng, raioMetros: 5000);
+
+                var features = new List<IFeature>();
+                foreach (var p in petshops)
+                {
+                    var (x, y) = SphericalMercator.FromLonLat(p.Longitude, p.Latitude);
+                    var feature = new PointFeature(new MPoint(x, y));
+                    feature["Nome"] = p.Nome;
+                    feature["DistanciaKm"] = p.DistanciaKm;
+                    features.Add(feature);
+                }
+
+                _petshopsLayer.Features = features;
+                _petshopsLayer.DataHasChanged();
+            }
+            catch
+            {
+                // Silencioso: os pins são um extra, não devem atrapalhar a tela
+            }
         }
 
         public async Task IniciarRastreamentoAsync()
@@ -113,6 +198,7 @@ namespace tccapp.ViewModels
                 // Só busca a lista de petwalkers na primeira vez que a posição é obtida,
                 // pra não ficar chamando a API a cada atualização de GPS.
                 await CarregarPetwalkersAsync(localizacao.Latitude, localizacao.Longitude);
+                await CarregarPetshopsAsync(localizacao.Latitude, localizacao.Longitude);
 
                 // Se quem logou é (ou também é) petwalker, já manda a posição atual pra API,
                 // igual ao usuário comum — sem precisar de nenhuma tela/botão separado.

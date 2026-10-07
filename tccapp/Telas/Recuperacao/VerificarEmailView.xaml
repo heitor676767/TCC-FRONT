@@ -10,7 +10,7 @@
             <VerticalStackLayout Spacing="3" Padding="15">
                 <HorizontalStackLayout  Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
                     <Label Text="Por favor, verifique seu email"
-                       FontSize="48"
+                       FontSize="20"
                        FontAttributes="Bold"
                        TextColor="#FFFFFF"
                        HorizontalOptions="Center"
@@ -22,7 +22,7 @@
             <Border
             BackgroundColor="White"
             StrokeShape="RoundRectangle 12"
-            WidthRequest="500"
+            
             Stroke="Transparent">
                 <Entry Placeholder="Email"
                    Text="{Binding Email}"
