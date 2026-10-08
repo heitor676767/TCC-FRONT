@@ -18,24 +18,80 @@ namespace tccapp.Services.Petshops
     {
         private static readonly HttpClient _http = CriarClient();
 
+        private static readonly string[] Endpoints =
+            [
+                "https://overpass-api.de/api/interpreter",
+                "https://overpass.kumi.systems/api/interpreter",
+                "https://overpass.private.coffee/api/interpreter"
+            ];
+
+        private static readonly SemaphoreSlim _lock = new(1, 1);
+        private static List<Petshop>? _cache;
+        private static double _cacheLat, _cacheLng;
+        private static DateTime _cacheEm;
+
+
+
+
         private static HttpClient CriarClient()
         {
-            var client = new HttpClient { Timeout = TimeSpan.FromSeconds(35) };
+            var client = new HttpClient { Timeout = TimeSpan.FromSeconds(20) };
             // A Overpass pede um User-Agent identificável
             client.DefaultRequestHeaders.UserAgent.ParseAdd("TCCApp/1.0");
             return client;
         }
 
-        public async Task<List<Petshop>> BuscarProximosAsync(double lat, double lng, int raioMetros = 5000, int maximo = 20)
+        public async Task<List<Petshop>> BuscarProximosAsync(double lat, double lng, int raioMetros = 2500, int maximo = 20)
+        {
+            await _lock.WaitAsync();
+            try
+            {
+                if (_cache != null
+                    && DateTime.UtcNow - _cacheEm < TimeSpan.FromMinutes(30)
+                    && Haversine(lat, lng, _cacheLat, _cacheLng) < 0.5)
+                    return _cache;
+
+                Exception? ultimoErro = null;
+
+                foreach (var url in Endpoints)
+                {
+                    try
+                    {
+                        var resultado = await BuscarAsync(url, lat, lng, raioMetros, maximo);
+                        if (resultado.Count > 0)
+                        {
+                            _cache = resultado;
+                            _cacheLat = lat;
+                            _cacheLng = lng;
+                            _cacheEm = DateTime.UtcNow;
+                        }
+                        return resultado;
+                    }
+                    catch (Exception ex)
+                    {
+                        ultimoErro = ex;
+                    }
+                }
+
+                if (_cache != null)
+                    return _cache;
+
+                throw ultimoErro!;
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
+
+
+        private async Task<List<Petshop>> BuscarAsync(string url, double lat, double lng, int raioMetros, int maximo)
         {
             string la = lat.ToString(CultureInfo.InvariantCulture);
             string lo = lng.ToString(CultureInfo.InvariantCulture);
 
-            string query = $@"[out:json][timeout:35];
-(
-  node[""shop""=""pet""](around:{raioMetros},{la},{lo});
-  way[""shop""=""pet""](around:{raioMetros},{la},{lo});
-);
+            string query = $@"[out:json][timeout:15];
+nwr[""shop""=""pet""](around:{raioMetros},{la},{lo});
 out center;";
 
             var content = new FormUrlEncodedContent(new[]
@@ -43,7 +99,7 @@ out center;";
                 new KeyValuePair<string, string>("data", query)
             });
 
-            var resposta = await _http.PostAsync("https://overpass-api.de/api/interpreter", content);
+            var resposta = await _http.PostAsync(url, content);
             resposta.EnsureSuccessStatusCode();
 
             using var doc = JsonDocument.Parse(await resposta.Content.ReadAsStringAsync());

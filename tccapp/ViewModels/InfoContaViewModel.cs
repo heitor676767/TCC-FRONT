@@ -116,7 +116,7 @@ namespace tccapp.ViewModels
         [RelayCommand]
         private async Task Sair()
         {
-            await Shell.Current.GoToAsync("Inicio");
+            await Shell.Current.GoToAsync("//Inicio");
         }
     }
 }

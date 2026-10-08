@@ -34,6 +34,9 @@ namespace tccapp.ViewModels
         private double? _minhaLatitude;
         private double? _minhaLongitude;
 
+        private DateTime _ultimoEnvioPosicao = DateTime.MinValue;
+        private CancellationTokenSource? _atualizacaoCts;
+
         [ObservableProperty]
         private ObservableCollection<PetwalkerPerfil> petwalkers = new();
 
@@ -142,7 +145,7 @@ namespace tccapp.ViewModels
             try
             {
                 var service = new PetShopService();
-                var petshops = await service.BuscarProximosAsync(lat, lng, raioMetros: 5000);
+                var petshops = await service.BuscarProximosAsync(lat, lng, raioMetros: 2500);
 
                 var features = new List<IFeature>();
                 foreach (var p in petshops)
@@ -164,10 +167,7 @@ namespace tccapp.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlertAsync(
-                    "Erro nos Petshops",
-                    ex.Message,
-                    "OK");
+                System.Diagnostics.Debug.WriteLine($"Petshops: {ex.Message}");
             }
         }
 
@@ -206,7 +206,8 @@ namespace tccapp.ViewModels
                 // Só busca a lista de petwalkers na primeira vez que a posição é obtida,
                 // pra não ficar chamando a API a cada atualização de GPS.
                 await CarregarPetwalkersAsync(localizacao.Latitude, localizacao.Longitude);
-                await CarregarPetshopsAsync(localizacao.Latitude, localizacao.Longitude);
+                IniciarAtualizacaoPetwalkers();
+                _ = CarregarPetshopsAsync(localizacao.Latitude, localizacao.Longitude);
 
                 // Se quem logou é (ou também é) petwalker, já manda a posição atual pra API,
                 // igual ao usuário comum — sem precisar de nenhuma tela/botão separado.
@@ -221,6 +222,13 @@ namespace tccapp.ViewModels
         private void OnLocationChanged(object sender, GeolocationLocationChangedEventArgs e)
         {
             MainThread.BeginInvokeOnMainThread(() => AtualizarPosicaoNoMapa(e.Location, centralizar: false));
+
+            // Envia a posição pra API no máximo a cada 30 s (só vale pra quem é petwalker)
+            if (DateTime.UtcNow - _ultimoEnvioPosicao > TimeSpan.FromSeconds(30))
+            {
+                _ultimoEnvioPosicao = DateTime.UtcNow;
+                _ = AtualizarMinhaLocalizacaoDePetwalkerAsync(e.Location.Latitude, e.Location.Longitude);
+            }
         }
 
         private void AtualizarPosicaoNoMapa(Location location, bool centralizar)
@@ -240,6 +248,9 @@ namespace tccapp.ViewModels
 
         public void PararRastreamento()
         {
+            _atualizacaoCts?.Cancel();
+            _atualizacaoCts = null;
+
             if (Geolocation.Default.IsListeningForeground)
                 Geolocation.Default.StopListeningForeground();
 
@@ -297,6 +308,52 @@ namespace tccapp.ViewModels
             {
                 CarregandoPetwalkers = false;
             }
+        }
+
+        private void IniciarAtualizacaoPetwalkers()
+        {
+            _atualizacaoCts?.Cancel();
+            _atualizacaoCts = new CancellationTokenSource();
+            var ct = _atualizacaoCts.Token;
+
+            _ = Task.Run(async () =>
+            {
+                using var timer = new PeriodicTimer(TimeSpan.FromSeconds(20));
+                try
+                {
+                    while (await timer.WaitForNextTickAsync(ct))
+                    {
+                        if (_minhaLatitude == null || _minhaLongitude == null)
+                            continue;
+
+                        try
+                        {
+                            string token = Preferences.Get("UsuarioToken", string.Empty);
+                            var service = new PetwalkerService(token);
+                            var resultado = await service.GetDisponiveisAsync(
+                                _minhaLatitude.Value, _minhaLongitude.Value, raioKm: 10);
+
+                            if (resultado == null)
+                                continue;
+
+                            MainThread.BeginInvokeOnMainThread(() =>
+                            {
+                                Petwalkers.Clear();
+                                foreach (var walker in resultado)
+                                    Petwalkers.Add(walker);
+
+                                AtualizarPetwalkersNoMapa(resultado);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            // Silencioso: falha de rede não deve incomodar, tenta de novo no próximo ciclo
+                            System.Diagnostics.Debug.WriteLine($"Atualização petwalkers: {ex.Message}");
+                        }
+                    }
+                }
+                catch (OperationCanceledException) { }
+            }, ct);
         }
 
         [RelayCommand]
