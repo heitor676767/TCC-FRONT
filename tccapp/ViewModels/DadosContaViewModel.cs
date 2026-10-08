@@ -52,6 +52,13 @@ namespace tccapp.ViewModels
         [RelayCommand] private void ToggleCep() => CepExpandido = !CepExpandido;
         [RelayCommand] private void ToggleGenero() => GeneroExpandido = !GeneroExpandido;
 
+        // ---------- Voltar ----------
+        [RelayCommand]
+        private async Task Voltar()
+        {
+            await Shell.Current.GoToAsync("InfoConta");
+        }
+
 
         // Preenche com o que já está salvo no dispositivo (vindo do login),
         // já que ainda não existe um "GET meus dados" na API.

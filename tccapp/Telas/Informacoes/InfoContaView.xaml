@@ -17,6 +17,21 @@
         <ScrollView Grid.Row="0" VerticalOptions="Fill">
             <VerticalStackLayout Spacing="14" Padding="25,70,25,20">
 
+                <!-- Seta de voltar (canto superior esquerdo) -->
+                <Label Text="←"
+                       FontSize="32"
+                       TextColor="White"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Start"
+                       Margin="0,-6,0,0"
+                       Padding="8"
+                       ZIndex="1"
+                       AutomationId="BotaoVoltar"
+                       SemanticProperties.Description="Voltar">
+                <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding VoltarCommand}" />
+                </Label.GestureRecognizers>
+                </Label>
                 <!-- Card: Detalhes da conta -->
                 <Border BackgroundColor="#2B3033"
                         HorizontalOptions="Fill"

@@ -88,6 +88,13 @@ namespace tccapp.ViewModels
             }
         }
 
+        // ---------- Voltar ----------
+        [RelayCommand]
+        private async Task Voltar()
+        {
+            await Shell.Current.GoToAsync("Home");
+        }
+
         [RelayCommand]
         private async Task CadastroPet()
         {

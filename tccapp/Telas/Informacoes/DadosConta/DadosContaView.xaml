@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tccapp.Telas.Informacoes.DadosConta.DadosContaView"
@@ -15,8 +15,24 @@
                 StrokeShape="RoundRectangle 0,0,28,28">
 
             <Grid RowDefinitions="*" Padding="20,20,20,0">
-                <Label Grid.Row="1"
-                       Text="Meus Dados"
+
+                <!-- Seta de voltar (canto superior esquerdo) -->
+                <Label Text="←"
+                       FontSize="32"
+                       TextColor="White"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Start"
+                       Margin="0,-6,0,0"
+                       Padding="8"
+                       ZIndex="1"
+                       AutomationId="BotaoVoltar"
+                       SemanticProperties.Description="Voltar">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding VoltarCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label Text="Meus Dados"
                        FontSize="24"
                        FontAttributes="Bold"
                        TextColor="White"
