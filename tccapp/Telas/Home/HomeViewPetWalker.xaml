@@ -2,16 +2,127 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tccapp.Telas.Home.HomeViewPetWalker"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#304E61"
              Title="HomeViewPetWalker">
-    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
-        <Label Text="Área do Petwalker" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
-        <Label Text="Disponibilidade para passeios" FontSize="18" HorizontalOptions="Center" />
-        <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
-            <Label Text="Indisponível" FontSize="16" VerticalOptions="Center" />
-            <Switch x:Name="SwitchDisponibilidade" Toggled="SwitchDisponibilidade_Toggled" OnColor="#2F6B8E" ThumbColor="White" />
-            <Label Text="Disponível" FontSize="16" VerticalOptions="Center" />
-        </HorizontalStackLayout>
-        <ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" Color="#2F6B8E" />
-        <Label Text="{Binding Disponivel, StringFormat='Disponível: {0}'}" FontSize="16" HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20,40,20,15">
+
+        <!-- ================= CABEÇALHO ================= -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Margin="0,10,0,20">
+            <Border BackgroundColor="White"
+                    WidthRequest="76"
+                    HeightRequest="76"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 38"
+                    HorizontalOptions="Center"
+                    Padding="12">
+                <Image Source="logo.png" Aspect="AspectFit" />
+            </Border>
+
+            <Label Text="Área do Petwalker"
+                   TextColor="White"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Gerencie seu status para receber solicitações de passeio"
+                   TextColor="#D0DCE3"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center"
+                   WidthRequest="280" />
+        </VerticalStackLayout>
+
+        <!-- ================= CARD PRINCIPAL ================= -->
+        <Border Grid.Row="1"
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 16"
+                Padding="24"
+                WidthRequest="340"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+
+            <VerticalStackLayout Spacing="22">
+
+                <!-- Título do Card -->
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                    <Label Text="Status de Atendimento"
+                           TextColor="#304E61"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                    <BoxView HeightRequest="2"
+                             WidthRequest="40"
+                             Color="#2F6B8E"
+                             HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- Bloco do Switch de Disponibilidade -->
+                <Border BackgroundColor="#F4F7F9"
+                        Stroke="#E1E8ED"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="16,18">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Disponibilidade para passeios"
+                               TextColor="#212121"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="14">
+                            <Label Text="Disponível"
+                                   TextColor="#2F6B8E"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+                            <Switch x:Name="SwitchDisponibilidade"
+                                    Toggled="SwitchDisponibilidade_Toggled"
+                                    OnColor="#2F6B8E"
+                                    ThumbColor="White" />
+
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Indicador de Carregamento -->
+                <ActivityIndicator IsRunning="{Binding Carregando}"
+                                   IsVisible="{Binding Carregando}"
+                                   Color="#2F6B8E"
+                                   HeightRequest="28" />
+
+                <!-- Badge de Status Atual -->
+                <Border BackgroundColor="#304E61"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        HorizontalOptions="Center">
+                    <Label Text="{Binding Disponivel, StringFormat='Disponível: {0}'}"
+                           TextColor="White"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                </Border>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- ================= BARRA INFERIOR ================= -->
+        <Border Grid.Row="2"
+                Margin="0,20,0,5"
+                WidthRequest="362"
+                HeightRequest="50"
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 12"
+                HorizontalOptions="Center">
+            <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" Padding="20,0">
+                <Image Grid.Column="0" Source="relogio.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" />
+                <Image Grid.Column="1" Source="logo.png" WidthRequest="44" HeightRequest="44" HorizontalOptions="Center" />
+                <Image Grid.Column="2" Source="generic_avatar1.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" />
+            </Grid>
+        </Border>
+
+    </Grid>
 </ContentPage>
