@@ -131,5 +131,16 @@ namespace tccapp.Services
             else
                 throw new Exception(serialized);
         }
+
+        public async Task DeleteNoContentAsync(string uri, string token)
+        {
+            HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            HttpResponseMessage response = await httpClient.DeleteAsync(uri);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception(serialized);
+        }
     }
 }

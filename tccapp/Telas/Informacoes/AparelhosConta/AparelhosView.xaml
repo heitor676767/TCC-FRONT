@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:tccapp.ViewModels"
+             x:Class="tccapp.Telas.Informacoes.AparelhosConta.AparelhosView"
+             Shell.NavBarIsVisible="False"
+             Title="AparelhosView">
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- ================= CABEÇALHO ================= -->
+        <Border Grid.Row="0"
+                HeightRequest="160"
+                BackgroundColor="#304E61"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 0,0,28,28">
+
+            <Grid RowDefinitions="*" Padding="20,20,20,0">
+
+                <!-- Seta de voltar (canto superior esquerdo) -->
+                <Label Text="←"
+                       FontSize="32"
+                       TextColor="White"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Start"
+                       Margin="0,-6,0,0"
+                       Padding="8"
+                       ZIndex="1"
+                       AutomationId="BotaoVoltar"
+                       SemanticProperties.Description="Voltar">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding VoltarCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label Text="Meus dispositivos"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!-- ================= CONTEÚDO (rola) ================= -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="14" Padding="25,20,25,20" BindableLayout.ItemsSource="{Binding Sessoes}">
+
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="#2C2F31"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 16"
+                                Padding="20">
+
+                            <Grid ColumnDefinitions="Auto, *" ColumnSpacing="20">
+                                <Border Grid.Column="0"
+                                        WidthRequest="46"
+                                        HeightRequest="82"
+                                        BackgroundColor="#B3B3B3"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6"
+                                        VerticalOptions="Center">
+                                    <BoxView Color="#1E1E1E"
+                                             HeightRequest="3"
+                                             WidthRequest="16"
+                                             VerticalOptions="Start"
+                                             Margin="0,6,0,0" />
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"
+                                                     Spacing="4">
+                                    <Label Text="{Binding TituloExibicao}"
+                                           TextColor="White"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center" />
+
+                                    <Label Text="{Binding UltimoAcessoFormatado}"
+                                           TextColor="#CCCCCC"
+                                           FontSize="12"
+                                           HorizontalTextAlignment="Center"
+                                           Margin="0,0,0,10" />
+
+                                    <Button Text="Sair"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AparelhosViewModel}}, Path=SairDispositivoCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="Transparent"
+                                            BorderColor="#C83E3E"
+                                            BorderWidth="1"
+                                            TextColor="#E04F4F"
+                                            FontSize="13"
+                                            HeightRequest="34"
+                                            WidthRequest="110"
+                                            CornerRadius="4"
+                                            Padding="0" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="2"
+                HeightRequest="160"
+                BackgroundColor="#304E61"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 28,28,0,0">
+
+            <Grid RowDefinitions="*" Padding="20,20,20,0">
+
+                <Button Text="Sair de todos dispositivos"
+                        Command="{Binding SairTodosCommand}"
+                        TextColor="Red"
+                        Background="Black"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center" />
+
+            </Grid>
+        </Border>
+
+    </Grid>
+</ContentPage>

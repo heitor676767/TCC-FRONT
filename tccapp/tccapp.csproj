@@ -86,6 +86,9 @@
 	  <MauiXaml Update="Telas\Home\HomeViewPetWalker.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Telas\Informacoes\AparelhosConta\AparelhosView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Telas\Informacoes\DadosConta\DadosContaView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

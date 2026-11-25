@@ -83,6 +83,9 @@
                                 Stroke="Transparent" StrokeShape="10" BackgroundColor="#FFFFFF">
                             <Label Text="Gerenciar Aparelhos" FontAttributes="Bold"
                                    VerticalOptions="Center" Padding="10,0,0,0" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AparelhosCommand}"/>
+                            </Border.GestureRecognizers>
                         </Border>
 
                         <Border HeightRequest="50" HorizontalOptions="Fill"

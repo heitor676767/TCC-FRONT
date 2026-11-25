@@ -6,7 +6,6 @@
         {
             InitializeComponent();
 
-            Routing.RegisterRoute("Inicio", typeof(Telas.Inicio.TelaInicial));
             Routing.RegisterRoute("Cadastro", typeof(Telas.Cadastro.UserCadastro));
             Routing.RegisterRoute("Home", typeof(Telas.Home.HomeView));
             Routing.RegisterRoute("CadastroPet", typeof(Telas.Cadastro.CastroPet));
@@ -16,6 +15,7 @@
             Routing.RegisterRoute("Dados", typeof(Telas.Informacoes.DadosConta.DadosContaView));
             Routing.RegisterRoute("PasseioAndamento", typeof(Telas.Passeios.PasseioAndamentoView));
             Routing.RegisterRoute("HomePetwalker", typeof(Telas.Home.HomeViewPetWalker));
+            Routing.RegisterRoute("Aparelhos", typeof(Telas.Informacoes.AparelhosConta.AparelhosView));
         }
     }
 }

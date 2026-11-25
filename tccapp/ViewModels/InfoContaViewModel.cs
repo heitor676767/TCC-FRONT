@@ -121,6 +121,12 @@ namespace tccapp.ViewModels
         }
 
         [RelayCommand]
+        private async Task Aparelhos()
+        {
+            await Shell.Current.GoToAsync("Aparelhos");
+        }
+
+        [RelayCommand]
         private async Task Sair()
         {
             await Shell.Current.GoToAsync("//Inicio");
