@@ -8,8 +8,8 @@
 
     <Grid RowDefinitions="Auto,*,Auto" Padding="20,40,20,15">
 
-        <!-- ================= CABEÇALHO ================= -->
-        <VerticalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Margin="0,10,0,20">
+        <!-- Cabeçalho -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Margin="0,10,0,15">
             <Border BackgroundColor="White"
                     WidthRequest="76"
                     HeightRequest="76"
@@ -25,90 +25,99 @@
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center" />
-
-            <Label Text="Gerencie seu status para receber solicitações de passeio"
-                   TextColor="#D0DCE3"
-                   FontSize="13"
-                   HorizontalTextAlignment="Center"
-                   WidthRequest="280" />
         </VerticalStackLayout>
 
-        <!-- ================= CARD PRINCIPAL ================= -->
-        <Border Grid.Row="1"
-                BackgroundColor="White"
-                Stroke="Transparent"
-                StrokeShape="RoundRectangle 16"
-                Padding="24"
-                WidthRequest="340"
-                VerticalOptions="Center"
-                HorizontalOptions="Center">
+        <!-- Área Central -->
+        <VerticalStackLayout Grid.Row="1" Spacing="16" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="340">
 
-            <VerticalStackLayout Spacing="22">
-
-                <!-- Título do Card -->
-                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
-                    <Label Text="Status de Atendimento"
-                           TextColor="#304E61"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center" />
-                    <BoxView HeightRequest="2"
-                             WidthRequest="40"
-                             Color="#2F6B8E"
-                             HorizontalOptions="Center" />
-                </VerticalStackLayout>
-
-                <!-- Bloco do Switch de Disponibilidade -->
-                <Border BackgroundColor="#F4F7F9"
-                        Stroke="#E1E8ED"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 12"
-                        Padding="16,18">
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="Disponibilidade para passeios"
-                               TextColor="#212121"
-                               FontSize="15"
+            <!-- Card Disponível -->
+            <Border BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="20">
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="16">
+                        <Label Text="Disponível"
+                               TextColor="#304E61"
+                               FontSize="18"
                                FontAttributes="Bold"
-                               HorizontalOptions="Center" />
+                               VerticalOptions="Center" />
 
-                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="14">
-                            <Label Text="Disponível"
-                                   TextColor="#2F6B8E"
-                                   FontSize="14"
-                                   FontAttributes="Bold"
-                                   VerticalOptions="Center" />
-                            <Switch x:Name="SwitchDisponibilidade"
-                                    Toggled="SwitchDisponibilidade_Toggled"
-                                    OnColor="#2F6B8E"
-                                    ThumbColor="White" />
+                        <Switch x:Name="SwitchDisponibilidade"
+                                Toggled="SwitchDisponibilidade_Toggled"
+                                OnColor="#2F6B8E"
+                                ThumbColor="White"
+                                VerticalOptions="Center" />
+                    </HorizontalStackLayout>
 
-                        </HorizontalStackLayout>
-                    </VerticalStackLayout>
-                </Border>
+                    <ActivityIndicator IsRunning="{Binding Carregando}"
+                                       IsVisible="{Binding Carregando}"
+                                       Color="#2F6B8E"
+                                       HeightRequest="24" />
+                </VerticalStackLayout>
+            </Border>
 
-                <!-- Indicador de Carregamento -->
-                <ActivityIndicator IsRunning="{Binding Carregando}"
-                                   IsVisible="{Binding Carregando}"
-                                   Color="#2F6B8E"
-                                   HeightRequest="28" />
+            <!-- Card de Notificação de Novo Passeio -->
+            <Border IsVisible="{Binding TemSolicitacaoPendente}"
+                    BackgroundColor="White"
+                    Stroke="#FFB300"
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="20">
+                <VerticalStackLayout Spacing="12">
 
-                <!-- Badge de Status Atual -->
-                <Border BackgroundColor="#304E61"
-                        Stroke="Transparent"
-                        StrokeShape="RoundRectangle 10"
-                        Padding="14,10"
-                        HorizontalOptions="Center">
-                    <Label Text="{Binding Disponivel, StringFormat='Disponível: {0}'}"
-                           TextColor="White"
-                           FontSize="14"
+                    <Label Text="Nova Solicitação de Passeio"
+                           TextColor="#304E61"
+                           FontSize="17"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-                </Border>
 
-            </VerticalStackLayout>
-        </Border>
+                    <BoxView HeightRequest="1" Color="#E1E8ED" />
 
-        <!-- ================= BARRA INFERIOR ================= -->
+                    <Label Text="{Binding SolicitacaoAtual.DonoNome, StringFormat='Dono: {0}'}"
+                           TextColor="#212121"
+                           FontSize="14"
+                           FontAttributes="Bold" />
+
+                    <Label Text="{Binding SolicitacaoAtual.PetNome, StringFormat='Pet: {0}'}"
+                           TextColor="#212121"
+                           FontSize="14" />
+
+                    <Label Text="{Binding SolicitacaoAtual.Duracao, StringFormat='Duração: {0} minutos'}"
+                           TextColor="#2F6B8E"
+                           FontSize="14"
+                           FontAttributes="Bold" />
+
+                    <Label Text="{Binding TextoLocalizacao, StringFormat='Local: {0}'}"
+                           TextColor="#404040"
+                           FontSize="13" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,6,0,0">
+                        <Button Grid.Column="0"
+                                Text="Recusar"
+                                BackgroundColor="#D9534F"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="8"
+                                HeightRequest="40"
+                                Command="{Binding RecusarSolicitacaoCommand}" />
+
+                        <Button Grid.Column="1"
+                                Text="Aceitar"
+                                BackgroundColor="#2F6B8E"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="8"
+                                HeightRequest="40"
+                                Command="{Binding AceitarSolicitacaoCommand}" />
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+
+        <!-- Barra Inferior -->
         <Border Grid.Row="2"
                 Margin="0,20,0,5"
                 WidthRequest="362"

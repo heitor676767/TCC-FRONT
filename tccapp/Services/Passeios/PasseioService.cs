@@ -47,5 +47,15 @@ namespace tccapp.Services.Passeios
         {
             return await _request.GetAsync<PasseioDto>($"{apiUrlBase}/{idPasseio}", _token);
         }
+
+        public async Task<string> AceitarAsync(int idPasseio)
+        {
+            return await _request.PutAsync<object, string>($"{apiUrlBase}/{idPasseio}/Aceitar", new { }, _token);
+        }
+
+        public async Task<string> RecusarAsync(int idPasseio)
+        {
+            return await _request.PutAsync<object, string>($"{apiUrlBase}/{idPasseio}/Recusar", new { }, _token);
+        }
     }
 }

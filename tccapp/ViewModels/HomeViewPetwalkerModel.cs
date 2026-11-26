@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Devices.Sensors;
+using tccapp.Models;
+using tccapp.Services.Passeios;
 using tccapp.Services.Petwalkers;
 
 namespace tccapp.ViewModels
@@ -9,38 +12,168 @@ namespace tccapp.ViewModels
         [ObservableProperty] private bool disponivel;
         [ObservableProperty] private bool carregando;
 
-        private CancellationTokenSource? _envioCts;
+        // Dados da notificação / solicitação recebida
+        [ObservableProperty] private bool temSolicitacaoPendente;
+        [ObservableProperty] private PasseioDto? solicitacaoAtual;
+        [ObservableProperty] private string textoLocalizacao = "Localização via GPS";
 
-        private void IniciarEnvioPosicao(PetwalkerService service)
+        private CancellationTokenSource? _envioCts;
+        private int _ultimoIdNotificado = 0;
+
+        private void IniciarMonitoramento(PetwalkerService walkerService, string token)
         {
             _envioCts?.Cancel();
             _envioCts = new CancellationTokenSource();
             var ct = _envioCts.Token;
+            var passeioService = new PasseioService(token);
 
             _ = Task.Run(async () =>
             {
-                using var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+                int contadorCiclos = 0;
+                using var timer = new PeriodicTimer(TimeSpan.FromSeconds(6));
                 try
                 {
                     while (await timer.WaitForNextTickAsync(ct))
                     {
+                        contadorCiclos++;
+
+                        // 1. Verifica solicitações de passeio a cada 6 segundos
                         try
                         {
-                            var loc = await MainThread.InvokeOnMainThreadAsync(ObterLocalizacaoAsync);
-                            if (loc != null)
-                                await service.AtualizarLocalizacaoAsync((decimal)loc.Latitude, (decimal)loc.Longitude);
+                            var meusPasseios = await passeioService.GetMeusAsync();
+                            var pendente = meusPasseios?.FirstOrDefault(p => p.StatusPass == "Solicitado");
+
+                            if (pendente != null)
+                            {
+                                string localFormatado = await FormatarLocalizacaoAsync(pendente);
+
+                                await MainThread.InvokeOnMainThreadAsync(async () =>
+                                {
+                                    SolicitacaoAtual = pendente;
+                                    TextoLocalizacao = localFormatado;
+                                    TemSolicitacaoPendente = true;
+
+                                    // Dispara alerta sonoro/visual na primeira vez que esse pedido chega
+                                    if (_ultimoIdNotificado != pendente.IdPasseio)
+                                    {
+                                        _ultimoIdNotificado = pendente.IdPasseio;
+                                        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500)); } catch { }
+                                        await Shell.Current.DisplayAlertAsync(
+                                            "Novo Pedido de Passeio!",
+                                            $"Dono: {pendente.DonoNome}\nPet: {pendente.PetNome}\nDuração: {pendente.Duracao} min\nLocal: {localFormatado}",
+                                            "Ver detalhes");
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                MainThread.BeginInvokeOnMainThread(() =>
+                                {
+                                    TemSolicitacaoPendente = false;
+                                    SolicitacaoAtual = null;
+                                });
+                            }
                         }
-                        catch { /* tenta de novo no próximo ciclo */ }
+                        catch { /* tenta no próximo ciclo */ }
+
+                        // 2. Atualiza GPS do petwalker a cada ~30 segundos (5 ciclos de 6s)
+                        if (contadorCiclos % 5 == 0)
+                        {
+                            try
+                            {
+                                var loc = await MainThread.InvokeOnMainThreadAsync(ObterLocalizacaoAsync);
+                                if (loc != null)
+                                    await walkerService.AtualizarLocalizacaoAsync((decimal)loc.Latitude, (decimal)loc.Longitude);
+                            }
+                            catch { }
+                        }
                     }
                 }
                 catch (OperationCanceledException) { }
             }, ct);
         }
 
-        private void PararEnvioPosicao()
+        private static async Task<string> FormatarLocalizacaoAsync(PasseioDto passeio)
+        {
+            if (passeio.Localizacao == null)
+                return "Localização não informada";
+
+            if (!string.IsNullOrWhiteSpace(passeio.Localizacao.Numero))
+                return $"{passeio.Localizacao.Numero} ({passeio.Localizacao.Cep})".TrimEnd(' ', '(', ')');
+
+            try
+            {
+                var placemarks = await Geocoding.Default.GetPlacemarksAsync(
+                    (double)passeio.Localizacao.Latitude,
+                    (double)passeio.Localizacao.Longitude);
+                var p = placemarks?.FirstOrDefault();
+                if (p != null && !string.IsNullOrWhiteSpace(p.Thoroughfare))
+                    return $"{p.Thoroughfare}, {p.SubThoroughfare} - {p.SubLocality}".TrimEnd(',', ' ', '-');
+            }
+            catch { }
+
+            return $"Lat: {passeio.Localizacao.Latitude:F4}, Lng: {passeio.Localizacao.Longitude:F4}";
+        }
+
+        private void PararMonitoramento()
         {
             _envioCts?.Cancel();
             _envioCts = null;
+            TemSolicitacaoPendente = false;
+            SolicitacaoAtual = null;
+        }
+
+        [RelayCommand]
+        private async Task AceitarSolicitacao()
+        {
+            if (SolicitacaoAtual == null) return;
+
+            try
+            {
+                Carregando = true;
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                var passeioService = new PasseioService(token);
+
+                await passeioService.AceitarAsync(SolicitacaoAtual.IdPasseio);
+
+                TemSolicitacaoPendente = false;
+                await Shell.Current.DisplayAlertAsync("Aceito!", "Você aceitou o passeio. Dirija-se ao local do dono.", "OK");
+                SolicitacaoAtual = null;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Erro", ex.Message, "OK");
+            }
+            finally
+            {
+                Carregando = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task RecusarSolicitacao()
+        {
+            if (SolicitacaoAtual == null) return;
+
+            try
+            {
+                Carregando = true;
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                var passeioService = new PasseioService(token);
+
+                await passeioService.RecusarAsync(SolicitacaoAtual.IdPasseio);
+
+                TemSolicitacaoPendente = false;
+                SolicitacaoAtual = null;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Erro", ex.Message, "OK");
+            }
+            finally
+            {
+                Carregando = false;
+            }
         }
 
         public async Task AlterarDisponibilidadeAsync(bool novoStatus)
@@ -52,21 +185,18 @@ namespace tccapp.ViewModels
                 string token = Preferences.Get("UsuarioToken", string.Empty);
                 if (string.IsNullOrWhiteSpace(token))
                 {
-                    await Shell.Current.DisplayAlert("Erro", "Usuário não autenticado.", "OK");
+                    await Shell.Current.DisplayAlertAsync("Erro", "Usuário não autenticado.", "OK");
                     return;
                 }
 
                 var service = new PetwalkerService(token);
 
-                // Ao ATIVAR, grava a posição atual antes de ficar disponível.
-                // Se falhar, não ativa: senão ele ficaria "disponível" sem coordenada
-                // e continuaria invisível na busca.
                 if (novoStatus)
                 {
                     var localizacao = await ObterLocalizacaoAsync();
                     if (localizacao == null)
                     {
-                        await Shell.Current.DisplayAlert("Localização",
+                        await Shell.Current.DisplayAlertAsync("Localização",
                             "Não foi possível obter sua posição. Verifique o GPS e a permissão de localização.", "OK");
                         Disponivel = false;
                         return;
@@ -79,12 +209,12 @@ namespace tccapp.ViewModels
 
                 bool resultado = await service.AtualizarDisponibilidadeAsync(novoStatus);
                 Disponivel = resultado;
-                if (resultado) IniciarEnvioPosicao(service);
-                else PararEnvioPosicao();
+                if (resultado) IniciarMonitoramento(service, token);
+                else PararMonitoramento();
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlertAsync("Erro", ex.Message, "OK");
             }
             finally
             {
@@ -98,7 +228,6 @@ namespace tccapp.ViewModels
             if (status != PermissionStatus.Granted)
                 return null;
 
-            // Posição fresca, não a "última conhecida", que pode estar velha.
             return await Geolocation.Default.GetLocationAsync(
                 new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
         }

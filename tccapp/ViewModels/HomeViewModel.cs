@@ -379,9 +379,42 @@ namespace tccapp.ViewModels
                     return;
                 }
 
-                // MVP: usa o primeiro pet cadastrado. Quando tiver tempo, trocar por
-                // uma tela/seletor pra escolher qual pet vai passear.
-                var pet = meusPets.First();
+                // 1 escolhe um pet (se tiver +1)
+                Pet petSelecionado = meusPets.First();
+                if (meusPets.Count > 1)
+                {
+                    string[] nomesPets = meusPets.Select(p => p.Nome).ToArray();
+                    string escolhaPet = await Shell.Current.DisplayActionSheetAsync(
+                        "Qual pet vai passear?",
+                        "Cancelar",
+                        null,
+                        nomesPets);
+
+                    if (string.IsNullOrEmpty(escolhaPet) || escolhaPet == "Cancelar")
+                        return;
+
+                    petSelecionado = meusPets.First(p => p.Nome == escolhaPet);
+                }
+
+                // 2 Escolher a duracao
+                string escolhaTempo = await Shell.Current.DisplayActionSheetAsync(
+                    $"Duração do passeio com {petwalker.Nome}",
+                    "Cancelar",
+                    null,
+                    "15 minutos",
+                    "30 minutos",
+                    "60 minutos");
+
+                if (string.IsNullOrEmpty(escolhaTempo) || escolhaTempo == "Cancelar")
+                    return;
+
+                int duracaoMinutos = escolhaTempo switch
+                {
+                    "15 minutos" => 15,
+                    "30 minutos" => 30,
+                    "60 minutos" => 60,
+                    _ => 30
+                };
 
                 if (_minhaLatitude == null || _minhaLongitude == null)
                 {
@@ -389,19 +422,36 @@ namespace tccapp.ViewModels
                     return;
                 }
 
+                // 3 tenta pegar o cep e numero atuas do dono ppara o petwalker ver o cara no mapa, pelo geocoding, mt foda, transforma latitude e longitude em CEP
+                string cepAtual = string.Empty;
+                string numeroAtual = string.Empty;
+                try
+                {
+                    var placemarks = await Geocoding.Default.GetPlacemarksAsync(_minhaLatitude.Value, _minhaLongitude.Value);
+                    var place = placemarks?.FirstOrDefault();
+                    if (place != null)
+                    {
+                        cepAtual = place.PostalCode ?? string.Empty;
+                        numeroAtual = !string.IsNullOrWhiteSpace(place.Thoroughfare)
+                            ? $"{place.Thoroughfare}, {place.SubThoroughfare}".TrimEnd(',', ' ')
+                            : string.Empty;
+                    }
+                }
+                catch { /* segue mesmo sem geocoding */ }
+
                 var passeioService = new PasseioService(token);
                 await passeioService.SolicitarAsync(
-                    rga: pet.Rga,
+                    rga: petSelecionado.Rga,
                     cpfPetwalker: petwalker.Cpf,
-                    duracao: 30,
+                    duracao: duracaoMinutos,
                     latitude: (decimal)_minhaLatitude.Value,
                     longitude: (decimal)_minhaLongitude.Value,
-                    cep: string.Empty,
-                    numero: string.Empty);
+                    cep: cepAtual,
+                    numero: numeroAtual);
 
                 await Shell.Current.DisplayAlertAsync(
                     "Solicitado!",
-                    $"Passeio com {petwalker.Nome} solicitado para {pet.Nome}. Aguardando o petwalker aceitar.",
+                    $"Passeio de {duracaoMinutos} min com {petwalker.Nome} solicitado para {petSelecionado.Nome}. Aguardando confirmação.",
                     "Ok");
             }
             catch (Exception ex)
