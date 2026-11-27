@@ -57,7 +57,8 @@ namespace tccapp.ViewModels
                 Usuario u = new Usuario
                 {
                     Cpf = new string(Cpf.Where(char.IsDigit).ToArray()),
-                    PasswordString = Senha
+                    PasswordString = Senha,
+                    NomeDispositivo = $"{DeviceInfo.Current.Manufacturer} {DeviceInfo.Current.Model}"
                 };
 
                 Usuario autenticado = await _usuarioService.PostAutenticarUsuarioAsync(u);
