@@ -36,6 +36,10 @@ namespace tccapp.ViewModels
         private bool _ehPetwalker;
         private bool _enquadrouMapaInicial;
         private bool _rotaInicialCalculada;
+        private string _codigoInicioEsperado = string.Empty;
+
+        // Distância máxima em km (0.08 km = 80 metros) para liberar o início do passeio
+        private const double DistanciaMaximaInicioKm = 0.08;
 
         // Lista de pontos (Lon, Lat) da rota atual para ir cortando conforme o Petwalker anda
         private List<(double Lon, double Lat)> _pontosRotaRestante = new();
@@ -55,6 +59,9 @@ namespace tccapp.ViewModels
         [ObservableProperty] private bool isIndoAteDono = true;
         [ObservableProperty] private bool isEmAndamento;
         [ObservableProperty] private bool mostrarBotaoIniciar;
+        [ObservableProperty] private bool podeIniciarPasseio;
+        [ObservableProperty] private string textoBotaoIniciar = "Aproxime-se do local para iniciar";
+        [ObservableProperty] private string codigoConfirmacaoTexto = string.Empty;
         [ObservableProperty] private bool mostrarBotaoFinalizar;
         [ObservableProperty] private string tituloStatusDeslocamento = "Petwalker a caminho";
         [ObservableProperty] private string enderecoDestinoTexto = "Local de encontro";
@@ -75,7 +82,7 @@ namespace tccapp.ViewModels
             Map.Layers.Add(OpenStreetMap.CreateTileLayer("TCCApp"));
             Map.Widgets.Clear();
 
-            // Contorno escuro da rota (efeito Google Maps)
+            // Contorno escuro da rota
             _rotaBordaLayer = new MemoryLayer
             {
                 Name = "RotaBorda",
@@ -152,22 +159,33 @@ namespace tccapp.ViewModels
 
                 PetwalkerCpf = passeio.PetwalkerCpf;
                 _duracaoMinutos = passeio.Duracao;
-                _dataInicio = passeio.DataInicio;
+                _dataInicio = NormalizarDataInicio(passeio.DataInicio);
                 StatusAtual = passeio.StatusPass;
+                _codigoInicioEsperado = ExtrairCodigoRga(passeio.PetRga);
 
                 NomeExibicao = _ehPetwalker
                     ? $"{passeio.DonoNome} ({passeio.PetNome})"
                     : passeio.PetwalkerNome;
 
+                string enderecoBase = passeio.Localizacao != null && !string.IsNullOrWhiteSpace(passeio.Localizacao.Numero)
+                    ? passeio.Localizacao.Numero
+                    : "Ponto de encontro marcado no mapa";
+
+                if (_ehPetwalker)
+                {
+                    CodigoConfirmacaoTexto = string.Empty;
+                    EnderecoDestinoTexto = enderecoBase;
+                }
+                else
+                {
+                    CodigoConfirmacaoTexto = $"Código de início: {_codigoInicioEsperado}";
+                    EnderecoDestinoTexto = $"Código para iniciar: {_codigoInicioEsperado} • {enderecoBase}";
+                }
+
                 if (passeio.Localizacao != null)
                 {
                     _latDono = (double)passeio.Localizacao.Latitude;
                     _lngDono = (double)passeio.Localizacao.Longitude;
-
-                    EnderecoDestinoTexto = !string.IsNullOrWhiteSpace(passeio.Localizacao.Numero)
-                        ? passeio.Localizacao.Numero
-                        : "Ponto de encontro marcado no mapa";
-
                     AtualizarPinoDono(_latDono.Value, _lngDono.Value);
                 }
 
@@ -187,6 +205,31 @@ namespace tccapp.ViewModels
             }
         }
 
+        private static DateTime? NormalizarDataInicio(DateTime? dataApi)
+        {
+            if (dataApi == null)
+                return null;
+
+            DateTime utc = dataApi.Value.Kind == DateTimeKind.Local
+                ? dataApi.Value.ToUniversalTime()
+                : DateTime.SpecifyKind(dataApi.Value, DateTimeKind.Utc);
+
+            return utc.ToLocalTime();
+        }
+
+        private static string ExtrairCodigoRga(string? rga)
+        {
+            if (string.IsNullOrWhiteSpace(rga))
+                return "0000";
+
+            string apenasDigitos = new string(rga.Where(char.IsDigit).ToArray());
+            string fonte = apenasDigitos.Length > 0 ? apenasDigitos : rga.Trim();
+
+            return fonte.Length <= 4
+                ? fonte
+                : fonte[^4..];
+        }
+
         private void AtualizarEstadoVisual()
         {
             IsIndoAteDono = StatusAtual == "Aceito";
@@ -204,6 +247,7 @@ namespace tccapp.ViewModels
             }
             else if (IsEmAndamento)
             {
+                PodeIniciarPasseio = false;
                 SubtituloTempoTexto = "Restantes";
                 LimparRotaDoMapa();
                 AtualizarTempoRestantePasseio();
@@ -246,7 +290,7 @@ namespace tccapp.ViewModels
                 if (passeio.StatusPass != StatusAtual)
                 {
                     StatusAtual = passeio.StatusPass;
-                    _dataInicio = passeio.DataInicio;
+                    _dataInicio = NormalizarDataInicio(passeio.DataInicio);
                     AtualizarEstadoVisual();
                 }
 
@@ -306,7 +350,23 @@ namespace tccapp.ViewModels
 
             if (IsIndoAteDono && _latDono.HasValue && _lngDono.HasValue)
             {
-                // Calcula a rota pelas ruas na primeira vez (ou se o petwalker saiu mais de 80m da rota)
+                double distanciaAteDonoKm = DistanciaEmKm(latWalker.Value, lngWalker.Value, _latDono.Value, _lngDono.Value);
+
+                // Só libera o botão de iniciar quando o Petwalker estiver dentro do raio de 80m do Dono
+                PodeIniciarPasseio = distanciaAteDonoKm <= DistanciaMaximaInicioKm;
+                if (PodeIniciarPasseio)
+                {
+                    TextoBotaoIniciar = "Iniciar passeio";
+                    TituloStatusDeslocamento = _ehPetwalker
+                        ? "Você chegou! Peça o código ao dono"
+                        : "Petwalker chegou ao local";
+                }
+                else
+                {
+                    int metrosRestantes = (int)Math.Round(distanciaAteDonoKm * 1000);
+                    TextoBotaoIniciar = $"Chegue ao local ({metrosRestantes}m)";
+                }
+
                 bool saiuDaRota = _pontosRotaRestante.Count >= 2 &&
                                   DistanciaEmKm(latWalker.Value, lngWalker.Value, _pontosRotaRestante[0].Lat, _pontosRotaRestante[0].Lon) > 0.08;
 
@@ -317,11 +377,8 @@ namespace tccapp.ViewModels
                 }
                 else if (_pontosRotaRestante.Count >= 2)
                 {
-                    // Vai apagando os trechos já percorridos para a linha azul encurtar atrás do petwalker
                     ApararTrechoPercorrido(latWalker.Value, lngWalker.Value);
-
-                    double kmRestante = DistanciaEmKm(latWalker.Value, lngWalker.Value, _latDono.Value, _lngDono.Value);
-                    TempoPrincipalTexto = Math.Max(1, (int)Math.Ceiling((kmRestante / 4.5) * 60.0)).ToString();
+                    TempoPrincipalTexto = Math.Max(1, (int)Math.Ceiling((distanciaAteDonoKm / 4.5) * 60.0)).ToString();
                 }
 
                 if (!_enquadrouMapaInicial)
@@ -412,7 +469,6 @@ namespace tccapp.ViewModels
                 catch { }
             }
 
-            // Fallback apenas se estiver totalmente sem acesso aos servidores de rota
             double km = DistanciaEmKm(latOrigem, lngOrigem, latDestino, lngDestino);
             TempoPrincipalTexto = Math.Max(1, (int)Math.Ceiling((km / 4.5) * 60.0)).ToString();
             _pontosRotaRestante = new List<(double Lon, double Lat)>
@@ -490,9 +546,11 @@ namespace tccapp.ViewModels
             var fim = _dataInicio.Value.AddMinutes(_duracaoMinutos);
             var restante = fim - DateTime.Now;
 
-            TempoPrincipalTexto = restante.TotalSeconds <= 0
-                ? "0"
-                : Math.Ceiling(restante.TotalMinutes).ToString("0");
+            int minutos = restante.TotalSeconds <= 0
+                ? 0
+                : (int)Math.Ceiling(restante.TotalMinutes);
+
+            TempoPrincipalTexto = Math.Clamp(minutos, 0, _duracaoMinutos).ToString("0");
         }
 
         [RelayCommand]
@@ -541,6 +599,36 @@ namespace tccapp.ViewModels
         [RelayCommand]
         private async Task IniciarPasseio()
         {
+            if (!PodeIniciarPasseio)
+            {
+                await Shell.Current.DisplayAlertAsync(
+                    "Longe do local",
+                    "Você precisa chegar até o local do dono antes de iniciar o passeio.",
+                    "OK");
+                return;
+            }
+
+            string? codigoDigitado = await Shell.Current.DisplayPromptAsync(
+                "Código de confirmação",
+                "Solicite ao dono:",
+                accept: "Iniciar",
+                cancel: "Cancelar",
+                placeholder: "4 dígitos",
+                maxLength: 4,
+                keyboard: Keyboard.Numeric);
+
+            if (string.IsNullOrWhiteSpace(codigoDigitado))
+                return;
+
+            if (!codigoDigitado.Trim().Equals(_codigoInicioEsperado, StringComparison.OrdinalIgnoreCase))
+            {
+                await Shell.Current.DisplayAlertAsync(
+                    "Código incorreto",
+                    "O código digitado não confere com o RGA do pet. Confirme o número com o dono e tente novamente.",
+                    "OK");
+                return;
+            }
+
             try
             {
                 Carregando = true;

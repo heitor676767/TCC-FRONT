@@ -124,15 +124,37 @@
                             </Border>
                         </Grid>
 
-                        <!-- Botão exclusivo do Petwalker: Iniciar Passeio (quando chega no Dono) -->
+                        <!-- Botão exclusivo do Petwalker: Iniciar Passeio (cinza enquanto longe, azul ao chegar) -->
                         <Button IsVisible="{Binding MostrarBotaoIniciar}"
-                                Text="Iniciar Passeio"
-                                BackgroundColor="#2F6B8E"
-                                TextColor="White"
+                                IsEnabled="{Binding PodeIniciarPasseio}"
+                                Text="{Binding TextoBotaoIniciar}"
                                 FontAttributes="Bold"
                                 CornerRadius="10"
                                 HeightRequest="42"
-                                Command="{Binding IniciarPasseioCommand}" />
+                                Command="{Binding IniciarPasseioCommand}">
+                            <Button.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="VisualStateManager.VisualStateGroups">
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="#2F6B8E" />
+                                                        <Setter Property="TextColor" Value="White" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="#9E9E9E" />
+                                                        <Setter Property="TextColor" Value="#E0E0E0" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </Setter>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
 
                         <!-- Botão exclusivo do Petwalker: Finalizar Passeio -->
                         <Button IsVisible="{Binding MostrarBotaoFinalizar}"
