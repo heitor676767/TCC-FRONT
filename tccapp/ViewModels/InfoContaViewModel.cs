@@ -127,6 +127,12 @@ namespace tccapp.ViewModels
         }
 
         [RelayCommand]
+        private async Task Cartoes()
+        {
+            await Shell.Current.GoToAsync("Cartoes");
+        }
+
+        [RelayCommand]
         private async Task Sair()
         {
             await Shell.Current.GoToAsync("//Inicio");

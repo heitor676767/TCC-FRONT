@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:tccapp.ViewModels"
+             x:Class="tccapp.Telas.Informacoes.CartoesConta.CartoesView"
+             Shell.NavBarIsVisible="False"
+             Title="CartoesView">
+
+    <!-- Grid raiz para permitir o Pop-up por cima de tudo -->
+    <Grid>
+
+        <!-- ================= TELA PRINCIPAL ================= -->
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <Border Grid.Row="0"
+                    HeightRequest="160"
+                    BackgroundColor="#304E61"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 0,0,28,28">
+
+                <Grid RowDefinitions="*" Padding="20,20,20,0">
+                    <Label Text="←"
+                           FontSize="32"
+                           TextColor="White"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Start"
+                           Margin="0,-6,0,0"
+                           Padding="8"
+                           ZIndex="1">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VoltarCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Text="Carteira"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="14" Padding="25,20,25,20">
+
+                    <Border BackgroundColor="#2B3033"
+                            HorizontalOptions="Fill"
+                            Stroke="Transparent"
+                            Padding="16,18"
+                            StrokeShape="RoundRectangle 14">
+
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                <Label Grid.Column="0"
+                                       Text="Cartões"
+                                       FontSize="22"
+                                       TextColor="White"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       Text="+"
+                                       FontSize="28"
+                                       TextColor="White"
+                                       FontAttributes="Bold"
+                                       Padding="8,0"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding AbrirPopupCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+
+                            <VerticalStackLayout Spacing="12"
+                                                 BindableLayout.ItemsSource="{Binding Cartoes}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BackgroundColor="White"
+                                                Stroke="Transparent"
+                                                StrokeShape="RoundRectangle 14"
+                                                Padding="16,14">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartoesViewModel}}, Path=RemoverCartaoCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Border.GestureRecognizers>
+
+                                            <Grid ColumnDefinitions="50, *" ColumnSpacing="14">
+                                                <Image Grid.Column="0"
+                                                       Source="{Binding IconeBandeira}"
+                                                       HeightRequest="32"
+                                                       WidthRequest="46"
+                                                       Aspect="AspectFit"
+                                                       VerticalOptions="Center" />
+
+                                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                                    <Label Text="{Binding TituloExibicao}"
+                                                           TextColor="#1E1E1E"
+                                                           FontSize="16"
+                                                           FontAttributes="Bold" />
+                                                    <Label Text="{Binding NumeroMascarado}"
+                                                           TextColor="#4A4A4A"
+                                                           FontSize="13" />
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- ================= POP-UP ADICIONAR CARTÃO ================= -->
+        <Grid IsVisible="{Binding PopupAberto}"
+              BackgroundColor="#99000000"
+              Padding="24"
+              ZIndex="10">
+
+            <Border BackgroundColor="#2B3033"
+                    Stroke="#4A555C"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="20"
+                    VerticalOptions="Center">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0"
+                               Text="Novo Cartão"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center" />
+                        <Label Grid.Column="1"
+                               Text="✕"
+                               FontSize="20"
+                               TextColor="#CCCCCC"
+                               Padding="8,4">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FecharPopupCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Tipo" TextColor="#CCCCCC" FontSize="12" />
+                        <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="8,0">
+                            <Picker ItemsSource="{Binding TiposCartao}"
+                                    SelectedItem="{Binding TipoSelecionado}"
+                                    TextColor="#1E1E1E" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Número do cartão" TextColor="#CCCCCC" FontSize="12" />
+                        <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="8,0">
+                            <Entry Text="{Binding NumeroCartao}"
+                                   Placeholder="0000 0000 0000 0000"
+                                   Keyboard="Numeric"
+                                   MaxLength="19"
+                                   TextColor="#1E1E1E" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Nome do titular" TextColor="#CCCCCC" FontSize="12" />
+                        <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="8,0">
+                            <Entry Text="{Binding NomeTitular}"
+                                   Placeholder="NOME COMPLETO"
+                                   TextColor="#1E1E1E" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Validade" TextColor="#CCCCCC" FontSize="12" />
+                            <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="8,0">
+                                <Entry Text="{Binding Validade}"
+                                       Placeholder="MM/AA"
+                                       MaxLength="5"
+                                       TextColor="#1E1E1E" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="CVV" TextColor="#CCCCCC" FontSize="12" />
+                            <Border BackgroundColor="White" StrokeShape="RoundRectangle 8" Padding="8,0">
+                                <Entry Text="{Binding Cvv}"
+                                       Placeholder="123"
+                                       Keyboard="Numeric"
+                                       MaxLength="4"
+                                       IsPassword="True"
+                                       TextColor="#1E1E1E" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label Text="{Binding ErrorMessage}"
+                       TextColor="#FF6B6B"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding HasError}" />
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,8,0,0">
+                        <Button Grid.Column="0"
+                                Text="Cancelar"
+                                Command="{Binding FecharPopupCommand}"
+                                BackgroundColor="Transparent"
+                                BorderColor="#CCCCCC"
+                                BorderWidth="1"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="44" />
+
+                        <Button Grid.Column="1"
+                                Text="Salvar"
+                                Command="{Binding SalvarCartaoCommand}"
+                                BackgroundColor="#304E61"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="44" />
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+    </Grid>
+</ContentPage>

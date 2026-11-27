@@ -16,6 +16,7 @@
             Routing.RegisterRoute("PasseioAndamento", typeof(Telas.Passeios.PasseioAndamentoView));
             Routing.RegisterRoute("HomePetwalker", typeof(Telas.Home.HomeViewPetWalker));
             Routing.RegisterRoute("Aparelhos", typeof(Telas.Informacoes.AparelhosConta.AparelhosView));
+            Routing.RegisterRoute("Cartoes", typeof(Telas.Informacoes.CartoesConta.CartoesView));
         }
     }
 }
