@@ -101,8 +101,6 @@ namespace tccapp.Services
                 throw new Exception(serialized);
         }
 
-        // Variante pra endpoints PUT que devolvem um objeto no corpo (ex: o usuário
-        // atualizado), em vez de só um número como o PutAsync<TResult> original espera.
         public async Task<TResult> PutAsync<TData, TResult>(string uri, TData data, string token)
         {
             HttpClient httpClient = new HttpClient();
@@ -117,7 +115,13 @@ namespace tccapp.Services
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception(serialized);
 
-            return await Task.Run(() => JsonConvert.DeserializeObject<TResult>(serialized));
+            if (typeof(TResult) == typeof(string))
+                return (TResult)(object)serialized;
+
+            if (string.IsNullOrWhiteSpace(serialized))
+                return default!;
+
+            return await Task.Run(() => JsonConvert.DeserializeObject<TResult>(serialized)!);
         }
 
         public async Task<int> DeleteAsync(string uri, string token)

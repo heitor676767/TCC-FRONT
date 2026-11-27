@@ -8,70 +8,181 @@
 
     <Grid>
 
-        <!-- Mapa ocupando a tela inteira, igual no mockup -->
+        <!-- Mapa ocupando 100% do fundo -->
         <mapsui:MapControl Map="{Binding Map}" />
 
-        <!-- Indicador de carregamento por cima do mapa -->
+        <!-- Indicador de carregamento -->
         <ActivityIndicator IsRunning="{Binding Carregando}"
-                            IsVisible="{Binding Carregando}"
-                            Color="#2F6B8E"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center" />
+                           IsVisible="{Binding Carregando}"
+                           Color="#2F6B8E"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
 
-        <!-- Painel inferior sobreposto ao mapa -->
-        <VerticalStackLayout VerticalOptions="End" Spacing="0">
+        <!-- Bloco inferior sobreposto ao mapa -->
+        <VerticalStackLayout VerticalOptions="End" Spacing="10" Padding="16,0,16,8">
 
-            <!-- Barra escura: tempo restante -->
-            <Grid BackgroundColor="#304E61" Padding="20,16" ColumnDefinitions="*,Auto">
-                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
-                        <Label Text="{Binding TempoRestanteTexto}" FontSize="32" FontAttributes="Bold" TextColor="White" />
-                        <Label Text="min" FontSize="18" TextColor="White" VerticalOptions="End" Margin="0,0,0,4" />
-                    </HorizontalStackLayout>
-                    <Label Text="Restantes" FontSize="13" TextColor="#B9C4CC" HorizontalOptions="Center" />
-                </VerticalStackLayout>
+            <!-- Card Flutuante Principal -->
+            <Border BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="0">
+                <VerticalStackLayout Spacing="0">
 
-                <!-- Menu/voltar; chat e ligação ficam pra depois -->
-                <Label Grid.Column="1" Text="☰" FontSize="22" TextColor="White" VerticalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding VoltarCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
+                    <!-- Cabeçalho Escuro (#304E61): Minutos (Chegada estimada ou Restantes) -->
+                    <Grid BackgroundColor="#304E61" Padding="20,14" ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                <Label Text="{Binding TempoPrincipalTexto}"
+                                       FontSize="30"
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+                                <Label Text="min"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       VerticalOptions="End"
+                                       Margin="0,0,0,4" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding SubtituloTempoTexto}"
+                                   FontSize="13"
+                                   TextColor="#D0DCE3"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
 
-            <!-- Card branco: distância + petwalker -->
-            <Border BackgroundColor="White" Padding="20,16" Stroke="Transparent">
-                <VerticalStackLayout Spacing="10">
-
-                    <VerticalStackLayout HorizontalOptions="Center">
-                        <Label Text="Distância percorrida:" FontAttributes="Bold" FontSize="15" TextColor="#304E61" HorizontalOptions="Center" />
-                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="2">
-                            <Label Text="{Binding DistanciaPercorridaTexto}" FontSize="18" FontAttributes="Bold" TextColor="#304E61" />
-                            <Label Text="Km" FontSize="18" TextColor="#304E61" />
-                        </HorizontalStackLayout>
-                    </VerticalStackLayout>
-
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
-                        <Border Grid.Column="0" WidthRequest="36" HeightRequest="36" StrokeShape="RoundRectangle 18"
-                                Stroke="#304E61" BackgroundColor="Transparent">
-                            <Label Text="👤" HorizontalOptions="Center" VerticalOptions="Center" FontSize="16" />
-                        </Border>
-
-                        <Label Grid.Column="1" Text="{Binding NomePetwalker}" FontAttributes="Bold" FontSize="15" VerticalOptions="Center" TextColor="Black" />
-
-                        <!-- Ligação: desabilitado por enquanto -->
-                        <Border Grid.Column="2" WidthRequest="36" HeightRequest="36" StrokeShape="RoundRectangle 18"
-                                Stroke="#304E61" BackgroundColor="Transparent" Opacity="0.4">
-                            <Label Text="📞" HorizontalOptions="Center" VerticalOptions="Center" FontSize="16" />
-                        </Border>
+                        <Label Grid.Column="1"
+                               Text="☰"
+                               FontSize="22"
+                               TextColor="White"
+                               VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AbrirMenuPasseioCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
                     </Grid>
 
-                    <!-- Mensagem: desabilitado por enquanto -->
-                    <Button Text="Mensagem" BackgroundColor="#304E61" TextColor="White" CornerRadius="8" IsEnabled="False" Opacity="0.5" />
+                    <!-- Corpo Branco do Card -->
+                    <VerticalStackLayout Padding="20,16" Spacing="14">
 
-                    <Label Text="{Binding Mensagem}" TextColor="#B00020" FontSize="12" HorizontalOptions="Center" />
+                        <!-- Conteúdo FASE 1: Petwalker indo até o Dono -->
+                        <VerticalStackLayout IsVisible="{Binding IsIndoAteDono}" Spacing="4" HorizontalOptions="Center">
+                            <Label Text="{Binding TituloStatusDeslocamento}"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="#304E61"
+                                   HorizontalOptions="Center" />
+                            <Label Text="{Binding EnderecoDestinoTexto}"
+                                   FontSize="13"
+                                   TextColor="#6E6E6E"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
 
+                        <!-- Conteúdo FASE 2: Passeio em Andamento (igual ao mockup) -->
+                        <VerticalStackLayout IsVisible="{Binding IsEmAndamento}" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="Distância percorrida:"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="#304E61"
+                                   HorizontalOptions="Center" />
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="2">
+                                <Label Text="{Binding DistanciaPercorridaTexto}"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#304E61" />
+                                <Label Text="Km"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#304E61" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Linha do Usuário (Avatar + Nome + Telefone) -->
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Margin="0,4,0,0">
+                            <Image Grid.Column="0"
+                                   Source="generic_avatar.png"
+                                   WidthRequest="40"
+                                   HeightRequest="40"
+                                   VerticalOptions="Center" />
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding NomeExibicao}"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   VerticalOptions="Center"
+                                   TextColor="#212121" />
+
+                            <Border Grid.Column="2"
+                                    WidthRequest="40"
+                                    HeightRequest="40"
+                                    StrokeShape="RoundRectangle 12"
+                                    Stroke="#304E61"
+                                    StrokeThickness="1.5"
+                                    BackgroundColor="Transparent">
+                                <Label Text="📞"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       FontSize="18" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Botão exclusivo do Petwalker: Iniciar Passeio (quando chega no Dono) -->
+                        <Button IsVisible="{Binding MostrarBotaoIniciar}"
+                                Text="Iniciar Passeio"
+                                BackgroundColor="#2F6B8E"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="42"
+                                Command="{Binding IniciarPasseioCommand}" />
+
+                        <!-- Botão exclusivo do Petwalker: Finalizar Passeio -->
+                        <Button IsVisible="{Binding MostrarBotaoFinalizar}"
+                                Text="Finalizar Passeio"
+                                BackgroundColor="#D9534F"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="42"
+                                Command="{Binding FinalizarPasseioCommand}" />
+
+                        <Label Text="{Binding Mensagem}"
+                               IsVisible="{Binding Mensagem, Converter={StaticResource IsStringNotNullOrEmptyConverter}}"
+                               TextColor="#B00020"
+                               FontSize="12"
+                               HorizontalOptions="Center" />
+
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
+            </Border>
+
+            <!-- Barra Inferior (padrão do mockup) -->
+            <Border HeightRequest="50"
+                    BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 12">
+                <Grid ColumnDefinitions="*,*,*,*,*" VerticalOptions="Center" Padding="16,0">
+                    <Image Grid.Column="0" Source="menu_hamburguer.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VoltarParaHomeCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image Grid.Column="1" Source="pet.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VoltarParaHomeCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <!-- Ícone central: já está na tela do passeio -->
+                    <Image Grid.Column="2" Source="logo.png" WidthRequest="44" HeightRequest="44" HorizontalOptions="Center" />
+                    <Image Grid.Column="3" Source="relogio.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VoltarParaHomeCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image Grid.Column="4" Source="generic_avatar1.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VoltarParaHomeCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
             </Border>
 
         </VerticalStackLayout>

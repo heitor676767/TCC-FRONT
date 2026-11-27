@@ -28,6 +28,7 @@ namespace tccapp.ViewModels
         private readonly MemoryLayer _localizacaoLayer;
         private readonly MemoryLayer _petwalkersLayer;
         private readonly MemoryLayer _petshopsLayer;
+        private int _ultimoPasseioRedirecionadoId = 0;
 
         // Localização mais recente conhecida do usuário — usada tanto pra buscar
         // petwalkers por perto quanto pra enviar junto da solicitação de passeio.
@@ -51,8 +52,6 @@ namespace tccapp.ViewModels
 
         public HomeViewModel()
         {
-            
-
             Map = new Mapsui.Map();
             Map.Layers.Add(OpenStreetMap.CreateTileLayer("TCCApp"));
 
@@ -78,9 +77,9 @@ namespace tccapp.ViewModels
                 {
                     SymbolScale = 0.8,
                     Fill = new Mapsui.Styles.Brush(
-            Mapsui.Styles.Color.FromArgb(255, 220, 38, 127)),
+                        Mapsui.Styles.Color.FromArgb(255, 220, 38, 127)),
                     Outline = new Mapsui.Styles.Pen(
-            Mapsui.Styles.Color.White, 2)
+                        Mapsui.Styles.Color.White, 2)
                 }
             };
 
@@ -157,7 +156,6 @@ namespace tccapp.ViewModels
                     feature["DistanciaKm"] = p.DistanciaKm;
                     feature["Latitude"] = p.Latitude;
                     feature["Longitude"] = p.Longitude;
-                    feature["Endereco"] = p.Endereco;
 
                     features.Add(feature);
                 }
@@ -175,30 +173,34 @@ namespace tccapp.ViewModels
         {
             try
             {
-                var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                //if (status != PermissionStatus.Granted)
-                //{
-                //    await Shell.Current.DisplayAlertAsync("Localização", $"Permissão: {status}", "Ok");
-                //    return;
-                //}
+                Location? localizacao = null;
 
-                Geolocation.Default.LocationChanged -= OnLocationChanged;
-                Geolocation.Default.LocationChanged += OnLocationChanged;
-
-                if (!Geolocation.Default.IsListeningForeground)
+                try
                 {
-                    var request = new GeolocationListeningRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(3));
-                    await Geolocation.Default.StartListeningForegroundAsync(request);
-                }
+                    var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
 
-                var localizacao = await Geolocation.Default.GetLastKnownLocationAsync()
-                    ?? await Geolocation.Default.GetLocationAsync(
-                        new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
+                    Geolocation.Default.LocationChanged -= OnLocationChanged;
+                    Geolocation.Default.LocationChanged += OnLocationChanged;
+
+                    if (!Geolocation.Default.IsListeningForeground)
+                    {
+                        var request = new GeolocationListeningRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(3));
+                        await Geolocation.Default.StartListeningForegroundAsync(request);
+                    }
+
+                    localizacao = await Geolocation.Default.GetLastKnownLocationAsync()
+                        ?? await Geolocation.Default.GetLocationAsync(
+                            new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(5)));
+                }
+                catch
+                {
+                    // PC desktop sem GPS/Wi-Fi: ignora a falha de hardware e usa o fallback abaixo
+                }
 
                 if (localizacao == null)
                 {
-                    await Shell.Current.DisplayAlertAsync("Localização", "Não foi possível obter a posição.", "Ok");
-                    return;
+                    // Coordenada padrão para testes no PC
+                    localizacao = new Location(-23.5155973, -46.5047523);
                 }
 
                 AtualizarPosicaoNoMapa(localizacao, centralizar: true);
@@ -318,42 +320,94 @@ namespace tccapp.ViewModels
 
             _ = Task.Run(async () =>
             {
-                using var timer = new PeriodicTimer(TimeSpan.FromSeconds(20));
+                using var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
                 try
                 {
                     while (await timer.WaitForNextTickAsync(ct))
                     {
+                        string token = Preferences.Get("UsuarioToken", string.Empty);
+
+                        try
+                        {
+                            var passeioService = new PasseioService(token);
+                            var meusPasseios = await passeioService.GetMeusAsync();
+                            var passeioAtivo = meusPasseios?
+                                .OrderByDescending(p => p.IdPasseio)
+                                .FirstOrDefault(p => p.StatusPass == "Aceito" || p.StatusPass == "EmAndamento");
+
+                            if (passeioAtivo != null && passeioAtivo.IdPasseio != _ultimoPasseioRedirecionadoId)
+                            {
+                                _ultimoPasseioRedirecionadoId = passeioAtivo.IdPasseio;
+                                MainThread.BeginInvokeOnMainThread(async () =>
+                                {
+                                    await Shell.Current.GoToAsync($"PasseioAndamento?idPasseio={passeioAtivo.IdPasseio}");
+                                });
+                            }
+                        }
+                        catch { }
+
                         if (_minhaLatitude == null || _minhaLongitude == null)
                             continue;
 
                         try
                         {
-                            string token = Preferences.Get("UsuarioToken", string.Empty);
                             var service = new PetwalkerService(token);
                             var resultado = await service.GetDisponiveisAsync(
                                 _minhaLatitude.Value, _minhaLongitude.Value, raioKm: 10);
 
-                            if (resultado == null)
-                                continue;
-
-                            MainThread.BeginInvokeOnMainThread(() =>
+                            if (resultado != null)
                             {
-                                Petwalkers.Clear();
-                                foreach (var walker in resultado)
-                                    Petwalkers.Add(walker);
+                                MainThread.BeginInvokeOnMainThread(() =>
+                                {
+                                    Petwalkers.Clear();
+                                    foreach (var walker in resultado)
+                                        Petwalkers.Add(walker);
 
-                                AtualizarPetwalkersNoMapa(resultado);
-                            });
+                                    AtualizarPetwalkersNoMapa(resultado);
+                                });
+                            }
                         }
                         catch (Exception ex)
                         {
-                            // Silencioso: falha de rede não deve incomodar, tenta de novo no próximo ciclo
                             System.Diagnostics.Debug.WriteLine($"Atualização petwalkers: {ex.Message}");
                         }
                     }
                 }
                 catch (OperationCanceledException) { }
             }, ct);
+        }
+
+        [RelayCommand]
+        public async Task IrParaPasseioAtivo()
+        {
+            try
+            {
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                if (string.IsNullOrWhiteSpace(token))
+                    return;
+
+                var passeioService = new PasseioService(token);
+                var meusPasseios = await passeioService.GetMeusAsync();
+                var passeioAtivo = meusPasseios?
+                    .OrderByDescending(p => p.IdPasseio)
+                    .FirstOrDefault(p => p.StatusPass == "Aceito" || p.StatusPass == "EmAndamento");
+
+                if (passeioAtivo != null)
+                {
+                    PararRastreamento();
+                    if (Shell.Current.CurrentPage is not tccapp.Telas.Passeios.PasseioAndamentoView)
+                        await Shell.Current.GoToAsync($"PasseioAndamento?idPasseio={passeioAtivo.IdPasseio}");
+
+                    return;
+                }
+
+                // Sem passeio ativo: se não estiver na Home do Dono, volta para ela
+                if (Shell.Current.CurrentPage is not tccapp.Telas.Home.HomeView)
+                {
+                    await Shell.Current.GoToAsync("Home");
+                }
+            }
+            catch { }
         }
 
         [RelayCommand]
@@ -504,8 +558,5 @@ namespace tccapp.ViewModels
         {
             await Shell.Current.GoToAsync("InfoConta");
         }
-
-
-
     }
 }

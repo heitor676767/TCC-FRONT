@@ -57,5 +57,20 @@ namespace tccapp.Services.Passeios
         {
             return await _request.PutAsync<object, string>($"{apiUrlBase}/{idPasseio}/Recusar", new { }, _token);
         }
+
+        public async Task<string> IniciarAsync(int idPasseio)
+        {
+            return await _request.PutAsync<object, string>($"{apiUrlBase}/{idPasseio}/Iniciar", new { }, _token);
+        }
+
+        public async Task<string> FinalizarAsync(int idPasseio, decimal valor)
+        {
+            string valorFormatado = valor.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            return await _request.PutAsync<object, string>($"{apiUrlBase}/{idPasseio}/Finalizar?valor={valorFormatado}", new { }, _token);
+        }
+        public async Task<string> CancelarAsync(int idPasseio)
+        {
+            return await _request.PutAsync<object, string>($"{apiUrlBase}/{idPasseio}/Cancelar", new { }, _token);
+        }
     }
 }

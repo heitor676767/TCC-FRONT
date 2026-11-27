@@ -134,11 +134,11 @@ namespace tccapp.ViewModels
                 string token = Preferences.Get("UsuarioToken", string.Empty);
                 var passeioService = new PasseioService(token);
 
-                await passeioService.AceitarAsync(SolicitacaoAtual.IdPasseio);
+                int idAceito = SolicitacaoAtual.IdPasseio;
+                await passeioService.AceitarAsync(idAceito);
 
-                TemSolicitacaoPendente = false;
-                await Shell.Current.DisplayAlertAsync("Aceito!", "Você aceitou o passeio. Dirija-se ao local do dono.", "OK");
-                SolicitacaoAtual = null;
+                PararMonitoramento();
+                await Shell.Current.GoToAsync($"PasseioAndamento?idPasseio={idAceito}");
             }
             catch (Exception ex)
             {
@@ -149,7 +149,43 @@ namespace tccapp.ViewModels
                 Carregando = false;
             }
         }
+        public async Task VerificarPasseioAtivoAsync(bool voltarParaHomeSeNaoHouver = false)
+        {
+            try
+            {
+                string token = Preferences.Get("UsuarioToken", string.Empty);
+                if (string.IsNullOrWhiteSpace(token))
+                    return;
 
+                var passeioService = new PasseioService(token);
+                var meusPasseios = await passeioService.GetMeusAsync();
+
+                var passeioAtivo = meusPasseios?.FirstOrDefault(p =>
+                    p.StatusPass == "Aceito" || p.StatusPass == "EmAndamento");
+
+                if (passeioAtivo != null)
+                {
+                    PararMonitoramento();
+                    if (Shell.Current.CurrentPage is not tccapp.Telas.Passeios.PasseioAndamentoView)
+                        await Shell.Current.GoToAsync($"PasseioAndamento?idPasseio={passeioAtivo.IdPasseio}");
+
+                    return;
+                }
+
+                // Sem passeio ativo: se acionado pelo botão central fora da Home, volta para a Home do Petwalker
+                if (voltarParaHomeSeNaoHouver && Shell.Current.CurrentPage is not tccapp.Telas.Home.HomeViewPetWalker)
+                {
+                    await Shell.Current.GoToAsync("//HomeViewPetWalker");
+                }
+            }
+            catch { }
+        }
+
+        [RelayCommand]
+        public async Task IrParaPasseioAtivo()
+        {
+            await VerificarPasseioAtivoAsync(voltarParaHomeSeNaoHouver: true);
+        }
         [RelayCommand]
         private async Task RecusarSolicitacao()
         {
