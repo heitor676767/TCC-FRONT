@@ -200,7 +200,7 @@ namespace tccapp.ViewModels
                 if (localizacao == null)
                 {
                     // Coordenada padrão para testes no PC
-                    localizacao = new Location(-23.5121023, -46.5048505);
+                    localizacao = new Location(-23.5143556, -46.5048505);
                 }
 
                 AtualizarPosicaoNoMapa(localizacao, centralizar: true);

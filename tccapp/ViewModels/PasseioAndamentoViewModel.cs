@@ -7,6 +7,7 @@ using Mapsui.Nts;
 using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
+using Microsoft.Maui.Devices;
 using Microsoft.Maui.Devices.Sensors;
 using NetTopologySuite.Geometries;
 using System.Globalization;
@@ -38,6 +39,15 @@ namespace tccapp.ViewModels
         private bool _rotaInicialCalculada;
         private string _codigoInicioEsperado = string.Empty;
 
+        // Controle do trajeto percorrido durante o passeio
+        private readonly List<(double Lon, double Lat)> _historicoCaminhoPasseio = new();
+        private double _distanciaAcumuladaKm;
+
+        // Controle do aviso de 5 minutos e rota de retorno ao dono
+        private bool _avisoRetornoEnviado;
+        private bool _modoRetornoDono;
+        private bool _rotaRetornoCalculada;
+
         // Distância máxima em km (0.08 km = 80 metros) para liberar o início do passeio
         private const double DistanciaMaximaInicioKm = 0.08;
 
@@ -63,6 +73,7 @@ namespace tccapp.ViewModels
         [ObservableProperty] private string textoBotaoIniciar = "Aproxime-se do local para iniciar";
         [ObservableProperty] private string codigoConfirmacaoTexto = string.Empty;
         [ObservableProperty] private bool mostrarBotaoFinalizar;
+        [ObservableProperty] private bool mostrarMenuOpcoes = true;
         [ObservableProperty] private string tituloStatusDeslocamento = "Petwalker a caminho";
         [ObservableProperty] private string enderecoDestinoTexto = "Local de encontro";
         [ObservableProperty] private string distanciaPercorridaTexto = "0.0";
@@ -82,7 +93,7 @@ namespace tccapp.ViewModels
             Map.Layers.Add(OpenStreetMap.CreateTileLayer("TCCApp"));
             Map.Widgets.Clear();
 
-            // Contorno escuro da rota
+            // Contorno escuro da rota / trajeto
             _rotaBordaLayer = new MemoryLayer
             {
                 Name = "RotaBorda",
@@ -94,7 +105,7 @@ namespace tccapp.ViewModels
             };
             Map.Layers.Add(_rotaBordaLayer);
 
-            // Linha principal azul da rota
+            // Linha principal azul da rota / trajeto
             _rotaLayer = new MemoryLayer
             {
                 Name = "RotaDeslocamento",
@@ -237,6 +248,7 @@ namespace tccapp.ViewModels
 
             MostrarBotaoIniciar = _ehPetwalker && IsIndoAteDono;
             MostrarBotaoFinalizar = _ehPetwalker && IsEmAndamento;
+            MostrarMenuOpcoes = !(_ehPetwalker && IsEmAndamento);
 
             if (IsIndoAteDono)
             {
@@ -244,12 +256,22 @@ namespace tccapp.ViewModels
                 TituloStatusDeslocamento = _ehPetwalker
                     ? "Siga o trajeto até o dono"
                     : "Petwalker indo até você";
+
+                if (_latDono.HasValue && _lngDono.HasValue)
+                    AtualizarPinoDono(_latDono.Value, _lngDono.Value);
             }
             else if (IsEmAndamento)
             {
                 PodeIniciarPasseio = false;
                 SubtituloTempoTexto = "Restantes";
                 LimparRotaDoMapa();
+
+                // Depois de pegar o pet, o Petwalker não vê mais o pino do Dono no mapa (até faltar 5 min)
+                if (_ehPetwalker && !_modoRetornoDono)
+                {
+                    LimparPinoDonoDoMapa();
+                }
+
                 AtualizarTempoRestantePasseio();
             }
         }
@@ -291,6 +313,8 @@ namespace tccapp.ViewModels
                 {
                     StatusAtual = passeio.StatusPass;
                     _dataInicio = NormalizarDataInicio(passeio.DataInicio);
+                    _historicoCaminhoPasseio.Clear();
+                    _distanciaAcumuladaKm = 0;
                     AtualizarEstadoVisual();
                 }
 
@@ -372,7 +396,7 @@ namespace tccapp.ViewModels
 
                 if (!_rotaInicialCalculada || saiuDaRota)
                 {
-                    await CalcularRotaEEstimativaAsync(latWalker.Value, lngWalker.Value, _latDono.Value, _lngDono.Value);
+                    await CalcularRotaEEstimativaAsync(latWalker.Value, lngWalker.Value, _latDono.Value, _lngDono.Value, atualizarTempo: true);
                     _rotaInicialCalculada = true;
                 }
                 else if (_pontosRotaRestante.Count >= 2)
@@ -391,11 +415,69 @@ namespace tccapp.ViewModels
                     Map.Navigator.CenterOn(pontoWalker);
                 }
             }
-            else if (IsEmAndamento && _latDono.HasValue && _lngDono.HasValue)
+            else if (IsEmAndamento)
             {
-                Map.Navigator.CenterOn(pontoWalker);
-                double km = DistanciaEmKm(_latDono.Value, _lngDono.Value, latWalker.Value, lngWalker.Value);
-                DistanciaPercorridaTexto = km.ToString("0.0");
+                // Registra continuamente o trajeto percorrido pelo Petwalker
+                RegistrarPontoTrajeto(latWalker.Value, lngWalker.Value);
+                DistanciaPercorridaTexto = _distanciaAcumuladaKm.ToString("0.0");
+
+                if (_ehPetwalker)
+                {
+                    // Se faltam <= 5 min, exibe o pino do dono novamente e traça a rota de volta
+                    if (_modoRetornoDono && _latDono.HasValue && _lngDono.HasValue)
+                    {
+                        AtualizarPinoDono(_latDono.Value, _lngDono.Value);
+
+                        bool saiuDaRotaRetorno = _pontosRotaRestante.Count >= 2 &&
+                                                 DistanciaEmKm(latWalker.Value, lngWalker.Value, _pontosRotaRestante[0].Lat, _pontosRotaRestante[0].Lon) > 0.08;
+
+                        if (!_rotaRetornoCalculada || saiuDaRotaRetorno)
+                        {
+                            await CalcularRotaEEstimativaAsync(latWalker.Value, lngWalker.Value, _latDono.Value, _lngDono.Value, atualizarTempo: false);
+                            _rotaRetornoCalculada = true;
+                            EnquadrarOrigemEDestino(latWalker.Value, lngWalker.Value, _latDono.Value, _lngDono.Value);
+                        }
+                        else if (_pontosRotaRestante.Count >= 2)
+                        {
+                            ApararTrechoPercorrido(latWalker.Value, lngWalker.Value);
+                            Map.Navigator.CenterOn(pontoWalker);
+                        }
+                    }
+                    else
+                    {
+                        LimparPinoDonoDoMapa();
+                        Map.Navigator.CenterOn(pontoWalker);
+                    }
+                }
+                else
+                {
+                    // Visão do Dono: mostra o caminho que o Petwalker está fazendo em tempo real
+                    if (_historicoCaminhoPasseio.Count >= 2)
+                    {
+                        DesenharPolilinhaNoMapa(_historicoCaminhoPasseio);
+                    }
+
+                    Map.Navigator.CenterOn(pontoWalker);
+                }
+            }
+        }
+
+        private void RegistrarPontoTrajeto(double lat, double lng)
+        {
+            if (_historicoCaminhoPasseio.Count == 0)
+            {
+                _historicoCaminhoPasseio.Add((lng, lat));
+                return;
+            }
+
+            var ultimo = _historicoCaminhoPasseio[^1];
+            double trechoKm = DistanciaEmKm(ultimo.Lat, ultimo.Lon, lat, lng);
+
+            // Ignora micro-ruídos menores que 4 metros, mas grava qualquer deslocamento real
+            if (trechoKm >= 0.004)
+            {
+                _distanciaAcumuladaKm += trechoKm;
+                _historicoCaminhoPasseio.Add((lng, lat));
             }
         }
 
@@ -426,7 +508,7 @@ namespace tccapp.ViewModels
             }
         }
 
-        private async Task CalcularRotaEEstimativaAsync(double latOrigem, double lngOrigem, double latDestino, double lngDestino)
+        private async Task CalcularRotaEEstimativaAsync(double latOrigem, double lngOrigem, double latDestino, double lngDestino, bool atualizarTempo)
         {
             string[] servidoresOsrm =
             {
@@ -449,9 +531,12 @@ namespace tccapp.ViewModels
                     if (routes.GetArrayLength() > 0)
                     {
                         var rota = routes[0];
-                        double duracaoSegundos = rota.GetProperty("duration").GetDouble();
-                        int minutosEstimados = Math.Max(1, (int)Math.Ceiling(duracaoSegundos / 60.0));
-                        TempoPrincipalTexto = minutosEstimados.ToString();
+                        if (atualizarTempo)
+                        {
+                            double duracaoSegundos = rota.GetProperty("duration").GetDouble();
+                            int minutosEstimados = Math.Max(1, (int)Math.Ceiling(duracaoSegundos / 60.0));
+                            TempoPrincipalTexto = minutosEstimados.ToString();
+                        }
 
                         var coords = rota.GetProperty("geometry").GetProperty("coordinates");
                         var novaLista = new List<(double Lon, double Lat)> { (lngOrigem, latOrigem) };
@@ -469,8 +554,12 @@ namespace tccapp.ViewModels
                 catch { }
             }
 
-            double km = DistanciaEmKm(latOrigem, lngOrigem, latDestino, lngDestino);
-            TempoPrincipalTexto = Math.Max(1, (int)Math.Ceiling((km / 4.5) * 60.0)).ToString();
+            if (atualizarTempo)
+            {
+                double km = DistanciaEmKm(latOrigem, lngOrigem, latDestino, lngDestino);
+                TempoPrincipalTexto = Math.Max(1, (int)Math.Ceiling((km / 4.5) * 60.0)).ToString();
+            }
+
             _pontosRotaRestante = new List<(double Lon, double Lat)>
             {
                 (lngOrigem, latOrigem),
@@ -535,6 +624,12 @@ namespace tccapp.ViewModels
             _destinoDonoLayer.DataHasChanged();
         }
 
+        private void LimparPinoDonoDoMapa()
+        {
+            _destinoDonoLayer.Features = new List<IFeature>();
+            _destinoDonoLayer.DataHasChanged();
+        }
+
         private void AtualizarTempoRestantePasseio()
         {
             if (_dataInicio == null)
@@ -550,12 +645,48 @@ namespace tccapp.ViewModels
                 ? 0
                 : (int)Math.Ceiling(restante.TotalMinutes);
 
-            TempoPrincipalTexto = Math.Clamp(minutos, 0, _duracaoMinutos).ToString("0");
+            int minutosClamp = Math.Clamp(minutos, 0, _duracaoMinutos);
+            TempoPrincipalTexto = minutosClamp.ToString("0");
+
+            // Aviso ao Petwalker quando faltarem 5 minutos para encerrar o passeio
+            if (_ehPetwalker && !_avisoRetornoEnviado && minutosClamp <= 5 && restante.TotalSeconds > 0)
+            {
+                _avisoRetornoEnviado = true;
+                _modoRetornoDono = true;
+                _rotaRetornoCalculada = false;
+
+                Mensagem = "Faltam 5 min! Retorne ao local do dono.";
+
+                try
+                {
+                    Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(800));
+                }
+                catch { }
+
+                _ = NotificarRetornoPetwalkerAsync();
+            }
+        }
+
+        private async Task NotificarRetornoPetwalkerAsync()
+        {
+            try
+            {
+                await Shell.Current.DisplayAlertAsync(
+                    "⏰ Faltam 5 minutos!",
+                    "Faltam 5 minutos para acabar o passeio. Volte ao local do dono seguindo a rota traçada no mapa.",
+                    "Entendi");
+
+                await AtualizarPosicoesERotaAsync();
+            }
+            catch { }
         }
 
         [RelayCommand]
         private async Task AbrirMenuPasseio()
         {
+            if (_ehPetwalker && IsEmAndamento)
+                return;
+
             string escolha = await Shell.Current.DisplayActionSheetAsync(
                 "Opções do passeio",
                 "Fechar",
@@ -610,7 +741,7 @@ namespace tccapp.ViewModels
 
             string? codigoDigitado = await Shell.Current.DisplayPromptAsync(
                 "Código de confirmação",
-                "Solicite ao dono:",
+                "Solicite ao dono os 4 últimos dígitos do RGA do pet:",
                 accept: "Iniciar",
                 cancel: "Cancelar",
                 placeholder: "4 dígitos",
@@ -638,7 +769,14 @@ namespace tccapp.ViewModels
                 await passeioService.IniciarAsync(IdPasseio);
                 StatusAtual = "EmAndamento";
                 _dataInicio = DateTime.Now;
+                _historicoCaminhoPasseio.Clear();
+                _distanciaAcumuladaKm = 0;
+                _avisoRetornoEnviado = false;
+                _modoRetornoDono = false;
+                _rotaRetornoCalculada = false;
+
                 AtualizarEstadoVisual();
+                await AtualizarPosicoesERotaAsync();
             }
             catch (Exception ex)
             {

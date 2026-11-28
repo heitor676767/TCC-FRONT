@@ -53,7 +53,8 @@
                                Text="☰"
                                FontSize="22"
                                TextColor="White"
-                               VerticalOptions="Center">
+                               VerticalOptions="Center"
+                               IsVisible="{Binding MostrarMenuOpcoes}">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding AbrirMenuPasseioCommand}" />
                             </Label.GestureRecognizers>
@@ -167,10 +168,22 @@
                                 Command="{Binding FinalizarPasseioCommand}" />
 
                         <Label Text="{Binding Mensagem}"
-                               IsVisible="{Binding Mensagem, Converter={StaticResource IsStringNotNullOrEmptyConverter}}"
                                TextColor="#B00020"
                                FontSize="12"
-                               HorizontalOptions="Center" />
+                               HorizontalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding Mensagem}"
+                                             Value="">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding Mensagem}"
+                                             Value="{x:Null}">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
 
                     </VerticalStackLayout>
                 </VerticalStackLayout>
